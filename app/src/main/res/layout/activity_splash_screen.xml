@@ -9,19 +9,23 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="EnviroTrack"
+        android:text="@string/envirotrack"
         android:layout_centerInParent="true"
         android:textSize="22sp"
         android:id="@+id/logo_text"
-        android:textColor="#00ff00"
-        android:textFontWeight="600"/>
+        android:fontFamily="serif"
+        android:textColor="#256C25"
+        android:textFontWeight="700"/>
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_above="@id/logo_text"
         android:layout_centerInParent="true"
-        android:src="@drawable/logo" />
+        app:shapeAppearanceOverlay="@style/corner"
+        android:src="@drawable/logo"
+        app:strokeWidth="2dp"
+        app:strokeColor="#256C25"/>
 
 
 </RelativeLayout>

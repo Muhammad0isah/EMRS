@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tool="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tool:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/baseline_notifications_24"
+            android:title="Home"/>
+        <item
+            android:id="@+id/nav_weather"
+            android:icon="@drawable/baseline_notifications_24"
+            android:title="Weather" />
+        <item
+            android:id="@+id/nav_report"
+            android:icon="@drawable/baseline_notifications_24"
+            android:title="Report" />
+        <item
+            android:id="@+id/nav_map"
+            android:icon="@drawable/baseline_notifications_24"
+            android:title="About" />
+    </group>
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@drawable/baseline_notifications_24"
+                android:title="Profile" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/baseline_notifications_24"
+                android:title="About" />
+            <item
+                android:id="@+id/nav_notification"
+                android:icon="@drawable/baseline_notifications_24"
+                android:title="Notification" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/baseline_notifications_24"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+</menu>

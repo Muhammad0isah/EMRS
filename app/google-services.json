@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "103657339240",
+    "project_id": "envirotrack-7d699",
+    "storage_bucket": "envirotrack-7d699.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103657339240:android:4eb6e65f2b08a93d99fedd",
+        "android_client_info": {
+          "package_name": "com.mtech.envirotrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103657339240-34mv2ufu2pb56itmtc1n5vc5827qg196.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mtech.envirotrack",
+            "certificate_hash": "ce2cda1057cb4b0f39c24fa4f6a9dfefb4ff3113"
+          }
+        },
+        {
+          "client_id": "103657339240-i8tcbl0f2ds3i5b8j1qmh7o3g6snir1i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVLhCkSU9WypR7EpPGpzlxgI7G2KbVJic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103657339240-i8tcbl0f2ds3i5b8j1qmh7o3g6snir1i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

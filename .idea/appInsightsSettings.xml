@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.mtech.envirotrack" />
+                  <option name="mobileSdkAppId" value="1:103657339240:android:4eb6e65f2b08a93d99fedd" />
+                  <option name="projectId" value="envirotrack-7d699" />
+                  <option name="projectNumber" value="103657339240" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

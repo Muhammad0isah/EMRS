@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">EnviroTrack</string>
     <string name="envirotrack">EnviroTrack</string>
+    <string name="get_started">Get Started</string>
+    <string name="slogan">Stay ahead of the storm with our Enviromental monitoring,tracking and Raporting App</string>
+    <string name="system_name"><![CDATA[Enviromental Monitoring & Reporting System]]></string>
 </resources>

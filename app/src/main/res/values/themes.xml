@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.EnviroTrack" parent="Base.Theme.EnviroTrack" />
+
+    <style name="DiaogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_out</item>
+    </style>
 </resources>

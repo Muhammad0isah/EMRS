@@ -7,25 +7,33 @@
     tools:context=".SplashScreen">
 
     <TextView
+        android:id="@+id/logo_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/envirotrack"
+        android:layout_above="@id/logo_text"
         android:layout_centerInParent="true"
-        android:textSize="22sp"
-        android:id="@+id/logo_text"
         android:fontFamily="serif"
+        android:text="@string/envirotrack"
         android:textColor="#256C25"
-        android:textFontWeight="700"/>
+        android:textFontWeight="700"
+        android:textSize="22sp" />
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <ImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_above="@id/logo_text"
         android:layout_centerInParent="true"
-        app:shapeAppearanceOverlay="@style/corner"
-        android:src="@drawable/logo"
-        app:strokeWidth="2dp"
-        app:strokeColor="#256C25"/>
+        android:src="@drawable/logo1" />
+
+<!--    <com.google.android.material.imageview.ShapeableImageView-->
+<!--        android:layout_width="120dp"-->
+<!--        android:layout_height="120dp"-->
+<!--        android:layout_above="@id/logo_text"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        app:shapeAppearanceOverlay="@style/corner"-->
+<!--        android:src="@drawable/logo"-->
+<!--        app:strokeWidth="2dp"-->
+<!--        app:strokeColor="#256C25"/>-->
 
 
 </RelativeLayout>

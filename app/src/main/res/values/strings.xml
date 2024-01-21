@@ -11,4 +11,11 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="default_web_client_id">AIzaSyBVLhCkSU9WypR7EpPGpzlxgI7G2KbVJic\n</string>
 
+    <string name="facebook_application_id" translatable="false">273081322225882</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb273081322225882</string>
+    <string name="facebook_client_token">850ac7a150eb7bd1090a43ea9089f5f2</string>
+
+
+
+
 </resources>

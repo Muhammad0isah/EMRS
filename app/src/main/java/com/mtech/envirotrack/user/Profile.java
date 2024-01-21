@@ -57,7 +57,7 @@ public class Profile extends AppCompatActivity {
 
             nameTextView.setText("Name: " + name);
             emailTextView.setText("Email: " + email);
-            phoneTextView.setText("Phone "+ phone.toString());
+            phoneTextView.setText("Phone "+ phone);
         }
 
         // Configure Google Sign In

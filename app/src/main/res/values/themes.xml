@@ -2,13 +2,32 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.EnviroTrack" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/dark_green</item>
+
     </style>
 
-    <style name="Theme.EnviroTrack" parent="Base.Theme.EnviroTrack" />
+    <style name="Theme.EnviroTrack" parent="Base.Theme.EnviroTrack">
+<!--        <item name="android:statusBarColor">#2200FF0A</item>-->
+        <item name="android:statusBarColor">@color/dark_green</item>
 
-    <style name="DiaogAnimation">
+    </style>
+
+    <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_in</item>
         <item name="android:windowExitAnimation">@anim/slide_out</item>
     </style>
+
+    <style name="LoginButton" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:backgroundTint">@color/dark_green</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name = "round_image">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

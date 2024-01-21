@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:padding="30dp"
+    tools:context=".user.Signup">
+
+    <TextView
+        android:id="@+id/textViewRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gupter_bold"
+        android:text="Create an Account"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toTopOf="@+id/etRegisterFullName"
+        app:layout_constraintEnd_toEndOf="@+id/etRegisterFullName"
+        app:layout_constraintStart_toStartOf="@+id/etRegisterFullName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etRegisterFullName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/baseline_notifications_black_24"
+        android:background="@drawable/edit_text_border"
+        android:hint="Full Name"
+        android:padding="16dp"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/etRegisterEmail"
+        app:layout_constraintEnd_toEndOf="@+id/etRegisterEmail"
+        app:layout_constraintStart_toStartOf="@+id/etRegisterEmail"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRegister"
+        app:layout_constraintVertical_bias="0.2" />
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etRegisterEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edit_text_border"
+        android:hint="Email"
+        android:padding="16dp"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/etRegisterUsername"
+        app:layout_constraintEnd_toEndOf="@+id/etRegisterUsername"
+        app:layout_constraintStart_toStartOf="@+id/etRegisterUsername"
+        app:layout_constraintTop_toBottomOf="@+id/etRegisterFullName"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etRegisterUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edit_text_border"
+        android:hint="Username"
+        android:padding="16dp"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/etRegisterAddress"
+        app:layout_constraintEnd_toEndOf="@+id/etRegisterAddress"
+        app:layout_constraintStart_toStartOf="@+id/etRegisterAddress"
+        app:layout_constraintTop_toBottomOf="@+id/etRegisterEmail"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etRegisterAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edit_text_border"
+        android:hint="Address"
+        android:padding="16dp"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/etRegisterCity"
+        app:layout_constraintEnd_toEndOf="@+id/etRegisterCity"
+        app:layout_constraintStart_toStartOf="@+id/etRegisterCity"
+        app:layout_constraintTop_toBottomOf="@+id/etRegisterUsername"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etRegisterCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edit_text_border"
+        android:hint="City"
+        android:padding="16dp"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/etRegisterPassword"
+        app:layout_constraintEnd_toEndOf="@+id/etRegisterPassword"
+        app:layout_constraintStart_toStartOf="@+id/etRegisterPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etRegisterAddress"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etRegisterPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edit_text_border"
+        android:hint="Password"
+        android:padding="16dp"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/etConfirmPassword"
+        app:layout_constraintEnd_toEndOf="@+id/etConfirmPassword"
+        app:layout_constraintStart_toStartOf="@+id/etConfirmPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etRegisterCity"
+        app:layout_constraintVertical_bias="0.2" />
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etConfirmPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edit_text_border"
+        android:hint="Confirm Password"
+        android:padding="16dp"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/btnRegister"
+        app:layout_constraintEnd_toEndOf="@+id/btnRegister"
+        app:layout_constraintStart_toStartOf="@+id/btnRegister"
+        app:layout_constraintTop_toBottomOf="@+id/etRegisterPassword"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        style="@style/LoginButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etConfirmPassword"
+        app:layout_constraintVertical_bias="0.65" />
+
+    <TextView
+        android:id="@+id/tvAlreadyHaveAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Already have an account? Log in here"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/btnRegister"
+        app:layout_constraintStart_toStartOf="@+id/btnRegister"
+        app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

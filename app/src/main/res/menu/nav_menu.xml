@@ -17,8 +17,8 @@
             android:title="Report" />
         <item
             android:id="@+id/nav_map"
-            android:icon="@drawable/baseline_notifications_24"
-            android:title="About" />
+            android:icon="@drawable/map_marker"
+            android:title="Map" />
     </group>
     <item android:title="">
         <menu>

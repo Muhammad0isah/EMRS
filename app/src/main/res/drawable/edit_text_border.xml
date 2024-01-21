@@ -1,0 +1,11 @@
+<!-- res/drawable/edit_text_border.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke
+        android:width="2dp"
+        android:color="#808080" />
+    <padding
+        android:left="8dp"
+        android:top="16dp"
+        android:right="16dp"
+        android:bottom="8dp" />
+</shape>

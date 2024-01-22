@@ -44,10 +44,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.mtech.envirotrack.report.ReportFragment;
 import com.mtech.envirotrack.user.Login;
 import com.mtech.envirotrack.user.Profile;
 import com.mtech.envirotrack.weather.HomeFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,11 +69,17 @@ public class MainActivity extends AppCompatActivity {
   // location request
     LocationRequest locationRequest;
 
+    // current location
+    Location currentLocation;
 
     // google api location services
     FusedLocationProviderClient fusedLocationProviderClient;
 
     private LocationCallback locationCallback;
+
+    // list of saved locations
+    List<Location> savedLocations;
+
 
 
 
@@ -128,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 if (itemId == R.id.nav_daily) {
                     fragment = new HomeFragment();
                 } else if (itemId == R.id.nav_report) {
-                    fragment = new HomeFragment();
+                    fragment = new ReportFragment();
                 } else if (itemId == R.id.nav_map) {
                     fragment = new MapsFragment();
                 } else if (itemId == R.id.nav_notification) {
@@ -152,13 +160,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        // location request
-//        locationRequest = new LocationRequest();
-//        locationRequest.setInterval(1000 * DEFAULT_UPDATE_INTERVAL);
-//        locationRequest.setFastestInterval(1000 * FASTEST_UPDATE_INTERVAL);
-//        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
         tv_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,6 +167,22 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        // event that triggered whenever the update interval is met
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                // save the location
+                updateUIValues(locationResult.getLastLocation());
+            }
+        };
+
+//        // add the gps location to the global list;
+//        MyApplication myApplication = (MyApplication) getApplicationContext();
+//        savedLocations = myApplication.getLocations();
+//        savedLocations.add(currentLocation);
+
         updateGPS();
     }
 
@@ -259,13 +276,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateGPS() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        locationRequest = LocationRequest.create();
+        locationRequest.setInterval(10000); // Set the desired interval for active location updates, in milliseconds.
+        locationRequest.setFastestInterval(5000); // Set the fastest rate for active location updates, in milliseconds.
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // Set the priority of the request.
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
                     updateUIValues(location);
+                    currentLocation = location;
 
+                    MyApplication myApplication = (MyApplication) getApplicationContext();
+                    savedLocations = myApplication.getLocations();
+                    savedLocations.add(currentLocation);
                 }
             });
         }
@@ -294,12 +321,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUIValues(Location location) {
-        // update all of the text view objects with a new location.
-//        tv_lat.setText(String.valueOf(location.getLatitude()));
-//        tv_long.setText(String.valueOf(location.getLongitude()));
-//        tv_alt.setText(String.valueOf(location.getAltitude()));
-//        tv_accu.setText(String.valueOf(location.getAccuracy()));
-//        tv_address.setText(String.valueOf(location.getLatitude()));
         Geocoder geocoder = new Geocoder(MainActivity.this);
         try {
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
@@ -315,15 +336,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        stopLocationUpdates();
-//    }
-//
-//    private void stopLocationUpdates() {
-//        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (fusedLocationProviderClient != null) {
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        }
+    }
+
     private void showAddressDialog(){
         Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(R.layout.location_details);
@@ -338,8 +358,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tvCountryName = dialog.findViewById(R.id.tv_country_name);
 
         // Request the current location
-        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {

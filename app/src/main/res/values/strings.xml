@@ -13,9 +13,7 @@
 
     <string name="facebook_application_id" translatable="false">273081322225882</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb273081322225882</string>
-    <string name="facebook_client_token">850ac7a150eb7bd1090a43ea9089f5f2</string>
-
-
+    <string name="facebook_client_token">15f9bd987f95019905dc324f71df3571</string>
 
 
 </resources>

@@ -3,6 +3,7 @@ package com.mtech.envirotrack.user;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -18,6 +19,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -29,6 +32,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -36,6 +40,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.mtech.envirotrack.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -48,11 +55,14 @@ public class Login extends AppCompatActivity {
 
     // google login
     private GoogleSignInClient mGoogleSignInClient;
-    private Button btnGoogle;
+    private Button btnGoogle, btnFacebook, btnLogin;
 
     // facebook login
-    private Button btnFacebook;
     private CallbackManager mCallbackManager;
+
+    // login with email and passoword
+    private TextInputEditText emailEditText, passwordEditText;
+
 
 
     @Override
@@ -63,13 +73,48 @@ public class Login extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
 //        AppEventsLogger.activateApp(this);
 
+        emailEditText = findViewById(R.id.et_email);
+        passwordEditText = findViewById(R.id.et_password);
+        btnLogin = findViewById(R.id.btn_login);
         btnGoogle = findViewById(R.id.btnGoogle);
-
         tv_register = findViewById(R.id.tv_register);
         tv_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, Signup.class));
+            }
+        });
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = emailEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
+
+                if (email.isEmpty()) {
+                    emailEditText.setError("Email is required");
+                    emailEditText.requestFocus();
+                    return;
+                }
+
+                if (password.isEmpty()) {
+                    passwordEditText.setError("Password is required");
+                    passwordEditText.requestFocus();
+                    return;
+                }
+
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull  Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            Toast.makeText(Login.this, "Login failed", Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+                    }
+                });
             }
         });
 

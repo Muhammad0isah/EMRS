@@ -40,11 +40,13 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mtech.envirotrack.report.ReportFragment;
+import com.mtech.envirotrack.ui.SearchFragment;
 import com.mtech.envirotrack.user.Login;
 import com.mtech.envirotrack.user.Profile;
 import com.mtech.envirotrack.weather.HomeFragment;
@@ -63,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fab_add_report;
     DrawerLayout drawerLayout;
     BottomNavigationView bottomNavigationView;
+    View line_view;
+    BottomAppBar bottonAppBar;
+
+    private MenuItem notificationItem;
+
 
     TextView tv_lat, tv_long, tv_alt , tv_accu, tv_address;
 
@@ -97,9 +104,13 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         View customToolbar = LayoutInflater.from(this).inflate(R.layout.search_toolbar, toolbar, false);
         toolbar.addView(customToolbar);
+        bottonAppBar = findViewById(R.id.bottomAppBar);
+        line_view = findViewById(R.id.line_view);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 //        changeStatusBarColor(getResources().getColor(com.google.android.material.R.color.background_material_dark));
+        View rootView = findViewById(android.R.id.content);
+        rootView.setBackgroundColor(Color.WHITE);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -259,6 +270,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        notificationItem = menu.findItem(R.id.action_notification);
+
+        notificationItem.setVisible(false);
         return true;
     }
     @Override
@@ -268,6 +282,12 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_notification) {
             // Handle the click event for the notification icon
             // You can show a notification or perform any other action here
+            return true;
+        }
+        else if (id == R.id.action_search) {
+            // Handle the click event for the search icon
+            // You can show a search dialog or perform any other action here
+            replaceFragment(new SearchFragment());
             return true;
         }
 
@@ -386,5 +406,33 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    public void hideBars() {
+        // Assuming toolbar and bottomAppBar are your Toolbar and BottomAppBar instances
+        toolbar.setVisibility(View.GONE);
+        bottomNavigationView.setVisibility(View.GONE);
+        fab_add_report.setVisibility(View.GONE);
+        navigationView.setVisibility(View.GONE);
+        bottonAppBar.setVisibility(View.GONE);
+        line_view.setVisibility(View.GONE);
+    }
 
+    public void showBars() {
+        toolbar.setVisibility(View.VISIBLE);
+        bottomNavigationView.setVisibility(View.VISIBLE);
+        fab_add_report.setVisibility(View.VISIBLE);
+        navigationView.setVisibility(View.VISIBLE);
+        bottonAppBar.setVisibility(View.VISIBLE);
+        line_view.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (notificationItem != null) {
+            notificationItem.setVisible(isLoggedIn());
+        }
+    }
+    public boolean isLoggedIn() {
+        return FirebaseAuth.getInstance().getCurrentUser() != null;
+    }
 }

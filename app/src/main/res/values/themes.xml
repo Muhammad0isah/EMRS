@@ -3,13 +3,11 @@
     <style name="Base.Theme.EnviroTrack" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/dark_green</item>
-
     </style>
 
     <style name="Theme.EnviroTrack" parent="Base.Theme.EnviroTrack">
-<!--        <item name="android:statusBarColor">#2200FF0A</item>-->
-        <item name="android:statusBarColor">@color/dark_green</item>
-
+        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="DialogAnimation">
@@ -27,7 +25,23 @@
 
     <style name = "round_image">
         <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">100%</item>
+    </style>
+    <style name="Circular">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">60dp</item>
+    </style>
+    <style name="RoundButton">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MyApp.Button.Rounded</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.MyApp.Button.Rounded" parent="">
+        <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
+    </style>
+    <style name= "CircularFloatingButton">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">100%</item>
     </style>
 
 </resources>

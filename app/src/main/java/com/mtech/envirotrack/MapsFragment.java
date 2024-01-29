@@ -26,9 +26,6 @@ public class MapsFragment extends Fragment {
     List<Location> saved_location;
     MyApplication myApplication;
 
-
-
-
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         /**
          * Manipulates the map once available.

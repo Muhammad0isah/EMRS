@@ -23,6 +23,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -58,7 +60,7 @@ public class Profile extends AppCompatActivity {
 
         photoUrlImageView = findViewById(R.id.photoUrlImageView);
 
-        Button uploadButton = findViewById(R.id.upload_button);
+        FloatingActionButton uploadButton = findViewById(R.id.upload_button);
 
         // storage reference
         mStorageRef = FirebaseStorage.getInstance().getReference();

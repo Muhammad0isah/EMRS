@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".user.Profile">
-
     <TextView
         android:id="@+id/profileTextView"
         android:layout_width="wrap_content"
@@ -63,10 +62,11 @@
         android:layout_height="120dp"
         android:clipToOutline="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phoneTextView"
         app:shapeAppearanceOverlay="@style/Circular" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/upload_button"
@@ -74,11 +74,13 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
+        style="@style/CircularFloatingButton"
         app:layout_constraintBottom_toBottomOf="@+id/photoUrlImageView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.21"
         app:layout_constraintStart_toStartOf="@+id/photoUrlImageView"
         app:layout_constraintTop_toBottomOf="@+id/photoUrlImageView"
-        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/baseline_add_circle_24" />
     <Button
         android:id="@+id/logoutButton"

@@ -70,7 +70,7 @@
         android:clickable="true"
         android:contentDescription="Search Icon"
         android:focusable="true"
-        android:src="@drawable/ic_dropdown"
+        android:src="@drawable/location"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

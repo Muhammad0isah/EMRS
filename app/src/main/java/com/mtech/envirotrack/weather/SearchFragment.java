@@ -1,5 +1,6 @@
 package com.mtech.envirotrack.weather;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,12 +34,18 @@ public class SearchFragment extends Fragment implements SearchAdapter.OnItemClic
     private RecyclerView searchRV;
     private SearchAdapter searchAdapter;
 
+    private Toolbar backToolbar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         ((MainActivity) getActivity()).findViewById(R.id.coordinatorLayout).setVisibility(View.GONE);
+        ((MainActivity) getActivity()).findViewById(R.id.toolbar).setVisibility(View.GONE);
+        ((MainActivity) getActivity()).findViewById(R.id.line_view).setVisibility(View.GONE);
+
+
 
 
 
@@ -45,6 +53,8 @@ public class SearchFragment extends Fragment implements SearchAdapter.OnItemClic
         searchRV = view.findViewById(R.id.searchRV);
         searchAdapter = new SearchAdapter(new ArrayList<>(), this);
         searchRV.setAdapter(searchAdapter);
+
+        backToolbar = view.findViewById(R.id.searchToolbar);
 
         MaterialCardView searchCardView = view.findViewById(R.id.search);
         EditText searchEditText = view.findViewById(R.id.searchEditText);
@@ -54,6 +64,13 @@ public class SearchFragment extends Fragment implements SearchAdapter.OnItemClic
             public void onClick(View v) {
                 String searchQuery = searchEditText.getText().toString();
                 new GetLocationDataTask().execute(searchQuery);
+            }
+        });
+
+        backToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
 
@@ -130,5 +147,7 @@ public class SearchFragment extends Fragment implements SearchAdapter.OnItemClic
         super.onDestroyView();
         // Show MainActivity's toolbar
         ((MainActivity) getActivity()).findViewById(R.id.coordinatorLayout).setVisibility(View.VISIBLE);
+        ((MainActivity) getActivity()).findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
+        ((MainActivity) getActivity()).findViewById(R.id.line_view).setVisibility(View.VISIBLE);
     }
 }

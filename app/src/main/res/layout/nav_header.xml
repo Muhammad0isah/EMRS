@@ -4,24 +4,25 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="167dp"
-    android:padding="16dp"
+    android:background="@drawable/home_bg"
+    android:padding="25dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="35dp"
         android:textSize="40sp"
-        android:fontFamily="@font/gupter_bold"
+        android:fontFamily="cursive"
         android:text="EnviroTrack"
-        android:textColor="@color/dark_green"
+        android:textColor="@color/white"
         android:textStyle="bold"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="muhd@mtech.com"
-        android:textColor="@color/dark_green"
-        android:textSize="18sp"
+        android:text="Enviromental Monitoring and Reporting System"
+        android:textColor="@color/white"
+        android:fontFamily="cursive"
+        android:textSize="16sp"
         android:layout_marginBottom="16dp"/>
     <com.google.android.material.internal.BaselineLayout
         android:layout_width="match_parent"

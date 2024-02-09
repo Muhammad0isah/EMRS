@@ -4,18 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -23,13 +27,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mtech.envirotrack.MainActivity;
@@ -44,7 +46,7 @@ public class Profile extends AppCompatActivity {
 
     private static final int PICK_IMAGE = 1;
 
-    private ShapeableImageView photoUrlImageView;
+    private ImageView photoUrlImageView;
 
     private StorageReference mStorageRef;
 
@@ -60,7 +62,7 @@ public class Profile extends AppCompatActivity {
 
         photoUrlImageView = findViewById(R.id.photoUrlImageView);
 
-        FloatingActionButton uploadButton = findViewById(R.id.upload_button);
+        ImageButton uploadButton = findViewById(R.id.upload_button);
 
         // storage reference
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -77,15 +79,16 @@ public class Profile extends AppCompatActivity {
                 String photoUrl = user.getPhotoUrl().toString();
                 Glide.with(this)
                         .load(photoUrl)
+                        .apply(RequestOptions.bitmapTransform(new PhotoCircleTransformWithBorder(this, Color.WHITE, 7)))
                         .into(photoUrlImageView);
             }
             TextView nameTextView = findViewById(R.id.nameTextView);
             TextView emailTextView = findViewById(R.id.emailTextView);
-            TextView phoneTextView = findViewById(R.id.phoneTextView);
+//            TextView phoneTextView = findViewById(R.id.phoneTextView);
 
-            nameTextView.setText("Name: " + name);
-            emailTextView.setText("Email: " + email);
-            phoneTextView.setText("Phone "+ phone);
+            nameTextView.setText(name);
+            emailTextView.setText(email);
+//            phoneTextView.setText("Phone "+ phone);
         }
 
         uploadButton.setOnClickListener(new View.OnClickListener() {
@@ -144,29 +147,52 @@ public class Profile extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method uploads the selected image to Firebase storage.
+     *
+     * @param uri The Uri of the image to be uploaded.
+     */
     private void uploadImageToFirebaseStorage(Uri uri) {
+        // Create a ProgressDialog to show the progress of the upload
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading...");
+        progressDialog.show();
+
+        // Create a reference to the location where the image will be stored in Firebase Storage
         final StorageReference profileImageRef = mStorageRef.child("profilepics/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg");
 
+        // Start the upload of the image to Firebase Storage
         profileImageRef.putFile(uri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // Dismiss the ProgressDialog when the upload is successful
+                        progressDialog.dismiss();
+                        // Show a toast message to inform the user that the upload was successful
+                        Toast.makeText(Profile.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                        // Get the download URL of the uploaded image
                         profileImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                // Get the download URL and save it to the user's profile
+                                // Get the current user
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+                                // Create a UserProfileChangeRequest to update the user's profile picture
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setPhotoUri(uri)
                                         .build();
 
+                                // Update the user's profile picture
                                 user.updateProfile(profileUpdates)
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
+                                                    // Show a toast message to inform the user that the profile picture was updated
                                                     Toast.makeText(Profile.this, "Profile image updated", Toast.LENGTH_SHORT).show();
+                                                    // Refresh the activity to show the updated profile picture
+                                                    finish();
+                                                    startActivity(getIntent());
                                                 }
                                             }
                                         });
@@ -177,7 +203,19 @@ public class Profile extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        // Dismiss the ProgressDialog when the upload fails
+                        progressDialog.dismiss();
+                        // Show a toast message to inform the user of the error
                         Toast.makeText(Profile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                        // Calculate the progress of the upload
+                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                        // Update the message of the ProgressDialog to show the progress
+                        progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
                     }
                 });
     }

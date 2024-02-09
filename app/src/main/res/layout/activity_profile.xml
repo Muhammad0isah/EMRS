@@ -4,89 +4,185 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".user.Profile">
+    tools:context=".MainActivity"
+    android:background="#ececec">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/profileTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Profile"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/logoutButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/nameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/emailTextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileTextView"
-        app:layout_constraintVertical_bias="0.1" />
-    <TextView
-        android:id="@+id/emailTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameTextView"
-        app:layout_constraintVertical_bias="0.1" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/top_background" />
+                <ImageButton
+                    android:id="@+id/upload_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:clickable="true"
+                    android:background="@drawable/circle_shape"
+                    android:src="@drawable/camera"
+                    android:scaleType="centerInside"
+                    app:layout_constraintBottom_toBottomOf="@+id/photoUrlImageView"
+                    app:layout_constraintEnd_toEndOf="@+id/photoUrlImageView"
+                    android:elevation="10dp"/>
+                <ImageView
+                    android:id="@+id/photoUrlImageView"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:foregroundGravity="center"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView"
+                    app:srcCompat="@drawable/logo" />
+                <TextView
+                    android:id="@+id/nameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Muhammad Ibrahim"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
 
-    <TextView
-        android:id="@+id/phoneTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Phone"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/photoUrlImageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailTextView"
-        app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintEnd_toEndOf="@+id/photoUrlImageView"
+                    app:layout_constraintStart_toStartOf="@+id/photoUrlImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/photoUrlImageView" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/photoUrlImageView"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:clipToOutline="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneTextView"
-        app:shapeAppearanceOverlay="@style/Circular" />
+                <TextView
+                    android:id="@+id/emailTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="mtech@gmail.com"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="@+id/nameTextView"
+                    app:layout_constraintStart_toStartOf="@+id/nameTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/upload_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/photoUrlImageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/photoUrlImageView"
-        app:layout_constraintTop_toBottomOf="@+id/photoUrlImageView"
-        app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/baseline_add_circle_24" />
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/emailTextView">
 
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/btn_background_1"
+                        android:drawableStart="@drawable/baseline_event_note_24"
+                        android:drawablePadding="20dp"
+                        android:paddingStart="20dp"
+                        android:text="My Report"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        style="@android:style/Widget.Button"
+                        android:textAlignment="viewStart" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button4"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="10dp"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        style="@android:style/Widget.Button"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/btn_background_1"
+                        android:drawableStart="@drawable/ic_4"
+                        android:drawablePadding="20dp"
+                        android:paddingStart="20dp"
+                        android:text="Notification"
+                        android:textAlignment="viewStart" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button3"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="32dp"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        style="@android:style/Widget.Button"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/btn_background_1"
+                        android:drawableStart="@drawable/ic_3"
+                        android:drawablePadding="20dp"
+                        android:paddingStart="20dp"
+                        android:text="Persoanl Information"
+                        android:textAlignment="viewStart" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button2"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="32dp"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        style="@android:style/Widget.Button"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/btn_background_1"
+                        android:drawableStart="@drawable/ic_2"
+                        android:drawablePadding="20dp"
+                        android:paddingStart="20dp"
+                        android:text="Account Settings"
+                        android:textAlignment="viewStart" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button5"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="32dp"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        style="@android:style/Widget.Button"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/btn_background_1"
+                        android:drawableStart="@drawable/baseline_settings_24"
+                        android:drawablePadding="20dp"
+                        android:paddingStart="20dp"
+                        android:text="Settings"
+                        android:textAlignment="viewStart" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:id="@+id/logoutButton"
+                        style="@android:style/Widget.Button"
+                        android:background="@drawable/btn_background_2"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Logout"
+                        android:textColor="#ffffff"
+                        android:textStyle="bold"
+                        android:textSize="18sp"/>
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

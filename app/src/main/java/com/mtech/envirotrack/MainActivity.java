@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -46,12 +47,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mtech.envirotrack.report.ReportFragment;
-import com.mtech.envirotrack.ui.SearchFragment;
+import com.mtech.envirotrack.weather.SearchFragment;
 import com.mtech.envirotrack.user.Login;
 import com.mtech.envirotrack.user.Profile;
 import com.mtech.envirotrack.weather.HomeFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -349,6 +349,14 @@ public class MainActivity extends AppCompatActivity {
                 String cityName = address.getLocality();
                 String stateName = address.getAdminArea();
                 tv_address.setText(String.format("%s, %s", cityName, stateName));
+
+                // save the city name to shared preferences for later use in home fragment
+                SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("cityName", cityName);
+                editor.putString("stateName", stateName);
+
+                editor.apply();
             }
         }catch (Exception e){
             tv_address.setText("Unable to get street address");

@@ -1,0 +1,220 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/environmentalIncidentReportLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Environmental Incident Report fields -->
+            <EditText
+                android:id="@+id/environmentalIncidentLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Location" />
+
+            <EditText
+                android:id="@+id/environmentalIncidentDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date" />
+
+            <EditText
+                android:id="@+id/environmentalIncidentTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Time" />
+
+            <EditText
+                android:id="@+id/environmentalIncidentDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description" />
+
+            <Button
+                android:id="@+id/environmentalIncidentSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/waterQualityReportLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Water Quality Report fields -->
+            <EditText
+                android:id="@+id/waterQualityLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Location" />
+
+            <EditText
+                android:id="@+id/waterQualityDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date" />
+
+            <EditText
+                android:id="@+id/waterQualityTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Time" />
+
+            <EditText
+                android:id="@+id/waterQualityPhLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="pH Level" />
+
+            <EditText
+                android:id="@+id/waterQualityTurbidity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Turbidity" />
+
+            <Button
+                android:id="@+id/waterQualitySubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wasteManagementReportLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Waste Management Report fields -->
+            <EditText
+                android:id="@+id/wasteManagementOrganization"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Organization" />
+
+            <EditText
+                android:id="@+id/wasteManagementDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date" />
+
+            <EditText
+                android:id="@+id/wasteManagementDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description" />
+
+            <EditText
+                android:id="@+id/wasteManagementImpact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Impact" />
+
+            <Button
+                android:id="@+id/wasteManagementSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pollutionSourceReportLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Pollution Source Identification Report fields -->
+            <EditText
+                android:id="@+id/pollutionSourceLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Location" />
+
+            <EditText
+                android:id="@+id/pollutionSourceDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date" />
+
+            <EditText
+                android:id="@+id/pollutionSourceTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Time" />
+
+            <EditText
+                android:id="@+id/pollutionSourceDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description" />
+
+            <Button
+                android:id="@+id/pollutionSourceSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/weatherImpactReportLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Weather Impact Report fields -->
+            <EditText
+                android:id="@+id/weatherImpactLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Location" />
+
+            <EditText
+                android:id="@+id/weatherImpactDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date" />
+
+            <EditText
+                android:id="@+id/weatherImpactTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Time" />
+
+            <EditText
+                android:id="@+id/weatherImpactEvent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Weather Event" />
+
+            <EditText
+                android:id="@+id/weatherImpactImpact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Impact" />
+
+            <Button
+                android:id="@+id/weatherImpactSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

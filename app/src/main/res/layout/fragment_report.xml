@@ -5,6 +5,17 @@
     android:layout_height="match_parent"
     tools:context=".report.ReportFragment">
 
+    <Spinner
+        android:id="@+id/reportTypeSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/report_types" />
+
+
+    <include
+        android:id="@+id/reports_template"
+        layout="@layout/reports_template" />
+
 
     <ListView
         android:layout_width="match_parent"

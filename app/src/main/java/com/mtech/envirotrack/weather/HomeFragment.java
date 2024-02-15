@@ -36,8 +36,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HomeFragment extends Fragment {
 
     private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
-    private static final String API_KEY = "0d4ca4f647225fc6815e9f9a9c5fee42";
-
+    private static final String API_KEY = "ccb348eb42482302b46b698521bf6336";
+    // ccb348eb42482302b46b698521bf6336
+    // 0d4ca4f647225fc6815e9f9a9c5fee42
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -106,6 +107,7 @@ public class HomeFragment extends Fragment {
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+                windDirectionTextView.setText(response.toString());
                 if (response.code() == 200) {
                     WeatherResponse weatherResponse = response.body();
                     assert weatherResponse != null;
@@ -118,9 +120,9 @@ public class HomeFragment extends Fragment {
 
                     cityNameTextView.setText("City: "+cityName);
                     temperatureTextView.setText(String.format("Temperature: %.2f°C", temperatureInCelsius));
-                    humidityTextView.setText("Humidity: "+humidity + "%");
+//                    humidityTextView.setText("Humidity: "+humidity + "%");
                     windSpeedTextView.setText("Wind Speed: "+windSpeed + " m/s");
-                    windDirectionTextView.setText("Wind Direction: "+windDirection + "°");
+//                    windDirectionTextView.setText("Wind Direction: "+windDirection + "°");
                 }
             }
 
@@ -138,26 +140,30 @@ public class HomeFragment extends Fragment {
                 .build();
 
         OpenWeatherMapService service = retrofit.create(OpenWeatherMapService.class);
-        Call<HourlyForecastResponse> call = service.getHourlyForecast(cityName, API_KEY);
+        Call<HourlyForecastResponse> call = service.getHourlyForecast("kano", API_KEY);
         call.enqueue(new Callback<HourlyForecastResponse>() {
+
             @Override
             public void onResponse(Call<HourlyForecastResponse> call, Response<HourlyForecastResponse> response) {
+                humidityTextView.setText(response.toString());
                 if (response.code() == 200) {
                     HourlyForecastResponse hourlyForecastResponse = response.body();
-                    assert hourlyForecastResponse != null;
+                    if (hourlyForecastResponse != null && hourlyForecastResponse.getList() != null && !hourlyForecastResponse.getList().isEmpty()) {
+                        List<Entry> entries = new ArrayList<>();
+                        for (int i = 0; i < hourlyForecastResponse.getList().size(); i++) {
+                            float temperature = hourlyForecastResponse.getList().get(i).getMain().getTemp();
+                            entries.add(new Entry(i, temperature));
+                        }
 
-                    List<Entry> entries = new ArrayList<>();
-                    for (int i = 0; i < hourlyForecastResponse.getList().size(); i++) {
-                        float temperature = hourlyForecastResponse.getList().get(i).getMain().getTemp();
-                        entries.add(new Entry(i, temperature));
+                        LineDataSet dataSet = new LineDataSet(entries, "Label");
+                        dataSet.setLineWidth(2.5f);
+                        dataSet.setCircleRadius(4.5f);
+
+                        LineData lineData = new LineData(dataSet);
+                        setupChart(chart, lineData, Color.rgb(104, 241, 175));
+                    } else {
+                        Toast.makeText(getContext(), "No forecast data available", Toast.LENGTH_SHORT).show();
                     }
-
-                    LineDataSet dataSet = new LineDataSet(entries, "Label");
-                    dataSet.setLineWidth(2.5f);
-                    dataSet.setCircleRadius(4.5f);
-
-                    LineData lineData = new LineData(dataSet);
-                    setupChart(chart, lineData, Color.rgb(104, 241, 175));
                 }
             }
 
@@ -167,7 +173,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
     private void setupChart(LineChart chart, LineData data, int color) {
         chart.setViewPortOffsets(0, 0, 0, 0);
         chart.setBackgroundColor(color);

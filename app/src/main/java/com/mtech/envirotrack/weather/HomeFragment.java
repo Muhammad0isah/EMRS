@@ -39,6 +39,7 @@ public class HomeFragment extends Fragment {
     private static final String API_KEY = "ccb348eb42482302b46b698521bf6336";
     // ccb348eb42482302b46b698521bf6336
     // 0d4ca4f647225fc6815e9f9a9c5fee42
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 

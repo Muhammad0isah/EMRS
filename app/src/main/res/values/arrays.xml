@@ -6,5 +6,11 @@
         <item>Waste Management</item>
         <item>Pollution Source</item>
         <item>Weather Impact</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="enviromentalIncidentType">
+        <item>Excess Emission</item>
+        <item>Spill</item>
+        <item>Other</item>
     </string-array>
 </resources>

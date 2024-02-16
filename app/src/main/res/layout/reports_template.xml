@@ -1,7 +1,10 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -9,42 +12,213 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/reportTypeButton"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:background="#373EBF"
+                android:drawablePadding="20dp"
+                android:layout_marginEnd="2dp"
+                android:elevation="30dp"
+                android:text="Choose Report Type" />
+
+            <Button
+                android:id="@+id/reportHistoryeButton"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_marginStart="2dp"
+                android:layout_gravity="center"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:background="#373EBF"
+                android:drawablePadding="20dp"
+                android:elevation="30dp"
+                android:text="Report History" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/environmentalIncidentReportLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone">
-
             <!-- Environmental Incident Report fields -->
-            <EditText
-                android:id="@+id/environmentalIncidentLocation"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Location" />
-
+                android:text="Report Number"/>
             <EditText
-                android:id="@+id/environmentalIncidentDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Date" />
-
-            <EditText
-                android:id="@+id/environmentalIncidentTime"
+                android:hint="Report Number" />
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Time" />
-
+                android:text="Date and Time of Incident"/>
             <EditText
-                android:id="@+id/environmentalIncidentDescription"
+                android:id="@+id/incidenReportDatePicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Description" />
+                android:hint="Date the Excess Emission Began"
+                android:focusable="false"
+                android:onClick="showDatePickerDialog" />
 
-            <Button
-                android:id="@+id/environmentalIncidentSubmit"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/incidentReportTimePicker"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Submit" />
+                android:hint="Time the Excess Emission Began"
+                android:focusable="false"
+                android:onClick="showTimePickerDialog" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Incident Location"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/environmentalIncidentLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Enter Location" />
+                <Button
+                    android:id="@+id/environmentalIncidentLocationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Map" />
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Type of Enviromental Incident"/>
+            <Spinner
+                android:id="@+id/environmentalIncidentTypeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/enviromentalIncidentType"/>
+            <LinearLayout
+                android:id="@+id/excessEmissionDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Source of Excess Emission"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Source of Excess Emission" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="What was exceeded?"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Exceeded Substance" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Quantity/Amount of Excess Emission"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Quantity/Amount" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Date and Time the Excess Emission Began"/>
+                <EditText
+                    android:id="@+id/ExcessEmissionDatePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Date the Excess Emission Began"
+                    android:focusable="false"
+                    android:onClick="showDatePickerDialog" />
+
+                <EditText
+                    android:id="@+id/ExcessEmissionTimePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Time the Excess Emission Began"
+                    android:focusable="false"
+                    android:onClick="showTimePickerDialog" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cause of the Excess Emission"/>
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Human Error"/>
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Equipment Malfunction"/>
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Unknown"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Description of the Event"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Description" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Immediate Corrective Action Taken"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Corrective Action" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Attachments"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Camera"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Photo"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Video"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Audio"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -214,7 +388,43 @@
                 android:layout_height="wrap_content"
                 android:text="Submit" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/otherReportLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
 
+            <!-- Other Report fields -->
+            <EditText
+                android:id="@+id/otherLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Location" />
+
+            <EditText
+                android:id="@+id/otherDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Date" />
+
+            <EditText
+                android:id="@+id/otherTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Time" />
+
+            <EditText
+                android:id="@+id/otherDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description" />
+
+            <Button
+                android:id="@+id/otherSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit" />
+        </LinearLayout>
     </LinearLayout>
-
 </ScrollView>

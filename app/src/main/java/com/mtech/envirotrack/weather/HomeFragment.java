@@ -36,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HomeFragment extends Fragment {
 
     private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
-    private static final String API_KEY = "984d6e1f124bc4d582ea818207030172";
+    private static final String API_KEY = "a1721e72b003e1f038351bc056624c86";
     // ccb348eb42482302b46b698521bf6336
     // 0d4ca4f647225fc6815e9f9a9c5fee42
 
@@ -49,6 +49,8 @@ public class HomeFragment extends Fragment {
     TextView temperatureTextView, humidityTextView, windSpeedTextView, windDirectionTextView,cityNameTextView;
     private String cityName;
     private LineChart chart;
+
+    TextView tvAqi, tvCo, tvNo, tvNo2, tvO3, tvSo2, tvPm2_5, tvPm10, tvNh3;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -91,8 +93,19 @@ public class HomeFragment extends Fragment {
         cityNameTextView = view.findViewById(R.id.tv_city_name);
         chart = view.findViewById(R.id.chart);
 
+        tvAqi = view.findViewById(R.id.tv_aqi);
+        tvCo = view.findViewById(R.id.tv_co);
+        tvNo = view.findViewById(R.id.tv_no);
+        tvNo2 = view.findViewById(R.id.tv_no2);
+        tvO3 = view.findViewById(R.id.tv_o3);
+        tvSo2 = view.findViewById(R.id.tv_so2);
+        tvPm2_5 = view.findViewById(R.id.tv_pm2_5);
+        tvPm10 = view.findViewById(R.id.tv_pm10);
+        tvNh3 = view.findViewById(R.id.tv_nh3);
+
         getWeatherData();
         getHourlyForecast();
+        getAirPollutionData(12.0022, 8.5916);
 
         return view;
     }
@@ -108,7 +121,6 @@ public class HomeFragment extends Fragment {
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                windDirectionTextView.setText(response.toString());
                 if (response.code() == 200) {
                     WeatherResponse weatherResponse = response.body();
                     assert weatherResponse != null;
@@ -121,9 +133,9 @@ public class HomeFragment extends Fragment {
 
                     cityNameTextView.setText("City: "+cityName);
                     temperatureTextView.setText(String.format("Temperature: %.2f°C", temperatureInCelsius));
-//                    humidityTextView.setText("Humidity: "+humidity + "%");
+                    humidityTextView.setText("Humidity: "+humidity + "%");
                     windSpeedTextView.setText("Wind Speed: "+windSpeed + " m/s");
-//                    windDirectionTextView.setText("Wind Direction: "+windDirection + "°");
+                    windDirectionTextView.setText("Wind Direction: "+windDirection + "°");
                 }
             }
 
@@ -146,7 +158,6 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onResponse(Call<HourlyForecastResponse> call, Response<HourlyForecastResponse> response) {
-                humidityTextView.setText(response.toString());
                 if (response.code() == 200) {
                     HourlyForecastResponse hourlyForecastResponse = response.body();
                     if (hourlyForecastResponse != null && hourlyForecastResponse.getList() != null && !hourlyForecastResponse.getList().isEmpty()) {
@@ -213,5 +224,42 @@ public class HomeFragment extends Fragment {
 
         chart.animateX(2000);
         chart.invalidate();
+    }
+
+    private void getAirPollutionData(double lat, double lon) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        OpenWeatherMapService service = retrofit.create(OpenWeatherMapService.class);
+        Call<AirPollutionResponse> call = service.getAirPollutionData(lat, lon, API_KEY);
+        call.enqueue(new Callback<AirPollutionResponse>() {
+            @Override
+            public void onResponse(Call<AirPollutionResponse> call, Response<AirPollutionResponse> response) {
+                if (response.isSuccessful()) {
+                    AirPollutionResponse airPollutionResponse = response.body();
+                    // Process the response
+                    AirPollutionResponse.Components components = airPollutionResponse.getComponents().get(0);
+
+                    // Now you can call the methods on the Components object
+                    tvAqi.setText("AQI: " + components.getAqi());
+                    tvCo.setText("CO: " + components.getCo());
+                    tvNo.setText("NO: " + components.getNo());
+                    tvNo2.setText("NO2: " + components.getNo2());
+                    tvO3.setText("O3: " + components.getO3());
+                    tvSo2.setText("SO2: " + components.getSo2());
+                    tvPm2_5.setText("PM2.5: " + components.getPm2_5());
+                    tvPm10.setText("PM10: " + components.getPm10());
+                    tvNh3.setText("NH3: " + components.getNh3());
+                } else {
+                    Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<AirPollutionResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

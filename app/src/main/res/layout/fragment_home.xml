@@ -63,7 +63,72 @@
                 android:layout_marginTop="16dp"
                 android:text="Humidity"
                 android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tv_aqi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AQI: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_co"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CO: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NO: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_no2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NO2: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_o3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="O3: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_so2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SO2: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_pm2_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PM2.5: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_pm10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PM10: "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_nh3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NH3: "
+                android:textSize="18sp" />
+
         </LinearLayout>
+
     </ScrollView>
 
 </FrameLayout>

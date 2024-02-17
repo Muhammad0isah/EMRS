@@ -9,5 +9,12 @@
         android:id="@+id/reports_template"
         layout="@layout/reports_template" />
 
+    <Button
+        android:id="@+id/btn_create_report"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="createe report" />
+
 
 </FrameLayout>

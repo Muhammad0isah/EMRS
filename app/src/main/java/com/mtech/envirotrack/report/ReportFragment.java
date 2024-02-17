@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ public class ReportFragment extends Fragment {
 
     private View rootView;
     private Button reportTypeButton, historyButton, submitButton;
+    private Button createeReportButton;
 
     public ReportFragment() {
         // Required empty public constructor
@@ -60,6 +62,15 @@ public class ReportFragment extends Fragment {
 
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_report, container, false);
+
+        createeReportButton = rootView.findViewById(R.id.btn_create_report);
+        createeReportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open the report activity
+                startActivity(new Intent(getActivity(), EnvironmentalReport.class));
+            }
+        });
 
         environmentalIncidentReportLayout = rootView.findViewById(R.id.environmentalIncidentReportLayout);
         waterQualityReportLayout = rootView.findViewById(R.id.waterQualityReportLayout);
@@ -107,18 +118,21 @@ public class ReportFragment extends Fragment {
                 R.array.enviromentalIncidentType, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         environmentalIncidentTypeSpinner.setAdapter(adapter);
+        environmentalIncidentTypeSpinner.setSelection(0, false); // This will prevent automatic selection
         environmentalIncidentTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                excessEmissionLayout.setVisibility(View.GONE);
                 switch (position) {
-                    case 0: // Excess Emission
+                    case 0: // Dummy entry
+                        // Do nothing
+                        break;
+                    case 1: // Excess Emission
                         excessEmissionLayout.setVisibility(View.VISIBLE);
                         break;
-                    case 1: // Spill
+                    case 2: // Spill
                         // Make the Spill layout visible
                         break;
-                    case 2: // Other
+                    case 3: // Other
                         // Make the Other layout visible
                         break;
                 }

@@ -225,7 +225,6 @@ public class HomeFragment extends Fragment {
         chart.animateX(2000);
         chart.invalidate();
     }
-
     private void getAirPollutionData(double lat, double lon) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)

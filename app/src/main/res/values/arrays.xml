@@ -11,6 +11,10 @@
     <string-array name="enviromentalIncidentType">
         <item>Excess Emission</item>
         <item>Spill</item>
+        <item>Water Quality</item>
+        <item>Waste Management</item>
+        <item>Pollution Source</item>
+        <item>Weather Impact</item>
         <item>Other</item>
     </string-array>
 </resources>

@@ -46,6 +46,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.mtech.envirotrack.report.EnvironmentalReport;
 import com.mtech.envirotrack.report.ReportFragment;
 import com.mtech.envirotrack.weather.SearchFragment;
 import com.mtech.envirotrack.user.Login;
@@ -443,4 +444,5 @@ public class MainActivity extends AppCompatActivity {
     public boolean isLoggedIn() {
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
+
 }

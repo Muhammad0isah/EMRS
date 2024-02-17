@@ -6,6 +6,7 @@
     android:background="@color/white"
     tools:context=".report.EnvironmentalReport">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,12 +14,12 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/environmentalIncidentReportLayout"
+            android:id="@+id/environmentalmpactReportLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="visible">
-            <!-- Environmental Incident Report fields -->
+            <!-- Environmental Impact Report fields -->
             <TextView
                 android:layout_width="match_parent"
                 android:textSize="@dimen/ed_text_size"
@@ -72,19 +73,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <EditText
-                    android:id="@+id/environmentalIncidentLocation"
+                    android:id="@+id/environmentalmpactLocation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Enter Location"
                     android:padding="@dimen/edit_text_padding"
                     android:layout_marginBottom="@dimen/ed_margin_bottom"
-                    android:background="@drawable/edit_text_border" />
+                    android:background="@drawable/edit_text_border2" />
                 <Button
-                    android:id="@+id/environmentalIncidentLocationButton"
+                    android:id="@+id/environmentalImpactLocationButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/dark_green"
+                    android:padding="@dimen/edit_text_padding"
+                    android:background="@drawable/edit_text_border2"
                     android:text="Map" />
             </LinearLayout>
             <TextView
@@ -92,7 +94,7 @@
                 android:textSize="@dimen/ed_text_size"
                 android:paddingBottom="@dimen/text_ed_margin"
                 android:layout_height="wrap_content"
-                android:text="Type of Enviromental Incident"/>
+                android:text="Type of Enviromental Impact" />
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,10 +105,10 @@
                 app:endIconDrawable="@drawable/baseline_access_time_24">
 
                 <Spinner
-                    android:id="@+id/environmentalIncidentTypeSpinner"
+                    android:id="@+id/environmentalImpactTypeSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:entries="@array/enviromentalIncidentType" />
+                    android:entries="@array/enviromentalmpactType" />
             </com.google.android.material.textfield.TextInputLayout>
             <LinearLayout
                 android:id="@+id/excessEmissionDetails"
@@ -240,399 +242,368 @@
                     android:paddingBottom="@dimen/text_ed_margin"
                     android:layout_height="wrap_content"
                     android:text="Attachments"/>
-                <Button
-                    android:layout_width="wrap_content"
+                <include
+                    layout="@layout/reports_attachment" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/spillDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
                     android:layout_height="wrap_content"
-                    android:text="Camera"/>
-                <Button
-                    android:layout_width="wrap_content"
+                    android:text="Type of Spill"/>
+                <EditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Photo"/>
-                <Button
-                    android:layout_width="wrap_content"
+                    android:hint="Type of Spill"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
                     android:layout_height="wrap_content"
-                    android:text="Video"/>
-                <Button
-                    android:layout_width="wrap_content"
+                    android:text="Description of the Event"/>
+                <EditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Audio"/>
+                    android:hint="Description"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Immediate Corrective Action Taken"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Corrective Action"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Attachments"/>
+                <include
+                    layout="@layout/reports_attachment" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/waterQualityReportDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Type of Water Quality Incident"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Type of Water Quality Incident"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Description of the Event"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Description"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Immediate Corrective Action Taken"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Corrective Action"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Attachments"/>
+               <include
+                    layout="@layout/reports_attachment" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/wasteManagementReportDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Type of Waste Management Incident"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Type of Waste Management Incident"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Description of the Event"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Description"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Immediate Corrective Action Taken"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Corrective Action"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Attachments"/>
+                <include
+                    layout="@layout/reports_attachment" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/pollutionSourceReportDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Type of Pollution Source Incident"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Type of Pollution Source Incident"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Description of the Event"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Description"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Immediate Corrective Action Taken"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Corrective Action"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Attachments"/>
+                <include
+                    layout="@layout/reports_attachment" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/weatherImpactReportDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Type of Weather Impact Incident"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Type of Weather Impact Incident"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Description of the Event"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Description"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Immediate Corrective Action Taken"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Corrective Action"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Attachments"/>
+                <include
+                    layout="@layout/reports_attachment" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/otherReporttDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Type of Other Incident"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Type of Other Incident"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Description of the Event"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Description"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Immediate Corrective Action Taken"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Corrective Action"
+                    android:padding="@dimen/edit_text_padding"
+                    android:layout_marginBottom="@dimen/ed_margin_bottom"
+                    android:background="@drawable/edit_text_border" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/ed_text_size"
+                    android:paddingBottom="@dimen/text_ed_margin"
+                    android:layout_height="wrap_content"
+                    android:text="Attachments"/>
+                <include
+                    layout="@layout/reports_attachment" />
             </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/waterQualityReportLayout"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/submitEnvironmentalReport"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <!-- Water Quality Report fields -->
-            <EditText
-                android:id="@+id/waterQualityLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Location"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border" />
-
-            <EditText
-                android:id="@+id/waterQualityDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Date"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border" />
-
-            <EditText
-                android:id="@+id/waterQualityTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Time"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border" />
-
-            <EditText
-                android:id="@+id/waterQualityPhLevel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="pH Level"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border" />
-
-            <EditText
-                android:id="@+id/waterQualityTurbidity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Turbidity"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border" />
-
-            <Button
-                android:id="@+id/waterQualitySubmit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Submit" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/pollutionSourceReportLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <!-- Pollution Source Identification Report fields -->
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Location"/>
-            <EditText
-                android:id="@+id/pollutionSourceLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Location"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Date"/>
-            <EditText
-                android:id="@+id/pollutionSourceDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Date"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Time"/>
-            <EditText
-                android:id="@+id/pollutionSourceTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Time"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Description"/>
-            <EditText
-                android:id="@+id/pollutionSourceDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Description"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <Button
-                android:id="@+id/pollutionSourceSubmit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Submit" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/wasteManagementReportLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <!-- Waste Management Report fields -->
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Organization"/>
-            <EditText
-                android:id="@+id/wasteManagementOrganization"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Organization"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Date"/>
-            <EditText
-                android:id="@+id/wasteManagementDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Date"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Description"/>
-            <EditText
-                android:id="@+id/wasteManagementDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Description"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Impact"/>
-            <EditText
-                android:id="@+id/wasteManagementImpact"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Impact"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <Button
-                android:id="@+id/wasteManagementSubmit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Submit" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/weatherImpactReportLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <!-- Weather Impact Report fields -->
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Location"/>
-            <EditText
-                android:id="@+id/weatherImpactLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Location"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Date"/>
-            <EditText
-                android:id="@+id/weatherImpactDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Date"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Time"/>
-            <EditText
-                android:id="@+id/weatherImpactTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Time"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Weather Event"/>
-            <EditText
-                android:id="@+id/weatherImpactEvent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Weather Event"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Impact"/>
-            <EditText
-                android:id="@+id/weatherImpactImpact"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Impact"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <Button
-                android:id="@+id/weatherImpactSubmit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Submit" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/otherReportLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <!-- Other Report fields -->
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Location"/>
-            <EditText
-                android:id="@+id/otherLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Location"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Date"/>
-            <EditText
-                android:id="@+id/otherDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Date"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Time"/>
-            <EditText
-                android:id="@+id/otherTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Time"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:textSize="@dimen/ed_text_size"
-                android:paddingBottom="@dimen/text_ed_margin"
-                android:layout_height="wrap_content"
-                android:text="Description"/>
-            <EditText
-                android:id="@+id/otherDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Description"
-                android:padding="@dimen/edit_text_padding"
-                android:layout_marginBottom="@dimen/ed_margin_bottom"
-                android:background="@drawable/edit_text_border"/>
-
-            <Button
-                android:id="@+id/otherSubmit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Submit" />
-        </LinearLayout>
-
+            android:text="Submit" />
     </LinearLayout>
 </ScrollView>

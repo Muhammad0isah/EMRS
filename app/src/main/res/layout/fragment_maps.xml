@@ -5,4 +5,22 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapsFragment" />
+    tools:context=".MapsFragment">
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/sv_location"
+        android:layout_width="match_parent"
+        android:padding="25dp"
+        android:layout_height="wrap_content"
+        android:maxEms="1"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="Search location">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</fragment>

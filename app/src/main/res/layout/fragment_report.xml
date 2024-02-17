@@ -3,18 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".report.ReportFragment">
-
-    <include
-        android:id="@+id/reports_template"
-        layout="@layout/reports_template" />
+    tools:context=".report.ReportFragment">>
 
     <Button
         android:id="@+id/btn_create_report"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:text="createe report" />
+        android:background="@drawable/com_facebook_button_background"
+        android:layout_gravity="center"
+        android:text="create report" />
 
 
 </FrameLayout>

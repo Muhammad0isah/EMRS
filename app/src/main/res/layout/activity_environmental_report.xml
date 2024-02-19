@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:text="Report Number"/>
             <EditText
+                android:id="@+id/environmentalmpactReportNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/edit_text_padding"
@@ -108,7 +109,7 @@
                     android:id="@+id/environmentalImpactTypeSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:entries="@array/enviromentalmpactType" />
+                    android:entries="@array/environmentalImpactType" />
             </com.google.android.material.textfield.TextInputLayout>
             <LinearLayout
                 android:id="@+id/excessEmissionDetails"
@@ -124,6 +125,7 @@
                     android:layout_height="wrap_content"
                     android:text="Source of Excess Emission"/>
                 <EditText
+                    android:id="@+id/ExcessEmissionSource"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Source of Excess Emission"
@@ -138,6 +140,7 @@
                     android:layout_height="wrap_content"
                     android:text="What was exceeded?"/>
                 <EditText
+                    android:id="@+id/ExceededSubstance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Exceeded Substance"
@@ -152,6 +155,7 @@
                     android:layout_height="wrap_content"
                     android:text="Quantity/Amount of Excess Emission"/>
                 <EditText
+                    android:id="@+id/ExcessEmissionQuantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Quantity/Amount"
@@ -196,14 +200,17 @@
                     android:layout_height="wrap_content"
                     android:text="Cause of the Excess Emission"/>
                 <CheckBox
+                    android:id="@+id/humanError"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Human Error"/>
                 <CheckBox
+                    android:id="@+id/equipmentMalfunction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Equipment Malfunction"/>
                 <CheckBox
+                    android:id="@+id/otherCause"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Unknown"/>
@@ -215,6 +222,7 @@
                     android:layout_height="wrap_content"
                     android:text="Description of the Event"/>
                 <EditText
+                    android:id="@+id/ExcessEmissionDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Description"
@@ -229,6 +237,7 @@
                     android:layout_height="wrap_content"
                     android:text="Immediate Corrective Action Taken"/>
                 <EditText
+                    android:id="@+id/ExcessEmissionCorrectiveAction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Corrective Action"
@@ -260,6 +269,7 @@
                     android:layout_height="wrap_content"
                     android:text="Type of Spill"/>
                 <EditText
+                    android:id="@+id/spillType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Type of Spill"
@@ -274,6 +284,7 @@
                     android:layout_height="wrap_content"
                     android:text="Description of the Event"/>
                 <EditText
+                    android:id="@+id/spillDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Description"
@@ -288,6 +299,7 @@
                     android:layout_height="wrap_content"
                     android:text="Immediate Corrective Action Taken"/>
                 <EditText
+                    android:id="@+id/spillCorrectiveAction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Corrective Action"
@@ -316,11 +328,12 @@
                     android:textSize="@dimen/ed_text_size"
                     android:paddingBottom="@dimen/text_ed_margin"
                     android:layout_height="wrap_content"
-                    android:text="Type of Water Quality Incident"/>
+                    android:text="Type of Water Quality Impact"/>
                 <EditText
+                    android:id="@+id/waterQualityType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Type of Water Quality Incident"
+                    android:hint="Type of Water Quality Impact"
                     android:padding="@dimen/edit_text_padding"
                     android:layout_marginBottom="@dimen/ed_margin_bottom"
                     android:background="@drawable/edit_text_border" />
@@ -332,6 +345,7 @@
                     android:layout_height="wrap_content"
                     android:text="Description of the Event"/>
                 <EditText
+                    android:id="@+id/waterQualityDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Description"
@@ -346,6 +360,7 @@
                     android:layout_height="wrap_content"
                     android:text="Immediate Corrective Action Taken"/>
                 <EditText
+                    android:id="@+id/waterQualityCorrectiveAction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Corrective Action"
@@ -376,6 +391,7 @@
                     android:layout_height="wrap_content"
                     android:text="Type of Waste Management Incident"/>
                 <EditText
+                    android:id="@+id/wasteManagementType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Type of Waste Management Incident"
@@ -390,6 +406,7 @@
                     android:layout_height="wrap_content"
                     android:text="Description of the Event"/>
                 <EditText
+                    android:id="@+id/wasteManagementDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Description"
@@ -404,6 +421,7 @@
                     android:layout_height="wrap_content"
                     android:text="Immediate Corrective Action Taken"/>
                 <EditText
+                    android:id="@+id/wasteManagementCorrectiveAction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Corrective Action"
@@ -433,11 +451,13 @@
                     android:textSize="@dimen/ed_text_size"
                     android:paddingBottom="@dimen/text_ed_margin"
                     android:layout_height="wrap_content"
-                    android:text="Type of Pollution Source Incident"/>
+                    android:text="Type of Pollution Source Impact"/>
+
                 <EditText
+                    android:id="@+id/pollutionSourceType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Type of Pollution Source Incident"
+                    android:hint="Type of Pollution Source Impact"
                     android:padding="@dimen/edit_text_padding"
                     android:layout_marginBottom="@dimen/ed_margin_bottom"
                     android:background="@drawable/edit_text_border" />
@@ -449,6 +469,7 @@
                     android:layout_height="wrap_content"
                     android:text="Description of the Event"/>
                 <EditText
+                    android:id="@+id/pollutionSourceDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Description"
@@ -463,6 +484,7 @@
                     android:layout_height="wrap_content"
                     android:text="Immediate Corrective Action Taken"/>
                 <EditText
+                    android:id="@+id/pollutionSourceCorrectiveAction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Corrective Action"
@@ -494,6 +516,7 @@
                     android:layout_height="wrap_content"
                     android:text="Type of Weather Impact Incident"/>
                 <EditText
+                    android:id="@+id/weatherImpactType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Type of Weather Impact Incident"
@@ -508,6 +531,7 @@
                     android:layout_height="wrap_content"
                     android:text="Description of the Event"/>
                 <EditText
+                    android:id="@+id/weatherImpactDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Description"
@@ -522,6 +546,7 @@
                     android:layout_height="wrap_content"
                     android:text="Immediate Corrective Action Taken"/>
                 <EditText
+                    android:id="@+id/weatherImpactCorrectiveAction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Corrective Action"
@@ -553,6 +578,7 @@
                     android:layout_height="wrap_content"
                     android:text="Type of Other Incident"/>
                 <EditText
+                    android:id="@+id/otherType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Type of Other Incident"
@@ -567,6 +593,7 @@
                     android:layout_height="wrap_content"
                     android:text="Description of the Event"/>
                 <EditText
+                    android:id="@+id/otherDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Description"
@@ -581,6 +608,7 @@
                     android:layout_height="wrap_content"
                     android:text="Immediate Corrective Action Taken"/>
                 <EditText
+                    android:id="@+id/otherCorrectiveAction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Corrective Action"

@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
             android:id="@+id/nav_daily"
-            android:icon="@drawable/baseline_notifications_24"
+            android:icon="@drawable/baseline_calendar_today_24"
             android:title="Daily"/>
     <item
             android:id="@+id/nav_report"

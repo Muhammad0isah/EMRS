@@ -5,11 +5,12 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface OpenWeatherMapService {
-    @GET("weather")
-    Call<WeatherResponse> getCurrentWeatherData(@Query("q") String city, @Query("appid") String apiKey);
-    @GET("forecast/hourly")
-    Call<HourlyForecastResponse> getHourlyForecast(@Query("q") String cityName, @Query("appid") String apiKey);
+    @GET("onecall")
+    Call<WeatherResponse> getCurrentWeatherData(@Query("lat") double lat, @Query("lon") double lon, @Query("appid") String appid);
 
-    @GET("data/2.5/air_pollution")
-    Call<AirPollutionResponse> getAirPollutionData(@Query("lat") double lat, @Query("lon") double lon, @Query("appid") String apiKey);
+    @GET("onecall")
+    Call<HourlyForecastResponse> getHourlyForecast(@Query("lat") double lat, @Query("lon") double lon, @Query("appid") String appid);
+
+    @GET("air_pollution")
+    Call<AirPollutionResponse> getAirPollutionData(@Query("lat") double lat, @Query("lon") double lon, @Query("appid") String appid);
 }

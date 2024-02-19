@@ -5,30 +5,41 @@ import java.util.List;
 
 public class HourlyForecastResponse {
 
-    @SerializedName("list")
-    private List<HourlyForecast> list;
+    @SerializedName("hourly")
+    private List<HourlyForecast> hourly;
 
-    public List<HourlyForecast> getList() {
-        return list;
+    public List<HourlyForecast> getHourly() {
+        return hourly;
     }
 
     public static class HourlyForecast {
 
-        @SerializedName("main")
-        private Main main;
+        @SerializedName("temp")
+        private float temp;
 
-        public Main getMain() {
-            return main;
+        @SerializedName("humidity")
+        private int humidity;
+
+        @SerializedName("wind_speed")
+        private double windSpeed;
+
+        @SerializedName("wind_deg")
+        private int windDeg;
+
+        public float getTemp() {
+            return temp;
         }
 
-        public static class Main {
+        public int getHumidity() {
+            return humidity;
+        }
 
-            @SerializedName("temp")
-            private float temp;
+        public double getWindSpeed() {
+            return windSpeed;
+        }
 
-            public float getTemp() {
-                return temp;
-            }
+        public int getWindDeg() {
+            return windDeg;
         }
     }
 }

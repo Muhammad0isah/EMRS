@@ -24,6 +24,7 @@ import com.mtech.envirotrack.R;
 import com.mtech.envirotrack.user.Login;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,8 +36,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment {
 
-    private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/";
-    private static final String API_KEY = "a1721e72b003e1f038351bc056624c86";
+//    private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/";
+    private static final String TEMP_URL = "https://api.openweathermap.org/data/3.0/";
+    private static final String POLL_URL = "https://api.openweathermap.org/data/2.5/";
+
+    private static final String API_KEY = "77177938ba21d3ea86b95ed63afd71fc";
     // ccb348eb42482302b46b698521bf6336
     // 0d4ca4f647225fc6815e9f9a9c5fee42
 
@@ -103,21 +107,21 @@ public class HomeFragment extends Fragment {
         tvPm10 = view.findViewById(R.id.tv_pm10);
         tvNh3 = view.findViewById(R.id.tv_nh3);
 
-        getWeatherData();
-        getHourlyForecast();
+        getWeatherData(12,10);
+        getHourlyForecast(12,10);
         getAirPollutionData(12.0022, 8.5916);
 
         return view;
     }
 
-    private void getWeatherData() {
+    private void getWeatherData(double lat, double lon) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(TEMP_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         OpenWeatherMapService service = retrofit.create(OpenWeatherMapService.class);
-        Call<WeatherResponse> call = service.getCurrentWeatherData(cityName, API_KEY);
+        Call<WeatherResponse> call = service.getCurrentWeatherData(lat,lon, API_KEY);
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
@@ -125,17 +129,17 @@ public class HomeFragment extends Fragment {
                     WeatherResponse weatherResponse = response.body();
                     assert weatherResponse != null;
 
-                    double temperatureInKelvin = weatherResponse.getMain().getTemp();
+                    double temperatureInKelvin = weatherResponse.getCurrent().getTemp();
                     double temperatureInCelsius = temperatureInKelvin - 273.15;
-                    int humidity = weatherResponse.getMain().getHumidity();
-                    double windSpeed = weatherResponse.getWind().getSpeed();
-                    int windDirection = weatherResponse.getWind().getDeg();
+                    int humidity = weatherResponse.getCurrent().getHumidity();
+                    double windSpeed = weatherResponse.getCurrent().getWindSpeed();
+                    int windDirection = weatherResponse.getCurrent().getWindDeg();
 
                     cityNameTextView.setText("City: "+cityName);
-                    temperatureTextView.setText(String.format("Temperature: %.2f°C", temperatureInCelsius));
-                    humidityTextView.setText("Humidity: "+humidity + "%");
-                    windSpeedTextView.setText("Wind Speed: "+windSpeed + " m/s");
-                    windDirectionTextView.setText("Wind Direction: "+windDirection + "°");
+                    temperatureTextView.setText(String.format("%.2f°C", temperatureInCelsius));
+                    humidityTextView.setText(humidity + "%");
+                    windSpeedTextView.setText(windSpeed + " m/s");
+                    windDirectionTextView.setText(windDirection + "°");
                 }
             }
 
@@ -146,24 +150,25 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void getHourlyForecast() {
+    private void getHourlyForecast(double lat, double lon) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(TEMP_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         OpenWeatherMapService service = retrofit.create(OpenWeatherMapService.class);
-        Call<HourlyForecastResponse> call = service.getHourlyForecast("kano", API_KEY);
+        Call<HourlyForecastResponse> call = service.getHourlyForecast(lat,lon, API_KEY);
+
         call.enqueue(new Callback<HourlyForecastResponse>() {
 
             @Override
             public void onResponse(Call<HourlyForecastResponse> call, Response<HourlyForecastResponse> response) {
                 if (response.code() == 200) {
                     HourlyForecastResponse hourlyForecastResponse = response.body();
-                    if (hourlyForecastResponse != null && hourlyForecastResponse.getList() != null && !hourlyForecastResponse.getList().isEmpty()) {
+                    if (hourlyForecastResponse != null && hourlyForecastResponse.getHourly() != null && !hourlyForecastResponse.getHourly().isEmpty()) {
                         List<Entry> entries = new ArrayList<>();
-                        for (int i = 0; i < hourlyForecastResponse.getList().size(); i++) {
-                            float temperature = hourlyForecastResponse.getList().get(i).getMain().getTemp();
+                        for (int i = 0; i < hourlyForecastResponse.getHourly().size(); i++) {
+                            float temperature = (float) hourlyForecastResponse.getHourly().get(i).getTemp();
                             entries.add(new Entry(i, temperature));
                         }
 
@@ -176,6 +181,11 @@ public class HomeFragment extends Fragment {
                     } else {
                         Toast.makeText(getContext(), "No forecast data available", Toast.LENGTH_SHORT).show();
                     }
+
+                }
+                else {
+                    cityNameTextView.setText(response.toString());
+
                 }
             }
 
@@ -184,6 +194,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
     private void setupChart(LineChart chart, LineData data, int color) {
         chart.setViewPortOffsets(0, 0, 0, 0);
@@ -227,7 +238,7 @@ public class HomeFragment extends Fragment {
     }
     private void getAirPollutionData(double lat, double lon) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(POLL_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -239,6 +250,7 @@ public class HomeFragment extends Fragment {
                 if (response.isSuccessful()) {
                     AirPollutionResponse airPollutionResponse = response.body();
                     // Process the response
+                    assert airPollutionResponse != null;
                     AirPollutionResponse.Components components = airPollutionResponse.getComponents().get(0);
 
                     // Now you can call the methods on the Components object
@@ -252,6 +264,7 @@ public class HomeFragment extends Fragment {
                     tvPm10.setText("PM10: " + components.getPm10());
                     tvNh3.setText("NH3: " + components.getNh3());
                 } else {
+
                     Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }

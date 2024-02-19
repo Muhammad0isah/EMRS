@@ -26,6 +26,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -125,6 +126,35 @@ public class MainActivity extends AppCompatActivity {
            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
            navigationView.setCheckedItem(R.id.nav_home);
        }
+       navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+           @Override
+           public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+               Fragment fragment = null;
+               int itemId = item.getItemId();
+               if (itemId == R.id.nav_home){
+                   fragment = new HomeFragment();
+               } else if (itemId == R.id.nav_report) {
+                   fragment = new ReportFragment();
+               }
+               else if(itemId == R.id.nav_map){
+                   fragment = new MapsFragment();
+               } else if (itemId == R.id.nav_profile) {
+                   if (mAuth.getCurrentUser() != null) {
+                       // If the user is logged in, navigate to the profile activity
+                       Intent intent = new Intent(MainActivity.this, Profile.class);
+                       startActivity(intent);
+                   } else {
+                       // If the user is not logged in, navigate to the login activity
+                       Intent intent = new Intent(MainActivity.this, Login.class);
+                       startActivity(intent);
+                   }
+               } else if (itemId == R.id.logoutButton) {
+
+               }
+               return false;
+           }
+       });
+
        fab_add_report.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -176,7 +206,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showAddressDialog();
-
             }
         });
 
@@ -198,74 +227,11 @@ public class MainActivity extends AppCompatActivity {
         updateGPS();
     }
 
-
-    private void changeStatusBarColor(int color) {
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(color);
-    }
-
     private  void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
-    }
-
-    private void showBottomDialog() {
-
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.buttom_sheet_layout);
-
-        LinearLayout videoLayout = dialog.findViewById(R.id.layoutVideo);
-        LinearLayout shortsLayout = dialog.findViewById(R.id.layoutShorts);
-        LinearLayout liveLayout = dialog.findViewById(R.id.layoutLive);
-        ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
-
-        videoLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dialog.dismiss();
-                Toast.makeText(MainActivity.this,"Upload a Video is clicked",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        shortsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dialog.dismiss();
-                Toast.makeText(MainActivity.this,"Create a short is Clicked",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        liveLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                dialog.dismiss();
-                Toast.makeText(MainActivity.this,"Go live is Clicked",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
-
     }
 
     @Override
@@ -360,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.apply();
             }
         }catch (Exception e){
-            tv_address.setText("Unable to get street address");
+            tv_address.setText("Unable to get Location");
         }
 
     }
@@ -414,26 +380,6 @@ public class MainActivity extends AppCompatActivity {
         }
         dialog.show();
     }
-
-    public void hideBars() {
-        // Assuming toolbar and bottomAppBar are your Toolbar and BottomAppBar instances
-        toolbar.setVisibility(View.GONE);
-        bottomNavigationView.setVisibility(View.GONE);
-        fab_add_report.setVisibility(View.GONE);
-        navigationView.setVisibility(View.GONE);
-        bottonAppBar.setVisibility(View.GONE);
-        line_view.setVisibility(View.GONE);
-    }
-
-    public void showBars() {
-        toolbar.setVisibility(View.VISIBLE);
-        bottomNavigationView.setVisibility(View.VISIBLE);
-        fab_add_report.setVisibility(View.VISIBLE);
-        navigationView.setVisibility(View.VISIBLE);
-        bottonAppBar.setVisibility(View.VISIBLE);
-        line_view.setVisibility(View.VISIBLE);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();

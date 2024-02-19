@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="report_types">
-        <item>Environmental Incident</item>
-        <item>Water Quality</item>
-        <item>Waste Management</item>
-        <item>Pollution Source</item>
-        <item>Weather Impact</item>
-        <item>Other</item>
-    </string-array>
-    <string-array name="enviromentalmpactType">
+    <string-array name="environmentalImpactType">
         <item>Select</item>
         <item>Excess Emission</item>
         <item>Spill</item>

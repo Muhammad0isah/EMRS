@@ -107,7 +107,7 @@ public class EnvironmentalReport extends AppCompatActivity {
 
         environmentalImpactTypeSpinner = findViewById(R.id.environmentalImpactTypeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.enviromentalmpactType, android.R.layout.simple_spinner_item);
+                R.array.environmentalImpactType, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         environmentalImpactTypeSpinner.setAdapter(adapter);
         environmentalImpactTypeSpinner.setSelection(0, false); // This will prevent automatic selection

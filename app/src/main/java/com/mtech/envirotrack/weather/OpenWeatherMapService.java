@@ -13,4 +13,6 @@ public interface OpenWeatherMapService {
 
     @GET("air_pollution")
     Call<AirPollutionResponse> getAirPollutionData(@Query("lat") double lat, @Query("lon") double lon, @Query("appid") String appid);
+    @GET("air_pollution/forecast")
+    Call<AirPollutionForecastResponse> getAirPollutionForecast(@Query("lat") double lat, @Query("lon") double lon, @Query("appid") String appid);
 }

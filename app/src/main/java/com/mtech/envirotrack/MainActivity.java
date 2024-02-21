@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,23 +17,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,35 +40,30 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.mtech.envirotrack.report.EnvironmentalReport;
-import com.mtech.envirotrack.report.ReportFragment;
-import com.mtech.envirotrack.weather.SearchFragment;
+import com.mtech.envirotrack.report.Notification;
+import com.mtech.envirotrack.report.Report;
+import com.mtech.envirotrack.weather.Home;
+import com.mtech.envirotrack.weather.Search;
 import com.mtech.envirotrack.user.Login;
 import com.mtech.envirotrack.user.Profile;
-import com.mtech.envirotrack.weather.HomeFragment;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private static final int PERMISSION_FINE_LOCATION =99 ;
-    private static final int DEFAULT_UPDATE_INTERVAL = 30;
-    private static final int FASTEST_UPDATE_INTERVAL = 5;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     NavigationView navigationView;
     Toolbar toolbar;
-    FloatingActionButton fab_add_report;
+    ImageButton btn_add_report;
     DrawerLayout drawerLayout;
     BottomNavigationView bottomNavigationView;
     View line_view;
     BottomAppBar bottonAppBar;
-
     private MenuItem notificationItem;
-
-
     TextView tv_lat, tv_long, tv_alt , tv_accu, tv_address;
 
   // location request
@@ -83,34 +74,23 @@ public class MainActivity extends AppCompatActivity {
 
     // google api location services
     FusedLocationProviderClient fusedLocationProviderClient;
-
     private LocationCallback locationCallback;
 
     // list of saved locations
     List<Location> savedLocations;
-
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // This is the layout file for the main activity
-
+        setContentView(R.layout.activity_main);
+        toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        fab_add_report = findViewById(R.id.fab_add_report);
+        btn_add_report = findViewById(R.id.btn_add_report);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-        toolbar = findViewById(R.id.toolbar);
         View customToolbar = LayoutInflater.from(this).inflate(R.layout.search_toolbar, toolbar, false);
         toolbar.addView(customToolbar);
-        bottonAppBar = findViewById(R.id.bottomAppBar);
-        line_view = findViewById(R.id.line_view);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-//        changeStatusBarColor(getResources().getColor(com.google.android.material.R.color.background_material_dark));
         View rootView = findViewById(android.R.id.content);
         rootView.setBackgroundColor(Color.WHITE);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
@@ -122,43 +102,45 @@ public class MainActivity extends AppCompatActivity {
         tv_accu = toolbar.findViewById(R.id.tv_accuracy);
         tv_address = toolbar.findViewById(R.id.tv_address);
 
-       if(savedInstanceState == null){
-           getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
-           navigationView.setCheckedItem(R.id.nav_home);
-       }
-       navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-           @Override
-           public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-               Fragment fragment = null;
-               int itemId = item.getItemId();
-               if (itemId == R.id.nav_home){
-                   fragment = new HomeFragment();
-               } else if (itemId == R.id.nav_report) {
-                   fragment = new ReportFragment();
-               }
-               else if(itemId == R.id.nav_map){
-                   fragment = new MapsFragment();
-               } else if (itemId == R.id.nav_profile) {
-                   if (mAuth.getCurrentUser() != null) {
-                       // If the user is logged in, navigate to the profile activity
-                       Intent intent = new Intent(MainActivity.this, Profile.class);
-                       startActivity(intent);
-                   } else {
-                       // If the user is not logged in, navigate to the login activity
-                       Intent intent = new Intent(MainActivity.this, Login.class);
-                       startActivity(intent);
-                   }
-               } else if (itemId == R.id.logoutButton) {
+        if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Home()).commit();
+        }
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment = null;
+                int itemId = item.getItemId();
+                if (itemId == R.id.nav_home) {
+                    fragment = new Home();
+                } else if (itemId == R.id.nav_report) {
+                    fragment = new Report();
+                } else if (itemId == R.id.nav_map) {
+                    fragment = new Maps();
+                } else if (itemId == R.id.nav_notification) {
+                    fragment = new Maps();
+                } else if (itemId == R.id.nav_profile) {
+                    if (mAuth.getCurrentUser() != null) {
+                        // If the user is logged in, navigate to the profile activity
+                        Intent intent = new Intent(MainActivity.this, Profile.class);
+                        startActivity(intent);
+                    } else {
+                        // If the user is not logged in, navigate to the login activity
+                        Intent intent = new Intent(MainActivity.this, Login.class);
+                        startActivity(intent);
+                    }
+                }
+                // debug if fragment is null
+                if (fragment != null) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+                }
+                return true;
+            }
+        });
 
-               }
-               return false;
-           }
-       });
-
-       fab_add_report.setOnClickListener(new View.OnClickListener() {
+       btn_add_report.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-//               showBottomDialog();
+               startActivity(new Intent(MainActivity.this, EnvironmentalReport.class));
            }
        });
 
@@ -169,20 +151,19 @@ public class MainActivity extends AppCompatActivity {
                 // Open the search fragment when the search icon is clicked
             }
         });
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
                 int itemId = item.getItemId();
                 if (itemId == R.id.nav_daily) {
-                    fragment = new HomeFragment();
+                    fragment = new Home();
                 } else if (itemId == R.id.nav_report) {
-                    fragment = new ReportFragment();
+                    fragment = new Report();
                 } else if (itemId == R.id.nav_map) {
-                    fragment = new MapsFragment();
+                    fragment = new Maps();
                 } else if (itemId == R.id.nav_notification) {
-                    fragment = new MapsFragment();
+                    fragment = new Maps();
                 } else if (itemId == R.id.nav_profile) {
                     if (mAuth.getCurrentUser() != null) {
                         // If the user is logged in, navigate to the profile activity
@@ -218,13 +199,8 @@ public class MainActivity extends AppCompatActivity {
                 updateUIValues(locationResult.getLastLocation());
             }
         };
-
-//        // add the gps location to the global list;
-//        MyApplication myApplication = (MyApplication) getApplicationContext();
-//        savedLocations = myApplication.getLocations();
-//        savedLocations.add(currentLocation);
-
         updateGPS();
+
     }
 
     private  void replaceFragment(Fragment fragment) {
@@ -254,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
         else if (id == R.id.action_search) {
             // Handle the click event for the search icon
             // You can show a search dialog or perform any other action here
-            replaceFragment(new SearchFragment());
+            replaceFragment(new Search());
             return true;
         }
 

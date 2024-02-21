@@ -12,10 +12,9 @@ public class MyApplication extends Application {
 
     private List<Location> locations;
 
-    public MyApplication getInstance(){
+    public static MyApplication getInstance(){
         return singleton;
     }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -23,11 +22,9 @@ public class MyApplication extends Application {
 
         locations = new ArrayList<>();
     }
-
     public List<Location> getLocations() {
         return locations;
     }
-
     public void setLocations(List<Location> locations) {
         this.locations = locations;
     }

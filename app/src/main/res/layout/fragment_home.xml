@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".weather.HomeFragment">
+    tools:context=".weather.Home">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -13,32 +13,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
-                android:id="@+id/tv_city_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="left"
                 android:layout_marginTop="16dp"
-                android:text="City Name"
-                android:textSize="24sp" />
+                android:paddingStart="4dp"
+                android:paddingBottom="12dp"
+                android:fontFamily="@font/gupter_bold"
+                android:text="Daily Forecast"
+                android:textSize="28sp" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:tabMode="fixed"
+                app:tabGravity="fill" />
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="3"
-                android:rowCount="3"
-                android:padding="16dp">
+                android:columnCount="1"
+                android:rowCount="1">
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
-                    android:layout_height="300dp"
-                    android:layout_margin="8dp"
+                    android:layout_height="200dp"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1">
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/chart"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
-            </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
             </GridLayout>
+
 
             <GridLayout
                 android:layout_width="match_parent"

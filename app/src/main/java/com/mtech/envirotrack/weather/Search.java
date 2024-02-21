@@ -27,7 +27,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFragment extends Fragment implements SearchAdapter.OnItemClickListener {
+public class Search extends Fragment implements SearchAdapter.OnItemClickListener {
 
     private static final String API_KEY = "adc385b6cf6f4eb8a0db1cecdbc9363d";
 
@@ -41,9 +41,7 @@ public class SearchFragment extends Fragment implements SearchAdapter.OnItemClic
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        ((MainActivity) getActivity()).findViewById(R.id.coordinatorLayout).setVisibility(View.GONE);
         ((MainActivity) getActivity()).findViewById(R.id.toolbar).setVisibility(View.GONE);
-        ((MainActivity) getActivity()).findViewById(R.id.line_view).setVisibility(View.GONE);
 
 
 
@@ -132,13 +130,13 @@ public class SearchFragment extends Fragment implements SearchAdapter.OnItemClic
         Bundle bundle = new Bundle();
         bundle.putString("cityName", item);
 
-        // Create a new HomeFragment and set the arguments
-        HomeFragment homeFragment = new HomeFragment();
-        homeFragment.setArguments(bundle);
+        // Create a new Home and set the arguments
+        Home home = new Home();
+        home.setArguments(bundle);
 
-        // Navigate to the HomeFragment
+        // Navigate to the Home
         getParentFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout, homeFragment)
+                .replace(R.id.frame_layout, home)
                 .addToBackStack(null)
                 .commit();
     }
@@ -146,8 +144,6 @@ public class SearchFragment extends Fragment implements SearchAdapter.OnItemClic
     public void onDestroyView() {
         super.onDestroyView();
         // Show MainActivity's toolbar
-        ((MainActivity) getActivity()).findViewById(R.id.coordinatorLayout).setVisibility(View.VISIBLE);
         ((MainActivity) getActivity()).findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
-        ((MainActivity) getActivity()).findViewById(R.id.line_view).setVisibility(View.VISIBLE);
     }
 }

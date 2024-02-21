@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class MapsFragment extends Fragment {
+public class Maps extends Fragment {
 
     List<Location> saved_location;
     MyApplication myApplication;

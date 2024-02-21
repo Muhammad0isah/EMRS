@@ -39,7 +39,8 @@ import com.mtech.envirotrack.R;
 
 import java.io.IOException;
 
-public class Profile extends AppCompatActivity {
+public class
+Profile extends AppCompatActivity {
 
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;

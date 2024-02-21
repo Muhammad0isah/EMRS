@@ -14,7 +14,7 @@ import com.mtech.envirotrack.user.Signup;
 
 public class GettingStart extends AppCompatActivity {
 
-    Button btnGetStarted, log_in, reg_in;
+    Button btnGetStarted;
 
 
     @Override

@@ -10,7 +10,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class SplashScreen extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,12 +27,5 @@ public class SplashScreen extends AppCompatActivity {
             }
         });
         splash_screen.start();
-    }
-    private void changeStatusBarColor(int color) {
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(color);
-        window.getDecorView().setSystemUiVisibility(0);
-
     }
 }

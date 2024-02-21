@@ -2,16 +2,36 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".report.ReportFragment">>
+    android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_create_report"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/com_facebook_button_background"
-        android:layout_gravity="center"
-        android:text="create report" />
-
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_report_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="Report History Dashboard"
+                android:textSize="24sp" />
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="500dp" />
+            <Button
+                android:id="@+id/btn_create_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:background="@drawable/com_facebook_button_background"
+                android:text="create userReport" />
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>

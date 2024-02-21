@@ -3,16 +3,16 @@ package com.mtech.envirotrack.weather;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-public class AirPollutionResponse {
+public class AirPollutionForecastResponse {
 
     @SerializedName("list")
-    private List<AirPollution> list;
+    private List<AirPollutionForecast> list;
 
-    public List<AirPollution> getList() {
+    public List<AirPollutionForecast> getList() {
         return list;
     }
 
-    public static class AirPollution {
+    public static class AirPollutionForecast {
 
         @SerializedName("main")
         private Main main;
@@ -20,12 +20,19 @@ public class AirPollutionResponse {
         @SerializedName("components")
         private Components components;
 
+        @SerializedName("dt")
+        private long dt;
+
         public Main getMain() {
             return main;
         }
 
         public Components getComponents() {
             return components;
+        }
+
+        public long getDt() {
+            return dt;
         }
 
         public static class Main {
@@ -37,6 +44,7 @@ public class AirPollutionResponse {
                 return aqi;
             }
         }
+
         public static class Components {
 
             @SerializedName("co")

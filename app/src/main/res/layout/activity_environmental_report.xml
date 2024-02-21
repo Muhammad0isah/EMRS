@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context=".report.EnvironmentalReport">
+    tools:context=".userReport.EnvironmentalReport">
 
 
     <LinearLayout
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="visible">
-            <!-- Environmental Impact Report fields -->
+            <!-- Environmental Impact UserReport fields -->
             <TextView
                 android:layout_width="match_parent"
                 android:textSize="@dimen/ed_text_size"

@@ -290,8 +290,8 @@ public class EnvironmentalReport extends AppCompatActivity {
         // Get the selected environmental impact type
         String impactType = environmentalImpactTypeSpinner.getSelectedItem().toString();
 
-        // Initialize the Report object
-        Report report = null;
+        // Initialize the UserReport object
+        UserReport userReport = null;
 
         // Get the root layout
         LinearLayout rootLayout = findViewById(R.id.environmentalmpactReportLayout);
@@ -313,24 +313,24 @@ public class EnvironmentalReport extends AppCompatActivity {
             }
         }
 
-        // Create a new Report object
-        report = new Report(impactType, data);
+        // Create a new UserReport object
+        userReport = new UserReport(impactType, data);
 
-        // Submit the report to Firebase
-        // Submit the report to Firebase
-        if (report != null) {
+        // Submit the userReport to Firebase
+        // Submit the userReport to Firebase
+        if (userReport != null) {
             String key = mDatabase.child("users").child(userId).child("reports").push().getKey();
-            mDatabase.child("users").child(userId).child("reports").child(key).setValue(report).addOnCompleteListener(new OnCompleteListener<Void>() {
+            mDatabase.child("users").child(userId).child("reports").child(key).setValue(userReport).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         // Data was written successfully to the database
                         Log.d("Firebase", "Data write successful");
-                        Toast.makeText(getApplicationContext(), "Report submitted successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "UserReport submitted successfully", Toast.LENGTH_SHORT).show();
                     } else {
                         // Write failed
                         Log.d("Firebase", "Data write failed", task.getException());
-                        Toast.makeText(getApplicationContext(), "Report submission failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "UserReport submission failed", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

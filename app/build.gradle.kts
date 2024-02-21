@@ -39,7 +39,6 @@ android {
         viewBinding = true
     }
 }
-
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
@@ -56,6 +55,9 @@ dependencies {
     implementation("com.facebook.android:facebook-login:latest.release")
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("com.google.firebase:firebase-database:20.3.0")
+    implementation("com.google.firebase:firebase-firestore:24.10.2")
+    implementation("com.google.firebase:firebase-messaging:23.4.1")
+    implementation("com.google.firebase:firebase-inappmessaging:20.4.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
     // retro fit

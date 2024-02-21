@@ -225,6 +225,7 @@ public class MainActivity extends AppCompatActivity{
         if (id == R.id.action_notification) {
             // Handle the click event for the notification icon
             // You can show a notification or perform any other action here
+            replaceFragment(new Notification());
             return true;
         }
         else if (id == R.id.action_search) {

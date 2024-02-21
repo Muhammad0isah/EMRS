@@ -1,37 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        android:layout_height="match_parent">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/tv_report_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="16dp"
-                android:text="Report History Dashboard"
+                android:text="Report History"
                 android:textSize="24sp" />
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pieChart"
-                android:layout_width="match_parent"
-                android:layout_height="500dp" />
+                android:layout_below="@id/tv_report_title"
+                android:layout_centerInParent="true"
+                android:padding="16dp"
+                android:layout_width="300dp"
+                android:layout_height="300dp" />
             <Button
                 android:id="@+id/btn_create_report"
                 android:layout_width="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@id/pieChart"
+                android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/com_facebook_button_background"
-                android:text="create userReport" />
-        </LinearLayout>
+                android:text="Create Report" />
+            <Button
+                android:id="@+id/btn_report_history"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="8dp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:background="@drawable/com_facebook_button_background"
+                android:text="View Report" />
+        </RelativeLayout>
     </ScrollView>
-</FrameLayout>
+</RelativeLayout>

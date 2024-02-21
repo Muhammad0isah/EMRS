@@ -1,66 +1,126 @@
 package com.mtech.envirotrack.report;
 
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 import com.mtech.envirotrack.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Notification#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class Notification extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public Notification() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Notification.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Notification newInstance(String param1, String param2) {
-        Notification fragment = new Notification();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    private RecyclerView notificationRecyclerView;
+    private NotificationAdapter notificationAdapter;
+    private List<NotificationModel> notificationList = new ArrayList<>();
+    private BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String title = intent.getStringExtra(NotificationService.EXTRA_TITLE);
+            String message = intent.getStringExtra(NotificationService.EXTRA_MESSAGE);
+            FirebaseInAppMessaging inAppMessaging = FirebaseInAppMessaging.getInstance();
+            addNotification(title, message, inAppMessaging);
         }
-    }
-
+    };
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification, container, false);
+        View view = inflater.inflate(R.layout.fragment_notification, container, false);
+        notificationRecyclerView = view.findViewById(R.id.notificationRecyclerView);
+        notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        notificationAdapter = new NotificationAdapter(notificationList);
+        notificationRecyclerView.setAdapter(notificationAdapter);
+
+        return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(notificationReceiver,
+                new IntentFilter(NotificationService.ACTION_NOTIFICATION_RECEIVED));
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(notificationReceiver);
+    }
+
+    public void addNotification(String title, String message, FirebaseInAppMessaging inAppMessaging) {
+        NotificationModel notification = new NotificationModel(title, message, inAppMessaging);
+        notificationList.add(notification);
+        notificationAdapter.notifyItemInserted(notificationList.size() - 1);
+    }
+    private static class NotificationAdapter extends RecyclerView.Adapter<NotificationViewHolder> {
+        private List<NotificationModel> notificationList;
+        NotificationAdapter(List<NotificationModel> notificationList) {
+            this.notificationList = notificationList;
+        }
+
+        @Override
+        public NotificationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.notification_item, parent, false);
+            return new NotificationViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(NotificationViewHolder holder, int position) {
+            NotificationModel notification = notificationList.get(position);
+            holder.titleTextView.setText(notification.getTitle());
+            holder.messageTextView.setText(notification.getMessage());
+        }
+        @Override
+        public int getItemCount() {
+            return notificationList.size();
+        }
+    }
+    private static class NotificationViewHolder extends RecyclerView.ViewHolder {
+
+        TextView titleTextView;
+        TextView messageTextView;
+
+        NotificationViewHolder(View itemView) {
+            super(itemView);
+            titleTextView = itemView.findViewById(R.id.notificationTitle);
+            messageTextView = itemView.findViewById(R.id.notificationMessage);
+        }
+    }
+
+    private static class NotificationModel {
+
+        private String title;
+        private String message;
+        private FirebaseInAppMessaging inAppMessaging;
+
+        NotificationModel(String title, String message, FirebaseInAppMessaging inAppMessaging) {
+            this.title = title;
+            this.message = message;
+            this.inAppMessaging = inAppMessaging;
+        }
+
+        String getTitle() {
+            return title;
+        }
+
+        String getMessage() {
+            return message;
+        }
+
+        FirebaseInAppMessaging getInAppMessaging() {
+            return inAppMessaging;
+        }
     }
 }

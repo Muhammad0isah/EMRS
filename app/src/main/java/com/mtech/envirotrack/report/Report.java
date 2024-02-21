@@ -99,14 +99,15 @@ public class Report extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     UserReport report = snapshot.getValue(UserReport.class);
                     if (report != null) {
-                        // Increment the count for the impact type
                         String impactType = report.getImpactType();
+                        if (impactType != null && impactType.equals("Select")) {
+                            continue;
+                        }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             impactTypeCount.put(impactType, impactTypeCount.getOrDefault(impactType, 0) + 1);
                         }
                     }
                 }
-
                 // Create PieEntry objects for each impact type
                 List<PieEntry> entries = new ArrayList<>();
                 for (Map.Entry<String, Integer> entry : impactTypeCount.entrySet()) {

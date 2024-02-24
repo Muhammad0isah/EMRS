@@ -1,6 +1,7 @@
 package com.mtech.envirotrack.report;
 
 
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -24,46 +25,29 @@ import java.util.List;
 
 public class Notification extends Fragment {
 
-    private RecyclerView notificationRecyclerView;
-    private NotificationAdapter notificationAdapter;
-    private List<NotificationModel> notificationList = new ArrayList<>();
-    private BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+
+        private RecyclerView notificationRecyclerView;
+        private static NotificationAdapter notificationAdapter;
+        private static List<NotificationModel> notificationList = new ArrayList<>();
+
+
         @Override
-        public void onReceive(Context context, Intent intent) {
-            String title = intent.getStringExtra(NotificationService.EXTRA_TITLE);
-            String message = intent.getStringExtra(NotificationService.EXTRA_MESSAGE);
-            FirebaseInAppMessaging inAppMessaging = FirebaseInAppMessaging.getInstance();
-            addNotification(title, message, inAppMessaging);
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_notification, container, false);
+            notificationRecyclerView = view.findViewById(R.id.notificationRecyclerView);
+            notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            notificationAdapter = new NotificationAdapter(notificationList);
+            notificationRecyclerView.setAdapter(notificationAdapter);
+            addNotification("Welcome to EnviroTrack", "You will receive notifications here");
+            return view;
         }
-    };
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_notification, container, false);
-        notificationRecyclerView = view.findViewById(R.id.notificationRecyclerView);
-        notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        notificationAdapter = new NotificationAdapter(notificationList);
-        notificationRecyclerView.setAdapter(notificationAdapter);
+        public static void addNotification(String title, String message) {
+            NotificationModel notification = new NotificationModel(title, message);
+            notificationList.add(notification);
+            notificationAdapter.notifyItemInserted(notificationList.size() - 1);
+        }
 
-        return view;
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(notificationReceiver,
-                new IntentFilter(NotificationService.ACTION_NOTIFICATION_RECEIVED));
-    }
-    @Override
-    public void onPause() {
-        super.onPause();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(notificationReceiver);
-    }
-
-    public void addNotification(String title, String message, FirebaseInAppMessaging inAppMessaging) {
-        NotificationModel notification = new NotificationModel(title, message, inAppMessaging);
-        notificationList.add(notification);
-        notificationAdapter.notifyItemInserted(notificationList.size() - 1);
-    }
     private static class NotificationAdapter extends RecyclerView.Adapter<NotificationViewHolder> {
         private List<NotificationModel> notificationList;
         NotificationAdapter(List<NotificationModel> notificationList) {
@@ -105,10 +89,9 @@ public class Notification extends Fragment {
         private String message;
         private FirebaseInAppMessaging inAppMessaging;
 
-        NotificationModel(String title, String message, FirebaseInAppMessaging inAppMessaging) {
+        NotificationModel(String title, String message) {
             this.title = title;
             this.message = message;
-            this.inAppMessaging = inAppMessaging;
         }
 
         String getTitle() {
@@ -119,8 +102,5 @@ public class Notification extends Fragment {
             return message;
         }
 
-        FirebaseInAppMessaging getInAppMessaging() {
-            return inAppMessaging;
-        }
     }
 }

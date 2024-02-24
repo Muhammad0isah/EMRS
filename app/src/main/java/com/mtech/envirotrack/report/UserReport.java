@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 public class UserReport implements Serializable {
+    public String reportNumber;
+    public String userName;
+    public String userEmail;
     public String impactType;
     public HashMap<String, String> data;
 
@@ -11,7 +14,10 @@ public class UserReport implements Serializable {
 
     }
 
-    public UserReport(String impactType, HashMap<String, String> data) {
+    public UserReport(String reportNumber, String userName, String userEmail, String impactType, HashMap<String, String> data) {
+        this.reportNumber = reportNumber;
+        this.userName = userName;
+        this.userEmail = userEmail;
         this.impactType = impactType;
         this.data = data;
     }

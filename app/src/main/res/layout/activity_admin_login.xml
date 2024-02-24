@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="30dp"
+        tools:context=".user.Login">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gupter_bold"
+            android:text="ADMIN LOGIN"
+            android:textAlignment="center"
+            android:textSize="26sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/gupter_bold"
+            android:text="Sign in"
+            android:textAlignment="center"
+            android:textSize="26sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView1" />
+
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Email"
+            app:layout_constraintBottom_toTopOf="@+id/adminEmailField"
+            app:layout_constraintEnd_toEndOf="@+id/adminEmailField"
+            app:layout_constraintStart_toStartOf="@+id/adminEmailField" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/adminEmailField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_border"
+            android:hint="Email"
+            android:padding="16dp"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
+            android:maxLines="1"
+            app:layout_constraintBottom_toTopOf="@+id/adminPasswordField"
+            app:layout_constraintEnd_toEndOf="@+id/adminPasswordField"
+            app:layout_constraintStart_toStartOf="@+id/adminPasswordField"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.73" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Password"
+            app:layout_constraintBottom_toTopOf="@+id/adminPasswordField"
+            app:layout_constraintEnd_toEndOf="@+id/adminPasswordField"
+            app:layout_constraintStart_toStartOf="@+id/adminEmailField"
+            app:layout_constraintTop_toBottomOf="@+id/adminEmailField"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/adminPasswordField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_border"
+            android:hint="Password"
+            android:padding="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/adminLoginButton"
+            app:layout_constraintEnd_toEndOf="@+id/adminLoginButton"
+            app:layout_constraintStart_toStartOf="@+id/adminLoginButton"
+            app:layout_constraintTop_toTopOf="parent"
+            android:imeOptions="actionNext"
+            android:singleLine="true"
+            android:maxLines="1"
+            app:layout_constraintVertical_bias="0.9" />
+
+        <Button
+            android:id="@+id/adminLoginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            style="@style/LoginButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.65"
+            tools:layout_editor_absoluteX="60dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

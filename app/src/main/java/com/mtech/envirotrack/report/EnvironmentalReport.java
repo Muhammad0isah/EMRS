@@ -14,14 +14,17 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -38,8 +41,11 @@ import com.google.firebase.storage.UploadTask;
 import com.mtech.envirotrack.R;
 
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class EnvironmentalReport extends AppCompatActivity {
 
@@ -48,6 +54,7 @@ public class EnvironmentalReport extends AppCompatActivity {
     private EditText excessEmissionDatePicker;
     private EditText excessEmissionTimePicker;
     private EditText incidentReportDatePicker;
+    private EditText environmentalReportNumber;
 
     private EditText incidentReportTimePicker;
 
@@ -83,6 +90,39 @@ public class EnvironmentalReport extends AppCompatActivity {
 
         // intialize auth
         mAuth = FirebaseAuth.getInstance();
+        excessEmissionDatePicker = findViewById(R.id.ExcessEmissionDatePicker);
+        excessEmissionTimePicker = findViewById(R.id.ExcessEmissionTimePicker);
+        incidentReportDatePicker = findViewById(R.id.incidenReportDatePicker);
+        incidentReportTimePicker = findViewById(R.id.incidentReportTimePicker);
+        environmentalReportNumber = findViewById(R.id.environmentalmpactReportNumber);
+
+        excessEmissionDetails = findViewById(R.id.excessEmissionDetails);
+        spillDetails = findViewById(R.id.spillDetails);
+        waterQualityReportDetails = findViewById(R.id.waterQualityReportDetails);
+        wasteManagementReportDetails = findViewById(R.id.wasteManagementReportDetails);
+        pollutionSourceReportDetails = findViewById(R.id.pollutionSourceReportDetails);
+        weatherImpactReportDetails = findViewById(R.id.weatherImpactReportDetails);
+        otherReportDetails = findViewById(R.id.otherReporttDetails);
+
+
+        // Get the current date and time
+
+        Date currentDate = new Date();
+
+        // Create a SimpleDateFormat object with the desired format
+        SimpleDateFormat formatter = new SimpleDateFormat("ddMMyy-HHmmss", Locale.getDefault());
+
+        // Format the current date
+        String formattedDate = formatter.format(currentDate);
+
+        // Generate the unique number
+        String uniqueNumber = "EI-" + formattedDate;
+
+        // Set the text of the EditText
+        environmentalReportNumber.setText(uniqueNumber);
+        environmentalReportNumber.setEnabled(false);
+        environmentalReportNumber.setTextColor(getResources().getColor(R.color.black));
+
 
         Button submitButton = findViewById(R.id.submitEnvironmentalReport);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -92,18 +132,7 @@ public class EnvironmentalReport extends AppCompatActivity {
             }
         });
 
-        excessEmissionDatePicker = findViewById(R.id.ExcessEmissionDatePicker);
-        excessEmissionTimePicker = findViewById(R.id.ExcessEmissionTimePicker);
-        incidentReportDatePicker = findViewById(R.id.incidenReportDatePicker);
-        incidentReportTimePicker = findViewById(R.id.incidentReportTimePicker);
 
-        excessEmissionDetails = findViewById(R.id.excessEmissionDetails);
-        spillDetails = findViewById(R.id.spillDetails);
-        waterQualityReportDetails = findViewById(R.id.waterQualityReportDetails);
-        wasteManagementReportDetails = findViewById(R.id.wasteManagementReportDetails);
-        pollutionSourceReportDetails = findViewById(R.id.pollutionSourceReportDetails);
-        weatherImpactReportDetails = findViewById(R.id.weatherImpactReportDetails);
-        otherReportDetails = findViewById(R.id.otherReporttDetails);
 
         environmentalImpactTypeSpinner = findViewById(R.id.environmentalImpactTypeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -161,6 +190,7 @@ public class EnvironmentalReport extends AppCompatActivity {
                         otherReportDetails.setVisibility(View.VISIBLE);
                         setupAttachmentButtons(otherReportDetails);
                         break;
+
                 }
             }
 
@@ -259,8 +289,12 @@ public class EnvironmentalReport extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         // Set the selected date to the EditText
-                        EditText datePicker = findViewById(R.id.incidenReportDatePicker);
-                        datePicker.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                        EditText datePicker1 = findViewById(R.id.incidenReportDatePicker);
+                        datePicker1.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+
+                        EditText datePicker2 = findViewById(R.id.ExcessEmissionDatePicker);
+                        datePicker2.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+
                     }
                 }, year, month, day);
         datePickerDialog.show();
@@ -278,6 +312,9 @@ public class EnvironmentalReport extends AppCompatActivity {
                         // Set the selected time to the EditText
                         EditText timePicker = findViewById(R.id.incidentReportTimePicker);
                         timePicker.setText(hourOfDay + ":" + minute);
+
+                        EditText timePicker2 = findViewById(R.id.ExcessEmissionTimePicker);
+                        timePicker2.setText(hourOfDay + ":" + minute);
                     }
                 }, hour, minute, false);
         timePickerDialog.show();
@@ -287,6 +324,10 @@ public class EnvironmentalReport extends AppCompatActivity {
         // Get the current user's ID
         String userId = mAuth.getCurrentUser().getUid();
 
+        // Get the current user's email and name
+        String userEmail = mAuth.getCurrentUser().getEmail();
+        String userName = mAuth.getCurrentUser().getDisplayName();
+        String reportNumber = environmentalReportNumber.getText().toString();
         // Get the selected environmental impact type
         String impactType = environmentalImpactTypeSpinner.getSelectedItem().toString();
 
@@ -294,29 +335,14 @@ public class EnvironmentalReport extends AppCompatActivity {
         UserReport userReport = null;
 
         // Get the root layout
-        LinearLayout rootLayout = findViewById(R.id.environmentalmpactReportLayout);
+        LinearLayout rootLayout = findViewById(R.id.root_layout);
         // Traverse the view hierarchy and collect data from all EditText fields
         HashMap<String, String> data = new HashMap<>();
-        for (int i = 0; i < rootLayout.getChildCount(); i++) {
-            View child = rootLayout.getChildAt(i);
-            if (child instanceof LinearLayout) {
-                LinearLayout childLayout = (LinearLayout) child;
-                for (int j = 0; j < childLayout.getChildCount(); j++) {
-                    View grandChild = childLayout.getChildAt(j);
-                    if (grandChild instanceof EditText) {
-                        String text = ((EditText) grandChild).getText().toString();
-                        if (grandChild.getId() != View.NO_ID) { // Check if the view has an ID
-                            data.put(grandChild.getResources().getResourceEntryName(grandChild.getId()), text);
-                        }
-                    }
-                }
-            }
-        }
+        collectDataFromEditTexts(rootLayout, data);
 
         // Create a new UserReport object
-        userReport = new UserReport(impactType, data);
+        userReport = new UserReport(reportNumber, userName, userEmail, impactType, data);
 
-        // Submit the userReport to Firebase
         // Submit the userReport to Firebase
         if (userReport != null) {
             String key = mDatabase.child("users").child(userId).child("reports").push().getKey();
@@ -334,6 +360,27 @@ public class EnvironmentalReport extends AppCompatActivity {
                     }
                 }
             });
+        }
+    }
+    private void collectDataFromEditTexts(View view, HashMap<String, String> data) {
+        if (view instanceof EditText) {
+            // Check if the EditText is not environmentalReportNumber
+            if (view.getId() != R.id.environmentalmpactReportNumber) {
+                String text = ((EditText) view).getText().toString();
+                if (view.getId() != View.NO_ID && text != null && !text.isEmpty()) {
+                    data.put(view.getResources().getResourceEntryName(view.getId()), text);
+                }
+            }
+        } else if (view instanceof CheckBox) {
+            CheckBox checkBox = (CheckBox) view;
+            if (checkBox.isChecked()) {
+                data.put(view.getResources().getResourceEntryName(view.getId()), "checked");
+            }
+        } else if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                collectDataFromEditTexts(viewGroup.getChildAt(i), data);
+            }
         }
     }
     @Override

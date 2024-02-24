@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -29,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mtech.envirotrack.MainActivity;
 import com.mtech.envirotrack.R;
+import com.mtech.envirotrack.admin.AdminLogin;
 import com.mtech.envirotrack.user.Login;
 
 import java.util.ArrayList;
@@ -45,6 +47,8 @@ public class Report extends Fragment {
     private Button reportButton;
 
     private PieChart pieChart;
+
+    TextView admin;
 
 
     public Report() {

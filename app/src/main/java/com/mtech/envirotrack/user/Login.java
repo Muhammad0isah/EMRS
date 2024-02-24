@@ -3,10 +3,10 @@ package com.mtech.envirotrack.user;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,12 +19,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -40,9 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.mtech.envirotrack.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.mtech.envirotrack.admin.AdminLogin;
 
 import java.util.Arrays;
 
@@ -75,9 +69,12 @@ public class Login extends AppCompatActivity {
 
         emailEditText = findViewById(R.id.et_email);
         passwordEditText = findViewById(R.id.et_password);
-        btnLogin = findViewById(R.id.btn_login);
+        btnLogin = findViewById(R.id.adminLoginButton);
         btnGoogle = findViewById(R.id.btnGoogle);
         tv_register = findViewById(R.id.tv_register);
+
+        TextView adminLoginTextView = findViewById(R.id.tv_admin_login);
+        adminLoginTextView.setPaintFlags(adminLoginTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tv_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,6 +155,14 @@ public class Login extends AppCompatActivity {
             public void onError(FacebookException error) {
                 Log.d(TAG, "facebook:onError", error);
                 // ...
+            }
+        });
+
+        // on click listener for admin login
+        adminLoginTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login.this, AdminLogin.class));
             }
         });
 

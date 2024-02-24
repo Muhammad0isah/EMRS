@@ -1,5 +1,7 @@
 package com.mtech.envirotrack;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +25,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,11 +41,16 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.installations.FirebaseInstallations;
+import com.google.firebase.installations.InstallationTokenResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.mtech.envirotrack.report.EnvironmentalReport;
 import com.mtech.envirotrack.report.Notification;
 import com.mtech.envirotrack.report.Report;
@@ -102,12 +111,29 @@ public class MainActivity extends AppCompatActivity{
         tv_accu = toolbar.findViewById(R.id.tv_accuracy);
         tv_address = toolbar.findViewById(R.id.tv_address);
 
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        System.out.println("Token: " + token);
+
+                    }
+                });
+
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Home()).commit();
         }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
                 Fragment fragment = null;
                 int itemId = item.getItemId();
                 if (itemId == R.id.nav_home) {
@@ -133,6 +159,7 @@ public class MainActivity extends AppCompatActivity{
                 if (fragment != null) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
                 }
+                drawerLayout.closeDrawer(GravityCompat.START); // Close the drawe
                 return true;
             }
         });

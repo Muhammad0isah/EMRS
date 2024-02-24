@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     tool:showIn="navigation_view">
     <group android:visible="true"
-        android:checkableBehavior="all">
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/baseline_home_24"

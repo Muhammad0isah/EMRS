@@ -389,7 +389,7 @@ public class EnvironmentalReport extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             Uri fileUri = null;
-            String storagePath = "";
+            String storagePath = "attachments/";
             switch (requestCode) {
                 case REQUEST_CODE_CAPTURE_PHOTO:
                     // Handle captured photo
@@ -402,27 +402,28 @@ public class EnvironmentalReport extends AppCompatActivity {
                     byte[] imageData = baos.toByteArray();
 
                     // Create a reference to 'images/captured.jpg'
-                    storagePath = "images/captured.jpg";
+                    storagePath = "images/";
 
                     // Upload the image to Firebase Storage
                     uploadFileToFirebaseStorage(imageData, storagePath);
                     break;
                 case REQUEST_CODE_PICK_IMAGE:
                     // Handle picked image
+                    storagePath = "images/";
+
                     fileUri = data.getData();
-                    storagePath = "images/picked.jpg";
                     uploadFileToFirebaseStorage(fileUri, storagePath);
                     break;
                 case REQUEST_CODE_CAPTURE_VIDEO:
                     // Handle captured video
+                    storagePath = "video/";
                     fileUri = data.getData();
-                    storagePath = "videos/captured.mp4";
                     uploadFileToFirebaseStorage(fileUri, storagePath);
                     break;
                 case REQUEST_CODE_RECORD_AUDIO:
                     // Handle recorded audio
+                    storagePath = "audio/";
                     fileUri = data.getData();
-                    storagePath = "audios/recorded.3gp";
                     uploadFileToFirebaseStorage(fileUri, storagePath);
                     break;
             }

@@ -61,6 +61,7 @@ dependencies {
     implementation("com.google.firebase:firebase-inappmessaging:20.4.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.recyclerview:recyclerview:1.3.0")
+    implementation("com.android.volley:volley:1.2.1")
 //    implementation("com.google.firebase:firebase-admin:9.2.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 

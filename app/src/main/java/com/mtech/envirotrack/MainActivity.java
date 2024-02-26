@@ -48,9 +48,17 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.installations.InstallationTokenResult;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.mtech.envirotrack.admin.AdminDashboard;
 import com.mtech.envirotrack.report.EnvironmentalReport;
 import com.mtech.envirotrack.report.Notification;
 import com.mtech.envirotrack.report.Report;
@@ -192,9 +200,26 @@ public class MainActivity extends AppCompatActivity{
                     fragment = new Maps();
                 } else if (itemId == R.id.nav_profile) {
                     if (mAuth.getCurrentUser() != null) {
-                        // If the user is logged in, navigate to the profile activity
-                        Intent intent = new Intent(MainActivity.this, Profile.class);
-                        startActivity(intent);
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid()).child("role");
+                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String role = dataSnapshot.getValue(String.class);
+                                if ("admin".equals(role)) {
+                                    // If the user is an admin, navigate to the admin dashboard
+                                    Intent intent = new Intent(MainActivity.this, AdminDashboard.class);
+                                    startActivity(intent);
+                                } else {
+                                    // If the user is not an admin, navigate to the profile activity
+                                    Intent intent = new Intent(MainActivity.this, Profile.class);
+                                    startActivity(intent);
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                // Handle error
+                            }
+                        });
                     } else {
                         // If the user is not logged in, navigate to the login activity
                         Intent intent = new Intent(MainActivity.this, Login.class);

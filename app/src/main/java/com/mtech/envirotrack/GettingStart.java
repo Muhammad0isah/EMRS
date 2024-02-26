@@ -9,8 +9,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.mtech.envirotrack.user.Login;
-import com.mtech.envirotrack.user.Signup;
 
 public class GettingStart extends AppCompatActivity {
 

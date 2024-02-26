@@ -6,4 +6,6 @@
     <dimen name="text_ed_margin">8dp</dimen>
     <dimen name="edit_text_padding">10dp</dimen>
     <dimen name="ed_margin_bottom">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="card_pading">8dp</dimen>
 </resources>

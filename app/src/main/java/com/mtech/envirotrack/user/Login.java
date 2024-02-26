@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,8 @@ public class Login extends AppCompatActivity {
     // google login
     private GoogleSignInClient mGoogleSignInClient;
     private Button btnGoogle, btnFacebook, btnLogin;
+    private ImageButton backButton;
+
 
     // facebook login
     private CallbackManager mCallbackManager;
@@ -72,6 +75,8 @@ public class Login extends AppCompatActivity {
         btnLogin = findViewById(R.id.adminLoginButton);
         btnGoogle = findViewById(R.id.btnGoogle);
         tv_register = findViewById(R.id.tv_register);
+
+        backButton = findViewById(R.id.goBackButton);
 
         TextView adminLoginTextView = findViewById(R.id.tv_admin_login);
         adminLoginTextView.setPaintFlags(adminLoginTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -163,6 +168,13 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, AdminLogin.class));
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

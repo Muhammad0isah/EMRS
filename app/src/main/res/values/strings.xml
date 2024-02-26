@@ -15,6 +15,9 @@
     <string name="facebook_login_protocol_scheme" translatable="false">fb273081322225882</string>
     <string name="facebook_client_token">15f9bd987f95019905dc324f71df3571</string>
     <string name="msg_token_fmt">\n</string>
+    <string name="pm2_5">PM <sub>2.5</sub></string>
+    <string name="pm10">PM <sub>10</sub></string>
+
 
 
 </resources>

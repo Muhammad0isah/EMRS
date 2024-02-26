@@ -7,11 +7,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:fillViewport="true">
 
+    <!-- This is the main layout for the login activity -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="30dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
         tools:context=".user.Login">
+
+        <ImageButton
+            android:id="@+id/goBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/baseline_arrow_back_24"
+            app:layout_constraintBottom_toTopOf="@+id/textView4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textView4"
+            app:layout_constraintVertical_bias="0" />
 
         <TextView
             android:id="@+id/textView4"
@@ -20,12 +36,14 @@
             android:fontFamily="@font/gupter_bold"
             android:text="Sign in"
             android:textAlignment="center"
+            android:layout_marginBottom="16dp"
             android:textSize="26sp"
+            android:paddingTop="8dp"
             app:layout_constraintBottom_toTopOf="@+id/btnGoogle"
             app:layout_constraintEnd_toEndOf="@+id/btnFacebook"
             app:layout_constraintStart_toStartOf="@+id/btnGoogle"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <!-- Google Button -->
         <Button
@@ -33,7 +51,7 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="8dp"
             android:drawableLeft="@drawable/google"
             android:padding="16dp"
@@ -53,7 +71,7 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:drawableLeft="@drawable/facebook"
             android:padding="16dp"
             android:text="Facebook"
@@ -178,5 +196,6 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_register"
             app:layout_constraintVertical_bias="1.0"
             tools:layout_editor_absoluteX="60dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

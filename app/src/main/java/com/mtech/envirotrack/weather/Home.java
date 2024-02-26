@@ -223,12 +223,12 @@ public class Home extends Fragment {
                         }
 
                         LineDataSet dataSet = new LineDataSet(entries, "Label");
-                        dataSet.setColor(Color.WHITE);
+                        dataSet.setColor(getResources().getColor(R.color.dark_green));
                         dataSet.setLineWidth(2.5f);
                         dataSet.setCircleRadius(4.5f);
 
                         LineData lineData = new LineData(dataSet);
-                        setupChart(chart, lineData, Color.WHITE);
+                        setupChart(chart, lineData, getResources().getColor(R.color.dark_green));
                     } else {
                         Toast.makeText(getContext(), "No forecast data available", Toast.LENGTH_SHORT).show();
                     }
@@ -275,7 +275,7 @@ public class Home extends Fragment {
                         humidityDataSet.setCircleRadius(4.5f);
 
                         LineData lineData = new LineData(humidityDataSet);
-                        setupChart(chart, lineData, Color.WHITE);
+                        setupChart(chart, lineData, getResources().getColor(R.color.dark_green));
                         chart.getAxisLeft().setAxisMaximum(100f); // Set the maximum value
                         chart.getAxisLeft().setAxisMinimum(0f); // Set the minimum value
                     } else {
@@ -294,13 +294,13 @@ public class Home extends Fragment {
     }
     private void setupChart(LineChart chart, LineData data, int color) {
         chart.setViewPortOffsets(0, 0, 0, 0);
-        chart.setBackgroundColor(getResources().getColor(R.color.dark_green));
+        chart.setBackgroundColor(getResources().getColor(R.color.white));
 
         chart.setData(data);
         chart.getLegend().setEnabled(true);
         Legend legend = chart.getLegend();
         legend.setEnabled(true);
-        legend.setTextColor(Color.WHITE);
+        legend.setTextColor(getResources().getColor(R.color.dark_green));
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
@@ -319,22 +319,22 @@ public class Home extends Fragment {
         xAxis.setTextSize(10f);
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(true);
-        xAxis.setTextColor(Color.WHITE);
+        xAxis.setTextColor(getResources().getColor(R.color.dark_green));
         xAxis.setCenterAxisLabels(true);
         xAxis.setGranularity(1f);
 
         YAxis leftAxis = chart.getAxisLeft();
         YAxis yAxis = chart.getAxisLeft();
-        yAxis.setTextColor(Color.WHITE);
+        yAxis.setTextColor(getResources().getColor(R.color.dark_green));
         yAxis.setAxisMaximum(50f);
-        yAxis.setTextColor(Color.WHITE);
+        yAxis.setTextColor(getResources().getColor(R.color.dark_green));
         leftAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
-        leftAxis.setTextColor(Color.WHITE);
+        leftAxis.setTextColor(getResources().getColor(R.color.dark_green));
         leftAxis.setDrawGridLines(false);
         leftAxis.setGranularityEnabled(true);
         leftAxis.setAxisMinimum(0f);
         leftAxis.setYOffset(-9f);
-        leftAxis.setTextColor(Color.WHITE);
+        leftAxis.setTextColor(getResources().getColor(R.color.dark_green));
         chart.getAxisRight().setEnabled(false);
 
         // Zoom in, with the center of the zoom at the middle of the chart
@@ -436,7 +436,7 @@ public class Home extends Fragment {
 
 
                     LineData lineData = new LineData(aqiDataSet, pm25DataSet, pm10DataSet, no2DataSet);
-                    setupChart(chart, lineData,Color.WHITE);
+                    setupChart(chart, lineData,getResources().getColor(R.color.dark_green));
 
                     // Set the Y-axis limit for the air quality forecast
                     chart.getAxisLeft().setAxisMaximum(4f); // Set the maximum value

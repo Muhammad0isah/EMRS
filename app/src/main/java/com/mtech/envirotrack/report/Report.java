@@ -11,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -44,7 +46,7 @@ public class Report extends Fragment {
 
 
     private View rootView;
-    private Button reportButton;
+    private Button reportButton,myReportsButton;
 
     private PieChart pieChart;
 
@@ -67,6 +69,8 @@ public class Report extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_report, container, false);
 
         reportButton = rootView.findViewById(R.id.btn_create_report);
+        myReportsButton = rootView.findViewById(R.id.btn_report_history);
+        RelativeLayout reportLayout = rootView.findViewById(R.id.report_history_layout);
 
         requireActivity().findViewById(R.id.btn_add_report).setVisibility(View.GONE);
 
@@ -81,7 +85,28 @@ public class Report extends Fragment {
                 }
             }
         });
+        myReportsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isLoggedIn()){
+                    // Create new fragment and transaction
+                    Fragment newFragment = new ReportHistory(); // consider using newInstance() method
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack
+                    transaction.replace(R.id.fragment_report, newFragment);
+                    transaction.addToBackStack(null);
+
+                    // Commit the transaction
+                    transaction.commit();
+                    reportLayout.setVisibility(View.GONE);
+                }
+                else{
+                    startActivity(new Intent(getActivity(), Login.class));
+                }
+            }
+        });
         pieChart = rootView.findViewById(R.id.pieChart);
         if(isLoggedIn()){
             setupPieChart();

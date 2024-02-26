@@ -3,6 +3,8 @@ package com.mtech.envirotrack.user;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +39,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mtech.envirotrack.MainActivity;
 import com.mtech.envirotrack.R;
+import com.mtech.envirotrack.report.ReportHistory;
 
 import java.io.IOException;
 
@@ -51,15 +55,23 @@ Profile extends AppCompatActivity {
 
     private StorageReference mStorageRef;
 
+    private AppCompatButton reportHistoryButton;
 
     private Button logoutButton;
+    private ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         logoutButton = findViewById(R.id.logoutButton);
+        backButton = findViewById(R.id.goBackButton);
         mAuth = FirebaseAuth.getInstance();
+
+
+        ScrollView rootLayout = findViewById(R.id.root_layout);
+
+        reportHistoryButton = findViewById(R.id.button);
 
         photoUrlImageView = findViewById(R.id.photoUrlImageView);
 
@@ -68,6 +80,22 @@ Profile extends AppCompatActivity {
         // storage reference
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
+        reportHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create a new instance of ReportHistoryFragment
+                ReportHistory reportHistoryFragment = new ReportHistory();
+
+
+                // Use the FragmentManager to replace the current fragment with the ReportHistoryFragment
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, reportHistoryFragment)
+                        .addToBackStack(null)
+                        .commit();
+                rootLayout.setVisibility(View.GONE);
+
+            }
+        });
 
 
 
@@ -125,6 +153,12 @@ Profile extends AppCompatActivity {
                                 finish();
                             }
                 });
+            }
+        });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

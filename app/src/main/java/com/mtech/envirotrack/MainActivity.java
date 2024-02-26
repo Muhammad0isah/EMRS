@@ -91,11 +91,11 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         btn_add_report = findViewById(R.id.btn_add_report);
         drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
         View customToolbar = LayoutInflater.from(this).inflate(R.layout.search_toolbar, toolbar, false);
         toolbar.addView(customToolbar);
         setSupportActionBar(toolbar);
@@ -163,7 +163,6 @@ public class MainActivity extends AppCompatActivity{
                 return true;
             }
         });
-
        btn_add_report.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {

@@ -17,6 +17,20 @@
     <string name="msg_token_fmt">\n</string>
     <string name="pm2_5">PM <sub>2.5</sub></string>
     <string name="pm10">PM <sub>10</sub></string>
+    <string name="co2">CO<sub>2</sub></string>
+    <string name="o3">O<sub>3</sub></string>
+    <string name="no2">NO<sub>2</sub></string>
+    <string name="so2">SO<sub>2</sub></string>
+    <string name="co">CO</string>
+    <string name="no">N<sub>O</sub></string>
+    <string name="nh3">NH<sub>3</sub></string>
+    <string name="tvoc">TVOC</string>
+    <string name="aqi">AQI</string>
+    <string name="temperature">Temperature</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="wind_speed">Wind Speed</string>
+    <string name="wind_direction">Wind Direction</string>
 
 
 </resources>

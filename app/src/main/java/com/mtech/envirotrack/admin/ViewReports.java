@@ -52,10 +52,11 @@ public class ViewReports extends Fragment {
                                 String userName = reportSnapshot.child("userName").getValue(String.class);
                                 String impactType = reportSnapshot.child("impactType").getValue(String.class);
                                 Map<String, String> data = reportSnapshot.child("data").getValue(new GenericTypeIndicator<Map<String, String>>() {});
-                                String attachment = reportSnapshot.child("attachment").getValue(String.class); // Retrieve attachment
+                                Map<String, String> attachments = (Map<String, String>) reportSnapshot.child("attachments").getValue(); // Retrieve attachments
+
 
                                 if (data != null && !data.isEmpty()) {
-                                    User user = new User(reportNumber, userEmail, userName, impactType, data, attachment);
+                                    User user = new User(reportNumber, userEmail, userName, impactType, data, attachments);
                                     user.setSerialNumber(serialNumber++); // Set and increment serial number only if data exists
                                     reports.add(user);
                                 }

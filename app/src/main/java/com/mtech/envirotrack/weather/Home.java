@@ -367,14 +367,14 @@ public class Home extends Fragment {
                     // Now you can call the methods on the Components object
                     int aqi = airPollutionResponse.getList().get(0).getMain().getAqi();
                     tvAqi.setText("AQI: " + aqi);
-                    tvCo.setText("CO: " + components.getCo());
-                    tvNo.setText("NO: " + components.getNo());
-                    tvNo2.setText("NO2: " + components.getNo2());
-                    tvO3.setText("O3: " + components.getO3());
-                    tvSo2.setText("SO2: " + components.getSo2());
-                    tvPm2_5.setText("PM2.5: " + components.getPm2_5());
-                    tvPm10.setText("PM10: " + components.getPm10());
-                    tvNh3.setText("NH3: " + components.getNh3());
+                    tvCo.setText(components.getCo()+"μg/m³");
+                    tvNo.setText(components.getNo() + "μg/m³");
+                    tvNo2.setText(components.getNo2() + "μg/m³");
+                    tvO3.setText(components.getO3() + "μg/m³");
+                    tvSo2.setText(components.getSo2() + "μg/m³");
+                    tvPm2_5.setText(components.getPm2_5() + "μg/m³");
+                    tvPm10.setText(components.getPm10() + "μg/m³");
+                    tvNh3.setText(components.getNh3() + "μg/m³");
                 } else {
                     Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                 }

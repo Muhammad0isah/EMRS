@@ -1,6 +1,13 @@
 package com.mtech.envirotrack.admin;
 
+import android.content.Intent;
 import android.graphics.Paint;
+import android.net.Uri;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtech.envirotrack.R;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.ReportViewHolder> {
     private List<User> users;
@@ -20,11 +29,11 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Re
     public UserReportAdapter(List<User> users) {
         this.users = users;
     }
+
     public void updateData(List<User> newReports) {
         this.users = newReports;
         notifyDataSetChanged();
     }
-
 
     @NonNull
     @Override
@@ -40,16 +49,32 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Re
         holder.userEmail.setText(user.getUserEmail());
         holder.userName.setText(user.getUserName());
         holder.impactType.setText(user.getImpactType());
-        holder.serialNumber.setText(String.valueOf(user.getSerialNumber())); // Set serial number
-        holder.attachment.setText(user.getAttachment());
+        holder.serialNumber.setText(String.valueOf(user.getSerialNumber()));
+
+        SpannableStringBuilder attachmentsBuilder = new SpannableStringBuilder();
+        for (Map.Entry<String, String> entry : user.getAttachments().entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            attachmentsBuilder.append(key);
+            attachmentsBuilder.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(@NonNull View widget) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(value));
+                    widget.getContext().startActivity(intent);
+                }
+            }, attachmentsBuilder.length() - key.length(), attachmentsBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            attachmentsBuilder.append(", ");
+        }
+
+        holder.attachment.setText(attachmentsBuilder);
+        holder.attachment.setMovementMethod(LinkMovementMethod.getInstance());
+
         holder.impactType.setPaintFlags(holder.impactType.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         holder.impactType.setOnClickListener(v -> {
-            // Check if data is null before calling toString()
             String dataString = (user.getData() == null) ? "No data" : user.getData().toString();
             Toast.makeText(v.getContext(), dataString, Toast.LENGTH_LONG).show();
         });
     }
-
     @Override
     public int getItemCount() {
         return users.size();
@@ -60,8 +85,8 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Re
         TextView userEmail;
         TextView userName;
         TextView impactType;
-        TextView serialNumber; // Add this line
-        TextView attachment; // Add this line
+        TextView serialNumber;
+        TextView attachment;
 
         public ReportViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,8 +94,8 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Re
             userEmail = itemView.findViewById(R.id.email);
             userName = itemView.findViewById(R.id.name);
             impactType = itemView.findViewById(R.id.impact_type);
-            serialNumber = itemView.findViewById(R.id.serial_number); // Add this line
-            attachment = itemView.findViewById(R.id.attachment); // Add this line
+            serialNumber = itemView.findViewById(R.id.serial_number);
+            attachment = itemView.findViewById(R.id.attachment);
         }
     }
 }

@@ -330,39 +330,36 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
-                            android:orientation="horizontal">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:orientation="vertical">
+                            android:gravity="center"
+                            android:orientation="vertical">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/white"
+                                    android:fontFamily="@font/gupter_bold"
+                                    android:textSize="18sp"
+                                    android:text="Fine particulate matter"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/white"
+                                    android:padding="6dp"
                                     android:text="@string/pm2_5"/>
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/white"
                                     android:textSize="18sp" />
-                            </LinearLayout>
-
-                            <TextView
-                                android:id="@+id/tv_pm2_5"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:textColor="@color/white"
-                                android:text="0"
-                                android:textSize="16sp" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/white"
-                                android:layout_gravity="center"
-                                android:text=" μg/m³"
-                                android:textSize="16sp" />
+                                <TextView
+                                    android:id="@+id/tv_pm2_5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:textColor="@color/white"
+                                    android:text="0"
+                                    android:textSize="18sp" />
                         </LinearLayout>
 
 
@@ -379,24 +376,28 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
-                            android:orientation="horizontal">
-                            <LinearLayout
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:orientation="vertical">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:text="@string/pm10"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:textSize="18sp" />
-                            </LinearLayout>
+                                android:textColor="@color/white"
+                                android:fontFamily="@font/gupter_bold"
+                                android:textSize="18sp"
+                                android:text="Particulate matter"/>
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:padding="6dp"
+                                android:text="@string/pm10"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
                             <TextView
                                 android:id="@+id/tv_pm10"
                                 android:layout_width="wrap_content"
@@ -404,14 +405,139 @@
                                 android:layout_gravity="center"
                                 android:textColor="@color/white"
                                 android:text="0"
-                                android:textSize="16sp" />
+                                android:textSize="18sp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <!-- O3 -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        app:cardElevation="8dp"
+                        app:cardBackgroundColor="@color/dark_green">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/white"
+                                android:fontFamily="@font/gupter_bold"
+                                android:textSize="18sp"
+                                android:text="Ozone"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:padding="6dp"
+                                android:text="@string/o3"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
+                            <TextView
+                                android:id="@+id/tv_o3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text=" μg/m³"
-                                android:textSize="16sp" />
+                                android:textColor="@color/white"
+                                android:text="0"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <!-- NO2 -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        app:cardElevation="8dp"
+                        app:cardBackgroundColor="@color/dark_green">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:fontFamily="@font/gupter_bold"
+                                android:textSize="18sp"
+                                android:text="Nitrogen Dioxide"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:padding="6dp"
+                                android:text="@string/no2"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
+                            <TextView
+                                android:id="@+id/tv_no2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:textColor="@color/white"
+                                android:text="0"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <!-- SO2 -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        app:cardElevation="8dp"
+                        app:cardBackgroundColor="@color/dark_green">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:fontFamily="@font/gupter_bold"
+                                android:textSize="18sp"
+                                android:text="Sulfur Dioxide"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:padding="6dp"
+                                android:text="@string/so2"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
+                            <TextView
+                                android:id="@+id/tv_so2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:textColor="@color/white"
+                                android:text="0"
+                                android:textSize="18sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                     <!-- CO -->
@@ -426,24 +552,28 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
-                            android:orientation="horizontal">
-                            <LinearLayout
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:orientation="vertical">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:text="CO"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:textSize="18sp" />
-                            </LinearLayout>
+                                android:textColor="@color/white"
+                                android:fontFamily="@font/gupter_bold"
+                                android:textSize="18sp"
+                                android:text="Carbon Monoxide"/>
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:padding="6dp"
+                                android:text="@string/co"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
                             <TextView
                                 android:id="@+id/tv_co"
                                 android:layout_width="wrap_content"
@@ -451,18 +581,10 @@
                                 android:layout_gravity="center"
                                 android:textColor="@color/white"
                                 android:text="0"
-                                android:textSize="16sp" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/white"
-                                android:layout_gravity="center"
-                                android:text=" μg/m³"
-                                android:textSize="16sp" />
+                                android:textSize="18sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
-
-                    <!-- NO -->
+                <!--    NH3                   -->
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -474,216 +596,28 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
-                            android:orientation="horizontal">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:orientation="vertical">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:text="NO"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:textSize="18sp" />
-                            </LinearLayout>
+                            android:gravity="center"
+                            android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/tv_no"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:textColor="@color/white"
-                                android:text="0"
-                                android:textSize="16sp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/white"
-                                android:layout_gravity="center"
-                                android:text=" μg/m³"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- NO2 -->
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        app:cardElevation="8dp"
-                        app:cardBackgroundColor="@color/dark_green">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:orientation="horizontal">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:orientation="vertical">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:text="NO2"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:textSize="18sp" />
-                            </LinearLayout>
+                                android:fontFamily="@font/gupter_bold"
+                                android:textSize="18sp"
+                                android:text="Ammonia"/>
 
                             <TextView
-                                android:id="@+id/tv_no2"
                                 android:layout_width="wrap_content"
+                                android:padding="6dp"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
                                 android:textColor="@color/white"
-                                android:text="0"
-                                android:textSize="16sp" />
+                                android:text="@string/nh3"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/white"
-                                android:layout_gravity="center"
-                                android:text=" μg/m³"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- O3 -->
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        app:cardElevation="8dp"
-                        app:cardBackgroundColor="@color/dark_green">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:orientation="horizontal">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:orientation="vertical">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:text="O3"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:textSize="18sp" />
-                            </LinearLayout>
-
-                            <TextView
-                                android:id="@+id/tv_o3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:textColor="@color/white"
-                                android:text="0"
-                                android:textSize="16sp" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/white"
-                                android:layout_gravity="center"
-                                android:text=" μg/m³"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- SO2 -->
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        app:cardElevation="8dp"
-                        app:cardBackgroundColor="@color/dark_green">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:orientation="horizontal">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:orientation="vertical">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:text="SO2"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:textSize="18sp" />
-                            </LinearLayout>
-
-                            <TextView
-                                android:id="@+id/tv_so2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:textColor="@color/white"
-                                android:text="0"
-                                android:textSize="16sp" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/white"
-                                android:layout_gravity="center"
-                                android:text=" μg/m³"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- NH3 -->
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        app:cardElevation="8dp"
-                        app:cardBackgroundColor="@color/dark_green">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:orientation="horizontal">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="5dp"
-                                android:orientation="vertical">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:text="NH3"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/white"
-                                    android:textSize="18sp" />
-                            </LinearLayout>
-
+                                android:textSize="18sp" />
                             <TextView
                                 android:id="@+id/tv_nh3"
                                 android:layout_width="wrap_content"
@@ -691,14 +625,51 @@
                                 android:layout_gravity="center"
                                 android:textColor="@color/white"
                                 android:text="0"
-                                android:textSize="16sp" />
+                                android:textSize="18sp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+<!--                no    -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        app:cardElevation="8dp"
+                        app:cardBackgroundColor="@color/dark_green">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/white"
+                                android:fontFamily="@font/gupter_bold"
+                                android:textSize="18sp"
+                                android:text="Nitric Oxide"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:padding="6dp"
+                                android:text="@string/no"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
+                            <TextView
+                                android:id="@+id/tv_no"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text=" μg/m³"
-                                android:textSize="16sp" />
+                                android:textColor="@color/white"
+                                android:text="0"
+                                android:textSize="18sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 

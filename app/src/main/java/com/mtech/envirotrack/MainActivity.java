@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,6 +60,7 @@ import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.installations.InstallationTokenResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mtech.envirotrack.admin.AdminDashboard;
+import com.mtech.envirotrack.admin.AdminLogin;
 import com.mtech.envirotrack.report.EnvironmentalReport;
 import com.mtech.envirotrack.report.Notification;
 import com.mtech.envirotrack.report.Report;
@@ -151,7 +153,7 @@ public class MainActivity extends AppCompatActivity{
                 } else if (itemId == R.id.nav_map) {
                     fragment = new Maps();
                 } else if (itemId == R.id.nav_notification) {
-                    fragment = new Maps();
+                    fragment = new Notification();
                 } else if (itemId == R.id.nav_profile) {
                     if (mAuth.getCurrentUser() != null) {
                         // If the user is logged in, navigate to the profile activity
@@ -162,6 +164,22 @@ public class MainActivity extends AppCompatActivity{
                         Intent intent = new Intent(MainActivity.this, Login.class);
                         startActivity(intent);
                     }
+                } else if (itemId == R.id.nav_admin) {
+                    startActivity(new Intent(getApplicationContext(), AdminLogin.class));
+                } else if (itemId == R.id.nav_logout) {
+                    if (mAuth.getCurrentUser() != null) {
+                        mAuth.signOut();
+                        Toast.makeText(MainActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "You are not logged in", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else if (itemId == R.id.nav_about) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Muhammad0isah"));
+                    startActivity(intent);
+
+                } else if (itemId == R.id.nav_exit) {
+                    finish();
                 }
                 // debug if fragment is null
                 if (fragment != null) {

@@ -75,6 +75,16 @@ public class EnvironmentalReport extends AppCompatActivity {
 
     // firebase auth
     private FirebaseAuth mAuth;
+    private String userId;
+    private Uri fileUri;
+    private String mediaType;
+
+
+    private String reportKey = "";
+
+    private ImageButton goBackButton;
+
+
 
     private LinearLayout excessEmissionDetails,spillDetails, waterQualityReportDetails, wasteManagementReportDetails, pollutionSourceReportDetails, weatherImpactReportDetails, otherReportDetails;
     @Override
@@ -87,6 +97,10 @@ public class EnvironmentalReport extends AppCompatActivity {
 
         // intialize storage
         storageRef = FirebaseStorage.getInstance().getReference();
+
+        // Get the current user's ID
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
 
         // intialize auth
         mAuth = FirebaseAuth.getInstance();
@@ -128,10 +142,19 @@ public class EnvironmentalReport extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Generate the reportKey here
+                reportKey = mDatabase.child("users").child(userId).child("reports").push().getKey();
                 submitDataToFirebase();
             }
         });
 
+        goBackButton = findViewById(R.id.goBackButton);
+        goBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         environmentalImpactTypeSpinner = findViewById(R.id.environmentalImpactTypeSpinner);
@@ -328,6 +351,7 @@ public class EnvironmentalReport extends AppCompatActivity {
         String userEmail = mAuth.getCurrentUser().getEmail();
         String userName = mAuth.getCurrentUser().getDisplayName();
         String reportNumber = environmentalReportNumber.getText().toString();
+
         // Get the selected environmental impact type
         String impactType = environmentalImpactTypeSpinner.getSelectedItem().toString();
 
@@ -336,6 +360,7 @@ public class EnvironmentalReport extends AppCompatActivity {
 
         // Get the root layout
         LinearLayout rootLayout = findViewById(R.id.root_layout);
+
         // Traverse the view hierarchy and collect data from all EditText fields
         HashMap<String, String> data = new HashMap<>();
         collectDataFromEditTexts(rootLayout, data);
@@ -345,8 +370,7 @@ public class EnvironmentalReport extends AppCompatActivity {
 
         // Submit the userReport to Firebase
         if (userReport != null) {
-            String key = mDatabase.child("users").child(userId).child("reports").push().getKey();
-            mDatabase.child("users").child(userId).child("reports").child(key).setValue(userReport).addOnCompleteListener(new OnCompleteListener<Void>() {
+            mDatabase.child("users").child(userId).child("reports").child(reportKey).setValue(userReport).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
@@ -360,6 +384,9 @@ public class EnvironmentalReport extends AppCompatActivity {
                     }
                 }
             });
+
+            // Pass the reportKey to the uploadFileToFirebaseStorage methods
+            uploadFileToFirebaseStorage(fileUri, mediaType, reportKey);
         }
     }
     private void collectDataFromEditTexts(View view, HashMap<String, String> data) {
@@ -388,8 +415,9 @@ public class EnvironmentalReport extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            Uri fileUri = null;
-            String storagePath = "attachments/";
+            // Initialize fileUri and mediaType here
+            fileUri = null;
+            mediaType = "";
             switch (requestCode) {
                 case REQUEST_CODE_CAPTURE_PHOTO:
                     // Handle captured photo
@@ -401,41 +429,41 @@ public class EnvironmentalReport extends AppCompatActivity {
                     imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                     byte[] imageData = baos.toByteArray();
 
-                    // Create a reference to 'images/captured.jpg'
-                    storagePath = "images/";
+                    mediaType = "image";
 
                     // Upload the image to Firebase Storage
-                    uploadFileToFirebaseStorage(imageData, storagePath);
+                    uploadFileToFirebaseStorage(imageData, mediaType, reportKey);
                     break;
                 case REQUEST_CODE_PICK_IMAGE:
                     // Handle picked image
-                    storagePath = "images/";
+                    mediaType = "image";
 
                     fileUri = data.getData();
-                    uploadFileToFirebaseStorage(fileUri, storagePath);
+                    uploadFileToFirebaseStorage(fileUri, mediaType, reportKey);
                     break;
                 case REQUEST_CODE_CAPTURE_VIDEO:
                     // Handle captured video
-                    storagePath = "video/";
+                    mediaType = "video";
                     fileUri = data.getData();
-                    uploadFileToFirebaseStorage(fileUri, storagePath);
+                    uploadFileToFirebaseStorage(fileUri, mediaType, reportKey);
                     break;
                 case REQUEST_CODE_RECORD_AUDIO:
                     // Handle recorded audio
-                    storagePath = "audio/";
+                    mediaType = "audio";
                     fileUri = data.getData();
-                    uploadFileToFirebaseStorage(fileUri, storagePath);
+                    uploadFileToFirebaseStorage(fileUri, mediaType, reportKey);
                     break;
             }
         }
     }
-
-    private void uploadFileToFirebaseStorage(Uri fileUri, String storagePath) {
+    private void uploadFileToFirebaseStorage(Uri fileUri, String mediaType, String reportKey) {
         // Get the current user's ID
         String userId = mAuth.getCurrentUser().getUid();
 
         // Create a reference to the file
+        String storagePath = "reports/" + reportKey + "/attachments/" + mediaType;
         StorageReference fileRef = storageRef.child(storagePath);
+
 
         // Upload the file to Firebase Storage
         UploadTask uploadTask = fileRef.putFile(fileUri);
@@ -449,10 +477,7 @@ public class EnvironmentalReport extends AppCompatActivity {
                         // Save the download URL to your Firebase Database
                         String fileUrl = uri.toString();
                         // Save fileUrl to your Firebase Database
-                        String key = mDatabase.child("users").child(userId).child("reports").push().getKey();
-                        // Replace invalid characters in the storage path
-                        String dbPath = storagePath.replace('.', ',');
-                        mDatabase.child("users").child(userId).child("reports").child(key).child(dbPath).setValue(fileUrl);
+                        mDatabase.child("users").child(userId).child("reports").child(reportKey).child("attachments").child(mediaType).setValue(fileUrl);
                     }
                 });
             }
@@ -465,12 +490,14 @@ public class EnvironmentalReport extends AppCompatActivity {
         });
     }
 
-    private void uploadFileToFirebaseStorage(byte[] fileData, String storagePath) {
+    private void uploadFileToFirebaseStorage(byte[] fileData, String mediaType, String reportKey) {
         // Get the current user's ID
         String userId = mAuth.getCurrentUser().getUid();
 
         // Create a reference to the file
+        String storagePath = "reports/" + reportKey + "/attachments/" + mediaType;
         StorageReference fileRef = storageRef.child(storagePath);
+
 
         // Upload the file to Firebase Storage
         UploadTask uploadTask = fileRef.putBytes(fileData);
@@ -484,10 +511,7 @@ public class EnvironmentalReport extends AppCompatActivity {
                         // Save the download URL to your Firebase Database
                         String fileUrl = uri.toString();
                         // Save fileUrl to your Firebase Database
-                        String key = mDatabase.child("users").child(userId).child("reports").push().getKey();
-                        // Replace invalid characters in the storage path
-                        String dbPath = storagePath.replace('.', ',');
-                        mDatabase.child("users").child(userId).child("reports").child(key).child(dbPath).setValue(fileUrl);
+                        mDatabase.child("users").child(userId).child("reports").child(reportKey).child("attachments").child(mediaType).setValue(fileUrl);
                     }
                 });
             }

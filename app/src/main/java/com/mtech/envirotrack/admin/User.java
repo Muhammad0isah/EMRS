@@ -8,17 +8,17 @@ public class User {
     private String userName;
     private String impactType;
     private int serialNumber;
-    private String attachment;
+    private Map<String, String> attachments;
     private Map<String, String> data;
 
 
-    public User(String reportNumber, String userEmail, String userName, String impactType, Map<String, String> data, String attachment) {
+    public User(String reportNumber, String userEmail, String userName, String impactType, Map<String, String> data, Map<String, String> attachments) {
         this.reportNumber = reportNumber;
         this.userEmail = userEmail;
         this.userName = userName;
         this.impactType = impactType;
         this.data = data;
-        this.attachment = attachment;
+        this.attachments = attachments;
 
     }
 
@@ -42,10 +42,9 @@ public class User {
         return data;
     }
 
-    public String getAttachment() {
-        return attachment;
+    public Map<String, String> getAttachments() {
+        return attachments;
     }
-
     public int getSerialNumber() {
         return serialNumber;
     }

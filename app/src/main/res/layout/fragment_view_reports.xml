@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".admin.AdminDashboard">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -22,36 +21,43 @@
                     android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:padding="16dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
                         <TextView
-                            android:layout_width="30dp"
+                            android:layout_width="50dp"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/gupter_bold"
                             android:layout_height="wrap_content"
                             android:text="S/N" />
-
                         <TextView
                             android:layout_width="140dp"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/gupter_bold"
                             android:layout_height="wrap_content"
                             android:text="Report Number" />
-
                         <TextView
                             android:layout_width="170dp"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/gupter_bold"
                             android:layout_height="wrap_content"
                             android:text="Name" />
-
                         <TextView
-                            android:layout_width="200dp"
+                            android:layout_width="270dp"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/gupter_bold"
                             android:layout_height="wrap_content"
                             android:text="Email" />
-
                         <TextView
-                            android:layout_width="100dp"
+                            android:layout_width="170dp"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/gupter_bold"
                             android:layout_height="wrap_content"
                             android:text="Impact Type" />
-
                         <TextView
-                            android:layout_width="100dp"
+                            android:layout_width="170dp"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/gupter_bold"
                             android:layout_height="wrap_content"
                             android:text="Attachment" />
                     </LinearLayout>
@@ -61,7 +67,6 @@
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
             </HorizontalScrollView>
-
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

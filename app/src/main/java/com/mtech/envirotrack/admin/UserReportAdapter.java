@@ -1,5 +1,6 @@
 package com.mtech.envirotrack.admin;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,8 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Re
         holder.userName.setText(user.getUserName());
         holder.impactType.setText(user.getImpactType());
         holder.serialNumber.setText(String.valueOf(user.getSerialNumber())); // Set serial number
-        holder.attachment.setText(user.getAttachment()); // Set attachment URL
+        holder.attachment.setText(user.getAttachment());
+        holder.impactType.setPaintFlags(holder.impactType.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         holder.impactType.setOnClickListener(v -> {
             // Check if data is null before calling toString()
             String dataString = (user.getData() == null) ? "No data" : user.getData().toString();

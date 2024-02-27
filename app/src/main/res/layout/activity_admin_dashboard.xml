@@ -7,54 +7,46 @@
     tools:context=".admin.AdminDashboard">
 
 
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <RelativeLayout
-                android:id="@+id/header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        android:layout_height="wrap_content">
 
-                <ImageButton
-                    android:id="@+id/goBackButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/transparent"
-                    android:src="@drawable/baseline_arrow_back_24"
-                    android:layout_alignParentStart="true" />
+        <ImageButton
+            android:id="@+id/goBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/baseline_arrow_back_24"
+            android:layout_alignParentStart="true" />
 
-                <ImageButton
-                    android:id="@+id/logoutButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/transparent"
-                    android:src="@drawable/baseline_logout_24"
-                    android:layout_alignParentEnd="true" />
-            </RelativeLayout>
-            <TextView
-                android:id="@+id/heading"
-                android:layout_below="@id/header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="@font/gupter_bold"
-                android:text="Admin Dashboard"
-                android:textSize="26sp" />
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_below="@id/heading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabMode="fixed"
-                app:tabGravity="fill" />
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager"
-                android:layout_below="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </RelativeLayout>
-    </ScrollView>
+        <ImageButton
+            android:id="@+id/logoutButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/baseline_logout_24"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/gupter_bold"
+            android:text="Admin Dashboard"
+            android:textSize="26sp" />
+    </RelativeLayout>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_below="@id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabMode="fixed"
+        app:tabGravity="fill" />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_below="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </RelativeLayout>

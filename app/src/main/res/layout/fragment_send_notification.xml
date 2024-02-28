@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/edit_text_border"
-            android:hint="Email"
+            android:hint="Notification title"
             android:padding="16dp"
             android:imeOptions="actionNext"
             android:singleLine="true"

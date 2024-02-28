@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity{
         tv_accu = toolbar.findViewById(R.id.tv_accuracy);
         tv_address = toolbar.findViewById(R.id.tv_address);
 
+
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -134,6 +135,18 @@ public class MainActivity extends AppCompatActivity{
                         String token = task.getResult();
                         System.out.println("Token: " + token);
 
+                    }
+                });
+        // Subscribe to topic
+        FirebaseMessaging.getInstance().subscribeToTopic("weather")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "Subscribed";
+                        if (!task.isSuccessful()) {
+                            msg = "Subscription failed";
+                        }
+                        Log.d(TAG, msg);
                     }
                 });
 

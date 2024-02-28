@@ -16,6 +16,9 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.mtech.envirotrack.R;
 
 import org.json.JSONException;
@@ -27,7 +30,7 @@ import java.util.Map;
 public class SendNotification extends Fragment {
 
     private static final String TAG = "SendNotification";
-    private static final String YOUR_SERVER_KEY = "BBeuauBvlBSazsaDQcru3qjxZ2Wc4GRuYWWLHTEWz0hdfVzpGUmSebsOuUDqsLEFA0jMJkCh_K6ip2iwxOzQLvY";
+    private static final String YOUR_SERVER_KEY = "AAAAGCJ1eWg:APA91bFlyo4tIEr2j8Ta2qOKdvj6a29uzjkIV00PYwSNeaw0jFIByF0ou00FGN_Eih0yVtie0_Fsf6VqIkw1ojYYitIgtHvlmqrS8F25_B3yTueK2_nUNigsyGac2ROO6-jqP7qRTdUg";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,9 +47,21 @@ public class SendNotification extends Fragment {
             public void onClick(View v) {
                 String title = notificationTitle.getText().toString();
                 String body = notificationBody.getText().toString();
-                sendNotification("your_topic", title, body);
+                sendNotification("weather", title, body);
             }
         });
+        // Subscribe to topic
+        FirebaseMessaging.getInstance().subscribeToTopic("weather")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "Subscribed";
+                        if (!task.isSuccessful()) {
+                            msg = "Subscription failed";
+                        }
+                        Log.d(TAG, msg);
+                    }
+                });
 
         return view;
     }
@@ -92,5 +107,6 @@ public class SendNotification extends Fragment {
             }
         };
         MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+
     }
 }

@@ -25,6 +25,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.mtech.envirotrack.MyApplication;
 import com.mtech.envirotrack.R;
 
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -175,20 +176,22 @@ public class Home extends Fragment {
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                if (response.code() == 200) {
-                    WeatherResponse weatherResponse = response.body();
-                    assert weatherResponse != null;
+                if(isAdded()){
+                    if (response.code() == 200) {
+                        WeatherResponse weatherResponse = response.body();
+                        assert weatherResponse != null;
 
-                    double temperatureInKelvin = weatherResponse.getCurrent().getTemp();
-                    double temperatureInCelsius = temperatureInKelvin - 273.15;
-                    int humidity = weatherResponse.getCurrent().getHumidity();
-                    double windSpeed = weatherResponse.getCurrent().getWindSpeed();
-                    int windDirection = weatherResponse.getCurrent().getWindDeg();
+                        double temperatureInKelvin = weatherResponse.getCurrent().getTemp();
+                        double temperatureInCelsius = temperatureInKelvin - 273.15;
+                        int humidity = weatherResponse.getCurrent().getHumidity();
+                        double windSpeed = weatherResponse.getCurrent().getWindSpeed();
+                        int windDirection = weatherResponse.getCurrent().getWindDeg();
 
-                    temperatureTextView.setText(String.format("%.2f°C", temperatureInCelsius));
-                    humidityTextView.setText(humidity + "%");
-                    windSpeedTextView.setText(windSpeed + " m/s");
-                    windDirectionTextView.setText(windDirection + "°");
+                        temperatureTextView.setText(String.format("%.2f°C", temperatureInCelsius));
+                        humidityTextView.setText(humidity + "%");
+                        windSpeedTextView.setText(windSpeed + " m/s");
+                        windDirectionTextView.setText(windDirection + "°");
+                    }
                 }
             }
             @Override
@@ -222,7 +225,7 @@ public class Home extends Fragment {
                             entries.add(new Entry(i, temperatureInCelsius));
                         }
 
-                        LineDataSet dataSet = new LineDataSet(entries, "Label");
+                        LineDataSet dataSet = new LineDataSet(entries, "Temperature");
                         dataSet.setColor(getResources().getColor(R.color.dark_green));
                         dataSet.setLineWidth(2.5f);
                         dataSet.setCircleRadius(4.5f);
@@ -307,8 +310,7 @@ public class Home extends Fragment {
         legend.setDrawInside(false);
 
 
-//        Description desc = new Description();
-//        chart.setDescription(desc);
+
         chart.setDrawGridBackground(false);
 
         chart.setPinchZoom(false);
@@ -338,13 +340,14 @@ public class Home extends Fragment {
         chart.getAxisRight().setEnabled(false);
 
         // Zoom in, with the center of the zoom at the middle of the chart
-        float zoomLevelX = 2f; // Zoom level for x-axis
+        float zoomLevelX = 1.4f; // Zoom level for x-axis
         float zoomLevelY = 1f; // Zoom level for y-axis
         float centerX = chart.getXChartMax() / 2f; // Center point for x-axis
         float centerY = chart.getYChartMax() / 2f; // Center point for y-axis
         chart.zoom(zoomLevelX, zoomLevelY, centerX, centerY);
 
         chart.animateX(1500);
+        // Refresh the chart
         chart.invalidate();
     }
     private void getAirPollutionData(double lat, double lon) {
@@ -439,7 +442,7 @@ public class Home extends Fragment {
                     setupChart(chart, lineData,getResources().getColor(R.color.dark_green));
 
                     // Set the Y-axis limit for the air quality forecast
-                    chart.getAxisLeft().setAxisMaximum(4f); // Set the maximum value
+                    chart.getAxisLeft().setAxisMaximum(300f); // Set the maximum value
                     chart.getAxisLeft().setAxisMinimum(0f); // Set the minimum value
 
                 } else {
@@ -455,7 +458,17 @@ public class Home extends Fragment {
     }
 }
 class HourAxisValueFormatter extends ValueFormatter {
-    private SimpleDateFormat sdf = new SimpleDateFormat("ha", Locale.getDefault());
+    private DateFormatSymbols symbols = new DateFormatSymbols(Locale.getDefault());
+    private SimpleDateFormat sdf;
+
+    public HourAxisValueFormatter() {
+        // Set the AM and PM strings
+        symbols.setAmPmStrings(new String[] { "pm", "am" });
+        // Create a new SimpleDateFormat object
+        sdf = new SimpleDateFormat("ha", Locale.getDefault());
+        // Set the DateFormatSymbols of the SimpleDateFormat object
+        sdf.setDateFormatSymbols(symbols);
+    }
 
     @Override
     public String getFormattedValue(float value) {
@@ -463,5 +476,4 @@ class HourAxisValueFormatter extends ValueFormatter {
         Date date = new Date((long) value * 3600000);
         return sdf.format(date);
     }
-
 }

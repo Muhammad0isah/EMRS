@@ -144,10 +144,10 @@
                         style="@android:style/Widget.Button"
                         android:layout_marginBottom="10dp"
                         android:background="@drawable/btn_background_1"
-                        android:drawableStart="@drawable/ic_3"
+                        android:drawableStart="@drawable/baseline_home_24"
                         android:drawablePadding="20dp"
                         android:paddingStart="20dp"
-                        android:text="Persoanl Information"
+                        android:text="Home"
                         android:textAlignment="viewStart" />
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/button2"
@@ -164,7 +164,7 @@
                         android:drawableStart="@drawable/ic_2"
                         android:drawablePadding="20dp"
                         android:paddingStart="20dp"
-                        android:text="Account Settings"
+                        android:text="Create Report"
                         android:textAlignment="viewStart" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -179,10 +179,10 @@
                         style="@android:style/Widget.Button"
                         android:layout_marginBottom="10dp"
                         android:background="@drawable/btn_background_1"
-                        android:drawableStart="@drawable/baseline_settings_24"
+                        android:drawableStart="@drawable/map_marker"
                         android:drawablePadding="20dp"
                         android:paddingStart="20dp"
-                        android:text="Settings"
+                        android:text="View Map"
                         android:textAlignment="viewStart" />
                     <androidx.appcompat.widget.AppCompatButton
                         android:layout_width="match_parent"

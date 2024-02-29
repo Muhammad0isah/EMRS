@@ -38,8 +38,12 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.mtech.envirotrack.MainActivity;
+import com.mtech.envirotrack.Maps;
 import com.mtech.envirotrack.R;
+import com.mtech.envirotrack.report.EnvironmentalReport;
+import com.mtech.envirotrack.report.Notification;
 import com.mtech.envirotrack.report.ReportHistory;
+import com.mtech.envirotrack.weather.Home;
 
 import java.io.IOException;
 
@@ -55,9 +59,10 @@ Profile extends AppCompatActivity {
 
     private StorageReference mStorageRef;
 
-    private AppCompatButton reportHistoryButton;
+    private AppCompatButton reportHistoryButton,notificationButton,homeButton,createReportButton,viewMapButton;
 
     private Button logoutButton;
+
     private ImageButton backButton;
 
     @Override
@@ -66,6 +71,10 @@ Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         logoutButton = findViewById(R.id.logoutButton);
         backButton = findViewById(R.id.goBackButton);
+        notificationButton = findViewById(R.id.button5);
+        homeButton = findViewById(R.id.button3);
+        createReportButton = findViewById(R.id.button2);
+        viewMapButton = findViewById(R.id.button5);
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -96,6 +105,55 @@ Profile extends AppCompatActivity {
 
             }
         });
+        notificationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create a new instance of NotificationFragment
+                Notification notificationFragment = new Notification();
+
+                // Use the FragmentManager to replace the current fragment with the NotificationFragment
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, notificationFragment)
+                        .addToBackStack(null)
+                        .commit();
+                rootLayout.setVisibility(View.GONE);
+            }
+        });
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create a new instance of HomeFragment
+                Home homeFragment = new Home();
+
+                // Use the FragmentManager to replace the current fragment with the HomeFragment
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, homeFragment)
+                        .addToBackStack(null)
+                        .commit();
+                rootLayout.setVisibility(View.GONE);
+            }
+        });
+        createReportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create a new instance of CreateReportFragment
+               startActivity(new Intent(getApplicationContext(), EnvironmentalReport.class));
+            }
+        });
+        viewMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create a new instance of ViewMapFragment
+                Maps mapsFragment = new Maps();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, mapsFragment)
+                        .addToBackStack(null)
+                        .commit();
+                rootLayout.setVisibility(View.GONE);
+            }
+        });
+
+
 
 
 

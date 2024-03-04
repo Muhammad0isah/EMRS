@@ -66,8 +66,9 @@ public class Notification extends Fragment {
     public void addNotification(String title, String message) {
         if (notificationAdapter != null && isAdded()) {
             NotificationModel notification = new NotificationModel(title, message);
-            notificationList.add(notification);
-            notificationAdapter.notifyItemInserted(notificationList.size() - 1);
+            notificationList.add(0, notification); // Add the notification at the beginning of the list
+            notificationAdapter.notifyItemInserted(0); // Notify the adapter that an item has been inserted at the beginning
+            notificationRecyclerView.scrollToPosition(0); // Scroll to the top of the RecyclerView to show the latest notification
         }
     }
 

@@ -6,9 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mtech.envirotrack.R;
@@ -17,6 +20,8 @@ import com.mtech.envirotrack.report.NotificationModel;
 public class SendNotification extends Fragment {
 
     private DatabaseReference mDatabase;
+    private EditText notificationTitle;
+    private EditText notificationBody;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -24,8 +29,8 @@ public class SendNotification extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_send_notification, container, false);
 
-        EditText notificationTitle = view.findViewById(R.id.notificationTitle);
-        EditText notificationBody = view.findViewById(R.id.notificationBody);
+        notificationTitle = view.findViewById(R.id.notificationTitle);
+        notificationBody = view.findViewById(R.id.notificationBody);
         Button sendButton = view.findViewById(R.id.sendButton);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -44,6 +49,16 @@ public class SendNotification extends Fragment {
 
     public void sendNotificationToDatabase(String title, String body) {
         NotificationModel notification = new NotificationModel(title, body);
-        mDatabase.child("notifications").push().setValue(notification);
+        mDatabase.child("notifications").push().setValue(notification).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // Clear the EditText fields
+                notificationTitle.setText("");
+                notificationBody.setText("");
+
+                // Display a Toast message
+                Toast.makeText(getActivity(), "Notification sent successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -52,9 +52,8 @@
                             android:text="Name"
                             android:background="@drawable/heading_tv_border"
                             android:textColor="@android:color/white" />
-
                         <TextView
-                            android:layout_width="270dp"
+                            android:layout_width="300dp"
                             android:textSize="18sp"
                             android:fontFamily="@font/gupter_bold"
                             android:layout_height="wrap_content"

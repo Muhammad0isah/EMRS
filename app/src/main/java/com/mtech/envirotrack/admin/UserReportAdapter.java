@@ -1,6 +1,7 @@
 package com.mtech.envirotrack.admin;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.text.SpannableStringBuilder;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mtech.envirotrack.R;
@@ -68,11 +70,16 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Re
 
         holder.attachment.setText(attachmentsBuilder);
         holder.attachment.setMovementMethod(LinkMovementMethod.getInstance());
-
         holder.impactType.setPaintFlags(holder.impactType.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        holder.impactType.setTextColor(Color.parseColor("#006400"));
         holder.impactType.setOnClickListener(v -> {
             String dataString = (user.getData() == null) ? "No data" : user.getData().toString();
-            Toast.makeText(v.getContext(), dataString, Toast.LENGTH_LONG).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setMessage(dataString)
+                    .setCancelable(true)
+                    .setPositiveButton("OK", (dialog, id) -> dialog.dismiss());
+            AlertDialog alert = builder.create();
+            alert.show();
         });
     }
     @Override

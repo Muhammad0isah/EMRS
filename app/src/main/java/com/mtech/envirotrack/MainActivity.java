@@ -120,8 +120,6 @@ public class MainActivity extends AppCompatActivity{
         tv_alt = toolbar.findViewById(R.id.tv_altitude);
         tv_accu = toolbar.findViewById(R.id.tv_accuracy);
         tv_address = toolbar.findViewById(R.id.tv_address);
-
-
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -149,7 +147,6 @@ public class MainActivity extends AppCompatActivity{
                         Log.d(TAG, msg);
                     }
                 });
-
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Home()).commit();
         }
@@ -228,7 +225,7 @@ public class MainActivity extends AppCompatActivity{
                 } else if (itemId == R.id.nav_map) {
                     fragment = new Maps();
                 } else if (itemId == R.id.nav_notification) {
-                    fragment = new Maps();
+                    fragment = new Notification();
                 } else if (itemId == R.id.nav_profile) {
                     if (mAuth.getCurrentUser() != null) {
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid()).child("role");

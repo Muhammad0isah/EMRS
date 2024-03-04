@@ -1,11 +1,5 @@
 package com.mtech.envirotrack.user;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,6 +14,11 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -71,15 +70,13 @@ Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         logoutButton = findViewById(R.id.logoutButton);
         backButton = findViewById(R.id.goBackButton);
-        notificationButton = findViewById(R.id.button5);
+        notificationButton = findViewById(R.id.button4);
         homeButton = findViewById(R.id.button3);
         createReportButton = findViewById(R.id.button2);
         viewMapButton = findViewById(R.id.button5);
         mAuth = FirebaseAuth.getInstance();
 
-
         ScrollView rootLayout = findViewById(R.id.root_layout);
-
         reportHistoryButton = findViewById(R.id.button);
 
         photoUrlImageView = findViewById(R.id.photoUrlImageView);
@@ -117,6 +114,7 @@ Profile extends AppCompatActivity {
                         .addToBackStack(null)
                         .commit();
                 rootLayout.setVisibility(View.GONE);
+
             }
         });
         homeButton.setOnClickListener(new View.OnClickListener() {

@@ -4,11 +4,17 @@ import static android.app.PendingIntent.getActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,6 +34,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,6 +46,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.mtech.envirotrack.MainActivity;
+import com.mtech.envirotrack.MyApplication;
 import com.mtech.envirotrack.R;
 
 import java.io.ByteArrayOutputStream;
@@ -45,6 +55,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class EnvironmentalReport extends AppCompatActivity {
@@ -55,6 +66,8 @@ public class EnvironmentalReport extends AppCompatActivity {
     private EditText excessEmissionTimePicker;
     private EditText incidentReportDatePicker;
     private EditText environmentalReportNumber;
+
+    private  EditText environmentalmpactLocation;
 
     private EditText incidentReportTimePicker;
 
@@ -78,7 +91,7 @@ public class EnvironmentalReport extends AppCompatActivity {
     private String userId;
     private Uri fileUri;
     private String mediaType;
-
+    private Button getLocation;
 
     private String reportKey = "";
 
@@ -109,6 +122,8 @@ public class EnvironmentalReport extends AppCompatActivity {
         incidentReportDatePicker = findViewById(R.id.incidenReportDatePicker);
         incidentReportTimePicker = findViewById(R.id.incidentReportTimePicker);
         environmentalReportNumber = findViewById(R.id.environmentalmpactReportNumber);
+        environmentalmpactLocation = findViewById(R.id.environmentalmpactLocation);
+        getLocation = findViewById(R.id.getLocation);
 
         excessEmissionDetails = findViewById(R.id.excessEmissionDetails);
         spillDetails = findViewById(R.id.spillDetails);
@@ -155,7 +170,32 @@ public class EnvironmentalReport extends AppCompatActivity {
                 finish();
             }
         });
+        getLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(EnvironmentalReport.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
 
+                    FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(EnvironmentalReport.this);
+                    fusedLocationProviderClient.getLastLocation().addOnSuccessListener(EnvironmentalReport.this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Update the UI with the location details
+                            Geocoder geocoder = new Geocoder(EnvironmentalReport.this);
+                            try {
+                                List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                                if (!addresses.isEmpty()) {
+                                    Address address = addresses.get(0);
+                                    environmentalmpactLocation.setText(address.getAddressLine(0));
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
 
         environmentalImpactTypeSpinner = findViewById(R.id.environmentalImpactTypeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,

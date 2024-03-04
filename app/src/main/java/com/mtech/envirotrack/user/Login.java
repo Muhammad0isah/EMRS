@@ -52,15 +52,11 @@ public class Login extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private Button btnGoogle, btnFacebook, btnLogin;
     private ImageButton backButton;
-
-
     // facebook login
     private CallbackManager mCallbackManager;
 
     // login with email and passoword
     private TextInputEditText emailEditText, passwordEditText;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,7 +1,5 @@
 package com.mtech.envirotrack.report;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +10,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mtech.envirotrack.R;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ public class Notification extends Fragment {
     private RecyclerView notificationRecyclerView;
     private static NotificationAdapter notificationAdapter;
     private static List<NotificationModel> notificationList = new ArrayList<>();
+    private DatabaseReference mDatabase;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,20 +35,39 @@ public class Notification extends Fragment {
         notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         notificationAdapter = new NotificationAdapter(notificationList);
         notificationRecyclerView.setAdapter(notificationAdapter);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        notificationList.clear();
+
+        mDatabase.child("notifications").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                NotificationModel notification = dataSnapshot.getValue(NotificationModel.class);
+                addNotification(notification.getTitle(), notification.getMessage());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
         return view;
     }
+
     public void addNotification(String title, String message) {
         if (notificationAdapter != null && isAdded()) {
             NotificationModel notification = new NotificationModel(title, message);
             notificationList.add(notification);
             notificationAdapter.notifyItemInserted(notificationList.size() - 1);
-
-            // Store the notification in shared preferences
-            SharedPreferences sharedPref = getActivity().getSharedPreferences("notifications", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("title", title);
-            editor.putString("body", message);
-            editor.apply();
         }
     }
 
@@ -74,20 +96,6 @@ public class Notification extends Fragment {
             return notificationList.size();
         }
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("notifications", Context.MODE_PRIVATE);
-        String title = sharedPref.getString("title", "");
-        String body = sharedPref.getString("body", "");
-        if (!title.isEmpty() && !body.isEmpty()) {
-            addNotification(title, body);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.clear();
-            editor.apply();
-        }
-    }
-
 
     private static class NotificationViewHolder extends RecyclerView.ViewHolder {
 
@@ -98,25 +106,6 @@ public class Notification extends Fragment {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.notificationTitle);
             messageTextView = itemView.findViewById(R.id.notificationMessage);
-        }
-    }
-
-    private static class NotificationModel {
-
-        private String title;
-        private String message;
-
-        NotificationModel(String title, String message) {
-            this.title = title;
-            this.message = message;
-        }
-
-        String getTitle() {
-            return title;
-        }
-
-        String getMessage() {
-            return message;
         }
     }
 }

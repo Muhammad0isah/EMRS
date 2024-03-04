@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:background="#ececec">
-
-
-
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
@@ -182,7 +179,7 @@
                         android:drawableStart="@drawable/map_marker"
                         android:drawablePadding="20dp"
                         android:paddingStart="20dp"
-                        android:text="View Map"
+                        android:text="My Location"
                         android:textAlignment="viewStart" />
                     <androidx.appcompat.widget.AppCompatButton
                         android:layout_width="match_parent"

@@ -71,9 +71,10 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Re
         holder.attachment.setText(attachmentsBuilder);
         holder.attachment.setMovementMethod(LinkMovementMethod.getInstance());
         holder.impactType.setPaintFlags(holder.impactType.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         holder.impactType.setTextColor(Color.parseColor("#006400"));
         holder.impactType.setOnClickListener(v -> {
-            String dataString = (user.getData() == null) ? "No data" : user.getData().toString();
+            String dataString = (user.getData() == null) ? "No data" : user.formatData();
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             builder.setMessage(dataString)
                     .setCancelable(true)

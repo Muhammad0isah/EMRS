@@ -61,4 +61,13 @@ public class User {
                 "Impact Type: " + impactType + "\n" +
                 "Data: " + (data == null ? "null" : data.toString()) + "\n\n";
     }
+    public String formatData() {
+        StringBuilder sb = new StringBuilder();
+        if (data != null) {
+            for (Map.Entry<String, String> entry : data.entrySet()) {
+                sb.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+            }
+        }
+        return sb.toString();
+    }
 }

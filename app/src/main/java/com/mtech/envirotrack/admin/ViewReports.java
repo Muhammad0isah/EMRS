@@ -25,7 +25,6 @@ public class ViewReports extends Fragment {
     private RecyclerView recyclerView;
     private UserReportAdapter adapter;
     private int serialNumber = 1; // Initialize serial number
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,12 +50,12 @@ public class ViewReports extends Fragment {
                                 String userEmail = reportSnapshot.child("userEmail").getValue(String.class);
                                 String userName = reportSnapshot.child("userName").getValue(String.class);
                                 String impactType = reportSnapshot.child("impactType").getValue(String.class);
+                                String status = reportSnapshot.child("status").getValue(String.class); // Retrieve status
                                 Map<String, String> data = reportSnapshot.child("data").getValue(new GenericTypeIndicator<Map<String, String>>() {});
                                 Map<String, String> attachments = (Map<String, String>) reportSnapshot.child("attachments").getValue(); // Retrieve attachments
 
-
                                 if (data != null && !data.isEmpty()) {
-                                    User user = new User(reportNumber, userEmail, userName, impactType, data, attachments);
+                                    User user = new User(reportNumber, userEmail, userName, impactType, status, data, attachments);
                                     user.setSerialNumber(serialNumber++); // Set and increment serial number only if data exists
                                     reports.add(user);
                                 }

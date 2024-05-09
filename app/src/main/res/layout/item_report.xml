@@ -42,5 +42,11 @@
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_border" />
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_border" />
+
     </LinearLayout>
 </LinearLayout>

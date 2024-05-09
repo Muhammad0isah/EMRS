@@ -8,20 +8,23 @@ public class User {
     private String userName;
     private String impactType;
     private int serialNumber;
+    private String status;
+
+
     private Map<String, String> attachments;
     private Map<String, String> data;
 
 
-    public User(String reportNumber, String userEmail, String userName, String impactType, Map<String, String> data, Map<String, String> attachments) {
+    public User(String reportNumber, String userEmail, String userName, String impactType, String status, Map<String, String> data, Map<String, String> attachments) {
         this.reportNumber = reportNumber;
         this.userEmail = userEmail;
         this.userName = userName;
         this.impactType = impactType;
+        this.status = status;
         this.data = data;
         this.attachments = attachments;
 
     }
-
     public String getReportNumber() {
         return reportNumber;
     }
@@ -52,6 +55,13 @@ public class User {
     public void setSerialNumber(int serialNumber) {
         this.serialNumber = serialNumber;
     }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {
@@ -59,6 +69,7 @@ public class User {
                 "User Email: " + userEmail + "\n" +
                 "User Name: " + userName + "\n" +
                 "Impact Type: " + impactType + "\n" +
+                "Status: " + status + "\n" +
                 "Data: " + (data == null ? "null" : data.toString()) + "\n\n";
     }
     public String formatData() {

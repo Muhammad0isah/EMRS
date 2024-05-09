@@ -6,7 +6,6 @@
     android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".admin.AdminDashboard">
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -76,6 +75,14 @@
                             android:fontFamily="@font/gupter_bold"
                             android:layout_height="wrap_content"
                             android:text="Attachment"
+                            android:background="@drawable/heading_tv_border"
+                            android:textColor="@android:color/white" />
+                        <TextView
+                            android:layout_width="170dp"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/gupter_bold"
+                            android:layout_height="wrap_content"
+                            android:text="Status"
                             android:background="@drawable/heading_tv_border"
                             android:textColor="@android:color/white" />
                     </LinearLayout>

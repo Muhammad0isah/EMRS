@@ -10,4 +10,10 @@
         <item>Weather Impact</item>
         <item>Other</item>
     </string-array>
+    <string-array name="status_array">
+        <item>Pending</item>
+        <item>In Progress</item>
+        <item>Completed</item>
+    </string-array>
 </resources>
+

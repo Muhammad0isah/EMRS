@@ -3,19 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/notificationHeader"
-        android:gravity="center"
-        android:layout_marginTop="8dp"
-        android:textSize="25sp"
-        android:textColor="@color/dark_green"
+    <LinearLayout
+        android:id="@+id/notificationHeaderLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Notifications" />
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/goBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/baseline_arrow_back_24" />
+
+        <TextView
+            android:id="@+id/notificationHeader"
+            android:layout_below="@id/goBackButton"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:textSize="25sp"
+            android:textColor="@color/dark_green"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notifications" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notificationRecyclerView"
-        android:layout_below="@id/notificationHeader"
+        android:layout_below="@id/notificationHeaderLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"

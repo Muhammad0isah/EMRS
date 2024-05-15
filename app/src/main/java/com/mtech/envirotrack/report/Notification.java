@@ -1,9 +1,11 @@
 package com.mtech.envirotrack.report;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -26,6 +28,24 @@ public class Notification extends Fragment {
     private static NotificationAdapter notificationAdapter;
     private static List<NotificationModel> notificationList = new ArrayList<>();
     private DatabaseReference mDatabase;
+    private OnNewNotificationListener mListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnNewNotificationListener) {
+            mListener = (OnNewNotificationListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnNewNotificationListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,7 +53,7 @@ public class Notification extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
         notificationRecyclerView = view.findViewById(R.id.notificationRecyclerView);
         notificationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        notificationAdapter = new NotificationAdapter(notificationList);
+        notificationAdapter = new NotificationAdapter(notificationList, mListener);
         notificationRecyclerView.setAdapter(notificationAdapter);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -59,6 +79,17 @@ public class Notification extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
+        // Set the OnClickListener on the ImageButton
+        ImageButton goBackButton = view.findViewById(R.id.goBackButton);
+        goBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to the NotificationFragment
+                if (getFragmentManager() != null) {
+                    getFragmentManager().popBackStack();
+                }
+            }
+        });
 
         return view;
     }
@@ -69,14 +100,21 @@ public class Notification extends Fragment {
             notificationList.add(0, notification); // Add the notification at the beginning of the list
             notificationAdapter.notifyItemInserted(0); // Notify the adapter that an item has been inserted at the beginning
             notificationRecyclerView.scrollToPosition(0); // Scroll to the top of the RecyclerView to show the latest notification
+
+            // Notify the MainActivity that a new notification has arrived
+            if (mListener != null) {
+                mListener.onNewNotification();
+            }
         }
     }
 
     private static class NotificationAdapter extends RecyclerView.Adapter<NotificationViewHolder> {
         private List<NotificationModel> notificationList;
+        private OnNewNotificationListener mListener;
 
-        NotificationAdapter(List<NotificationModel> notificationList) {
+        NotificationAdapter(List<NotificationModel> notificationList, OnNewNotificationListener mListener) {
             this.notificationList = notificationList;
+            this.mListener = mListener;
         }
 
         @Override
@@ -90,6 +128,17 @@ public class Notification extends Fragment {
             NotificationModel notification = notificationList.get(position);
             holder.titleTextView.setText(notification.getTitle());
             holder.messageTextView.setText(notification.getMessage());
+
+            // Set an OnClickListener for the item view
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Open a new fragment and pass the clicked notification details to it
+                    if (mListener != null) {
+                        mListener.onNotificationClicked(notification);
+                    }
+                }
+            });
         }
 
         @Override
@@ -108,5 +157,10 @@ public class Notification extends Fragment {
             titleTextView = itemView.findViewById(R.id.notificationTitle);
             messageTextView = itemView.findViewById(R.id.notificationMessage);
         }
+    }
+
+    public interface OnNewNotificationListener {
+        void onNewNotification();
+        void onNotificationClicked(NotificationModel notification);
     }
 }

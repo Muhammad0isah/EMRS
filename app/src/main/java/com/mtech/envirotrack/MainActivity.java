@@ -45,6 +45,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -63,6 +65,8 @@ import com.mtech.envirotrack.admin.AdminDashboard;
 import com.mtech.envirotrack.admin.AdminLogin;
 import com.mtech.envirotrack.report.EnvironmentalReport;
 import com.mtech.envirotrack.report.Notification;
+import com.mtech.envirotrack.report.NotificationDetailFragment;
+import com.mtech.envirotrack.report.NotificationModel;
 import com.mtech.envirotrack.report.Report;
 import com.mtech.envirotrack.weather.Home;
 import com.mtech.envirotrack.weather.Search;
@@ -71,7 +75,7 @@ import com.mtech.envirotrack.user.Profile;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements Notification.OnNewNotificationListener{
 
     private static final int PERMISSION_FINE_LOCATION =99 ;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -80,7 +84,7 @@ public class MainActivity extends AppCompatActivity{
     ImageButton btn_add_report;
     DrawerLayout drawerLayout;
     BottomNavigationView bottomNavigationView;
-    View line_view;
+    View divider;
     BottomAppBar bottonAppBar;
     private MenuItem notificationItem;
     TextView tv_lat, tv_long, tv_alt , tv_accu, tv_address;
@@ -97,6 +101,8 @@ public class MainActivity extends AppCompatActivity{
 
     // list of saved locations
     List<Location> savedLocations;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +112,7 @@ public class MainActivity extends AppCompatActivity{
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         btn_add_report = findViewById(R.id.btn_add_report);
         drawerLayout = findViewById(R.id.drawer_layout);
+        divider = findViewById(R.id.divider);
         View customToolbar = LayoutInflater.from(this).inflate(R.layout.search_toolbar, toolbar, false);
         toolbar.addView(customToolbar);
         setSupportActionBar(toolbar);
@@ -114,6 +121,7 @@ public class MainActivity extends AppCompatActivity{
         rootView.setBackgroundColor(Color.WHITE);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
+
         toggle.syncState();
         tv_lat = toolbar.findViewById(R.id.tv_latitude);
         tv_long = toolbar.findViewById(R.id.tv_longitude);
@@ -293,8 +301,30 @@ public class MainActivity extends AppCompatActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         notificationItem = menu.findItem(R.id.action_notification);
+        notificationItem.setActionView(R.layout.menu_item_layout);
 
-        notificationItem.setVisible(false);
+        // Set an OnClickListener for the action view
+        notificationItem.getActionView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Replace the current fragment with the Notification fragment
+                toolbar.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.GONE);
+                btn_add_report.setVisibility(View.GONE);
+                divider.setVisibility(View.GONE);
+                replaceFragment(new Notification());
+
+                // Get the action view of the notificationItem
+                View actionView = notificationItem.getActionView();
+
+                // Find the dot view within the action view
+                View dot = actionView.findViewById(R.id.dot);
+
+                // Make the dot invisible
+                dot.setVisibility(View.GONE);
+            }
+        });
+
         return true;
     }
     @Override
@@ -302,9 +332,18 @@ public class MainActivity extends AppCompatActivity{
         int id = item.getItemId();
 
         if (id == R.id.action_notification) {
-            // Handle the click event for the notification icon
-            // You can show a notification or perform any other action here
+            // Replace the current fragment with the Notification fragment
             replaceFragment(new Notification());
+
+            // Get the action view of the notificationItem
+            View actionView = notificationItem.getActionView();
+
+            // Find the dot view within the action view
+            View dot = actionView.findViewById(R.id.dot);
+
+            // Make the dot invisible
+            dot.setVisibility(View.GONE);
+
             return true;
         }
         else if (id == R.id.action_search) {
@@ -439,12 +478,50 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        if (notificationItem != null) {
-            notificationItem.setVisible(isLoggedIn());
-        }
     }
     public boolean isLoggedIn() {
         return FirebaseAuth.getInstance().getCurrentUser() != null;
     }
+    @Override
+    public void onNewNotification() {
+        // Get the action view of the notificationItem
+        View actionView = notificationItem.getActionView();
+
+        // Find the dot view within the action view
+        View dot = actionView.findViewById(R.id.dot);
+
+        // Make the dot visible
+        dot.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onNotificationClicked(NotificationModel notification) {
+        // Create a new instance of the fragment for viewing notification details
+        NotificationDetailFragment fragment = new NotificationDetailFragment();
+
+        // Create a bundle to pass the clicked notification details to the fragment
+        Bundle bundle = new Bundle();
+        bundle.putString("title", notification.getTitle());
+        bundle.putString("message", notification.getMessage());
+        fragment.setArguments(bundle);
+
+
+        toolbar.setVisibility(View.GONE);
+        bottomNavigationView.setVisibility(View.GONE);
+        btn_add_report.setVisibility(View.GONE);
+        divider.setVisibility(View.GONE);
+
+        // Enable the Up button in the toolbar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        // Replace the current fragment with the new one
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
 
 }

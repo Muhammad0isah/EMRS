@@ -46,6 +46,7 @@ public class ViewReports extends Fragment {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot reportSnapshot: dataSnapshot.getChildren()) {
+                                String userId = userSnapshot.getKey();
                                 String reportNumber = reportSnapshot.child("reportNumber").getValue(String.class);
                                 String userEmail = reportSnapshot.child("userEmail").getValue(String.class);
                                 String userName = reportSnapshot.child("userName").getValue(String.class);
@@ -55,7 +56,7 @@ public class ViewReports extends Fragment {
                                 Map<String, String> attachments = (Map<String, String>) reportSnapshot.child("attachments").getValue(); // Retrieve attachments
 
                                 if (data != null && !data.isEmpty()) {
-                                    User user = new User(reportNumber, userEmail, userName, impactType, status, data, attachments);
+                                    User user = new User(userId,reportNumber, userEmail, userName, impactType, status, data, attachments);
                                     user.setSerialNumber(serialNumber++); // Set and increment serial number only if data exists
                                     reports.add(user);
                                 }

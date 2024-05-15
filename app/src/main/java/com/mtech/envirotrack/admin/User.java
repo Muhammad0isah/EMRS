@@ -9,13 +9,16 @@ public class User {
     private String impactType;
     private int serialNumber;
     private String status;
+    private String userId;
+
 
 
     private Map<String, String> attachments;
     private Map<String, String> data;
 
 
-    public User(String reportNumber, String userEmail, String userName, String impactType, String status, Map<String, String> data, Map<String, String> attachments) {
+    public User(String userId,String reportNumber, String userEmail, String userName, String impactType, String status, Map<String, String> data, Map<String, String> attachments) {
+        this.userId = userId;
         this.reportNumber = reportNumber;
         this.userEmail = userEmail;
         this.userName = userName;
@@ -25,6 +28,10 @@ public class User {
         this.attachments = attachments;
 
     }
+    public String getUserId() {
+        return userId;
+    }
+
     public String getReportNumber() {
         return reportNumber;
     }
@@ -61,6 +68,10 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setImpactType(String impactType) {
+        this.impactType = impactType;
     }
 
     @Override

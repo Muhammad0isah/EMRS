@@ -1,11 +1,13 @@
 package com.mtech.envirotrack.report;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mtech.envirotrack.MainActivity;
 import com.mtech.envirotrack.R;
 
 import java.util.ArrayList;
@@ -84,12 +87,15 @@ public class Notification extends Fragment {
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate back to the NotificationFragment
-                if (getFragmentManager() != null) {
-                    getFragmentManager().popBackStack();
-                }
+                // go back to main activity
+                startActivity(new Intent(getActivity(), MainActivity.class));
+
             }
         });
+        ImageView notificationIcon = view.findViewById(R.id.notificationIcon);
+        boolean isNotificationOpen = false; // replace this with the actual condition
+        notificationIcon.setSelected(isNotificationOpen);
+
 
         return view;
     }
@@ -128,6 +134,8 @@ public class Notification extends Fragment {
             NotificationModel notification = notificationList.get(position);
             holder.titleTextView.setText(notification.getTitle());
             holder.messageTextView.setText(notification.getMessage());
+            holder.notificationIcon.setSelected(notification.isOpen());
+
 
             // Set an OnClickListener for the item view
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +145,20 @@ public class Notification extends Fragment {
                     if (mListener != null) {
                         mListener.onNotificationClicked(notification);
                     }
+                }
+            });
+            // Set an OnClickListener for the item view
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Open a new fragment and pass the clicked notification details to it
+                    if (mListener != null) {
+                        mListener.onNotificationClicked(notification);
+                    }
+
+                    // Update the isOpen field and notify the adapter
+                    notification.setOpen(true);
+                    notifyItemChanged(position);
                 }
             });
         }
@@ -151,11 +173,15 @@ public class Notification extends Fragment {
 
         TextView titleTextView;
         TextView messageTextView;
+        ImageView notificationIcon;
+
 
         NotificationViewHolder(View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.notificationTitle);
             messageTextView = itemView.findViewById(R.id.notificationMessage);
+            notificationIcon = itemView.findViewById(R.id.notificationIcon);
+
         }
     }
 

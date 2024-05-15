@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -16,6 +17,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mtech.envirotrack.R;
 import com.mtech.envirotrack.report.NotificationModel;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class SendNotification extends Fragment {
 
@@ -48,6 +53,13 @@ public class SendNotification extends Fragment {
     }
 
     public void sendNotificationToDatabase(String title, String body) {
+        // Get current date and time
+        Date currentDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+        String dateTimeString = formatter.format(currentDate);
+
+        // Append date and time to the notification body
+        body = body + "\n" + dateTimeString;
         NotificationModel notification = new NotificationModel(title, body);
         mDatabase.child("notifications").push().setValue(notification).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -56,8 +68,13 @@ public class SendNotification extends Fragment {
                 notificationTitle.setText("");
                 notificationBody.setText("");
 
-                // Display a Toast message
-                Toast.makeText(getActivity(), "Notification sent successfully", Toast.LENGTH_SHORT).show();
+                // Display a success dialog
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Success")
+                        .setMessage("Notification sent successfully")
+                        .setPositiveButton(android.R.string.ok, null)
+                        .setIcon(android.R.drawable.checkbox_on_background)
+                        .show();
             }
         });
     }

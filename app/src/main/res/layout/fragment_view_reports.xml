@@ -6,8 +6,27 @@
     android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".admin.AdminDashboard">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_height="wrap_content"
+        android:hint="Filter users reports by impact type">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:padding="8dp"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@android:drawable/ic_menu_search"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+    </com.google.android.material.textfield.TextInputLayout>
     <ScrollView
         android:layout_width="match_parent"
+        android:layout_below="@id/search_layout"
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"

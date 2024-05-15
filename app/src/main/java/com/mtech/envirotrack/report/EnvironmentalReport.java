@@ -3,6 +3,7 @@ package com.mtech.envirotrack.report;
 import static android.app.PendingIntent.getActivity;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -414,7 +415,14 @@ public class EnvironmentalReport extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         // Data was written successfully to the database
                         Log.d("Firebase", "Data write successful");
-                        Toast.makeText(getApplicationContext(), "UserReport submitted successfully", Toast.LENGTH_SHORT).show();
+
+                        // Display a success dialog
+                        new AlertDialog.Builder(EnvironmentalReport.this)
+                                .setTitle("Success")
+                                .setMessage("UserReport submitted successfully")
+                                .setPositiveButton(android.R.string.ok, null)
+                                .setIcon(android.R.drawable.checkbox_on_background)
+                                .show();
                     } else {
                         // Write failed
                         Log.d("Firebase", "Data write failed", task.getException());

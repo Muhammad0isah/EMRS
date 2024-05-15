@@ -29,30 +29,54 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mtech.envirotrack.R;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.ReportViewHolder> {
     private List<User> users;
+    private List<User> usersFiltered;
+    private String[] impactTypes;
 
-    public UserReportAdapter(List<User> users) {
+    public UserReportAdapter(List<User> users, String[] impactTypes) {
         this.users = users;
+        this.usersFiltered = new ArrayList<>(users);
+        this.impactTypes = impactTypes;
+    }
+
+    public void filter(boolean[] checkedItems) {
+        usersFiltered.clear();
+        for(User item: users){
+            for (int i = 0; i < checkedItems.length; i++) {
+                if (checkedItems[i] && item.getImpactType().equals(impactTypes[i])) {
+                    usersFiltered.add(item);
+                    break;
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public void updateData(List<User> newReports) {
         this.users = newReports;
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_report, parent, false);
         return new ReportViewHolder(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull ReportViewHolder holder, int position) {
-        User user = users.get(position);
+        User user;
+        if (!usersFiltered.equals(users)) { // Condition to check if filter is applied
+            user = usersFiltered.get(position); // Use filtered data
+        } else {
+            user = users.get(position); // Use original data
+        }
         holder.reportNumber.setText(user.getReportNumber());
         holder.userEmail.setText(user.getUserEmail());
         holder.userName.setText(user.getUserName());
@@ -125,6 +149,7 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Re
                                     String emailBody = "Dear " + user.getUserName() + ",\n\nYour " + user.getImpactType() + " report with number " + user.getReportNumber() + " has been received. It is currently " + selectedStatus + ".\n\nThank you for your patience as we work on this.\n\nBest regards,\nEMRS Team";
                                     emailIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
                                     v.getContext().startActivity(Intent.createChooser(emailIntent, "Send Email"));
+                                    alert.dismiss();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -136,19 +161,18 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Re
                         }
                     });
                 }
-
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
                     // Do nothing
                 }
             });
-
-        alert.show();
+            alert.show();
         });
     }
+
     @Override
     public int getItemCount() {
-        return users.size();
+        return usersFiltered.size();
     }
 
     static class ReportViewHolder extends RecyclerView.ViewHolder {
@@ -159,8 +183,6 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Re
         TextView serialNumber;
         TextView attachment;
         TextView status;
-
-
         public ReportViewHolder(@NonNull View itemView) {
             super(itemView);
             reportNumber = itemView.findViewById(R.id.report_number);
@@ -170,7 +192,6 @@ public class UserReportAdapter extends RecyclerView.Adapter<UserReportAdapter.Re
             serialNumber = itemView.findViewById(R.id.serial_number);
             attachment = itemView.findViewById(R.id.attachment);
             status = itemView.findViewById(R.id.status);
-
         }
     }
 }

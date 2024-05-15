@@ -1,14 +1,18 @@
 package com.mtech.envirotrack.admin;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,6 +21,7 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.mtech.envirotrack.R;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -25,12 +30,41 @@ public class ViewReports extends Fragment {
     private RecyclerView recyclerView;
     private UserReportAdapter adapter;
     private int serialNumber = 1; // Initialize serial number
+    private boolean[] checkedItems;
+    private String[] impactTypes;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_view_reports, container, false);
 
+        impactTypes = getResources().getStringArray(R.array.environmentalImpactType);
+        if (impactTypes.length > 1) {
+            impactTypes = Arrays.copyOfRange(impactTypes, 1, impactTypes.length);
+        }
+        checkedItems = new boolean[impactTypes.length];
+
+        TextInputEditText searchView = view.findViewById(R.id.searchView);
+        searchView.setOnClickListener(v -> {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Select Impact Type")
+                    .setMultiChoiceItems(impactTypes, checkedItems, (dialog, which, isChecked) -> {
+                        // Update the current focused item's checked status
+                        checkedItems[which] = isChecked;
+                    })
+                    .setPositiveButton("OK", (dialog, id) -> {
+                        // User clicked OK, so save the checkedItems results somewhere
+                        // or return them to the component that opened the dialog
+                        adapter.filter(checkedItems);
+                    })
+                    .setNegativeButton("Cancel", (dialog, id) -> {
+                        // User cancelled the dialog
+                        // Remove any changes to the checked items
+                        Arrays.fill(checkedItems, false);
+                    })
+                    .show();
+        });
 
         // Retrieve data from the Firebase Realtime Database
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
@@ -63,11 +97,8 @@ public class ViewReports extends Fragment {
                             }
                             recyclerView = view.findViewById(R.id.recycler_view);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                            UserReportAdapter adapter = new UserReportAdapter(reports);
+                            adapter = new UserReportAdapter(reports, impactTypes);
                             recyclerView.setAdapter(adapter);
-
-                            // Update the adapter with the new data
-//                            adapter.updateData(reports);
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {

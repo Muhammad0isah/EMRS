@@ -11,3 +11,34 @@ database functionalities, Google Cloud for scalable and reliable cloud services,
 (Firebase Realtime Database) for efficient data storage and retrieval, this project ensures a robust 
 and dynamic platform for environmental data collection, analysis, and reporting within the 
 Environmental Monitoring and Reporting System (EMRS).</p>
+
+## Screenshots
+
+### Dashboard
+![Dashboard](path_to_dashboard_screenshot.png)
+
+### Login
+![Login](path_to_login_screenshot.png)
+
+### Reporting Screen
+![Reporting](path_to_reporting_screenshot.png)
+
+## Features
+- Monitor environmental parameters like temperature, humidity, air quality, wind speed, etc.
+- Real-time data reporting and storage using Firebase.
+- Scalable cloud services powered by Google Cloud.
+- User-friendly interface designed with XML.
+- Incident reporting for various environmental issues.
+
+## Technology Stack
+- **Android Studio:** Development environment
+- **Java:** Primary programming language
+- **XML:** UI design
+- **Firebase:** Real-time database functionalities
+- **NoSQL (Firebase Realtime Database):** Efficient data storage and retrieval
+
+## How to Use
+1. Clone the repository.
+   ```bash
+   git clone https://github.com/Muhammad0isah/EMRS.git
+

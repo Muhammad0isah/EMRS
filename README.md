@@ -34,6 +34,7 @@ Environmental Monitoring and Reporting System (EMRS).</p>
 
 ### Report History
 ![Report History](screens/history.png)
+<img scr="./screens/history.png"/>
 
 
 

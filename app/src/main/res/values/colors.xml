@@ -2,6 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="dark_green">#256C25</color>
+<!--    <color name="dark_green">#256C25</color>-->
+<!--    <color name="dark_green">#0092db</color>-->
+    <color name="dark_green">#006400</color>
+    <color name="dodger_blue">#1e90ff</color>
+    <color name="light_coral">#ffa07a</color>
+    <color name="sky_blue">#87ceeb</color>
+    <color name="bright_red">#ff5733</color>
+    <color name="maroon">#7e0023</color>
+    <color name="gold">#ffd700</color>
+    <color name="medium_purpul">#9370db</color>
+
 
 </resources>

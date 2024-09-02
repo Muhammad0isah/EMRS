@@ -1,17 +1,25 @@
 package com.mtech.envirotrack.weather;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.graphics.Color;
+import android.provider.Settings;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -33,20 +41,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class Home extends Fragment {
-
-    private static final String TEMP_URL = "https://api.openweathermap.org/data/3.0/";
-    private static final String POLL_URL = "https://api.openweathermap.org/data/2.5/";
-
-    private static final String API_KEY = "77177938ba21d3ea86b95ed63afd71fc";
-    // ccb348eb42482302b46b698521bf6336
-    // 0d4ca4f647225fc6815e9f9a9c5fee42
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -56,9 +51,13 @@ public class Home extends Fragment {
 
     TextView temperatureTextView, humidityTextView, windSpeedTextView, windDirectionTextView,cityNameTextView;
     private String cityName;
+    private double lat = 0;
+    private double lon = 0;
     private LineChart chart;
 
     TextView tvAqi, tvCo, tvNo, tvNo2, tvO3, tvSo2, tvPm2_5, tvPm10, tvNh3;
+
+    private HomeViewModel homeViewModel;
 
     public Home() {
         // Required empty public constructor
@@ -86,17 +85,18 @@ public class Home extends Fragment {
         List<Location> locations = myApplication.getLocations();
 
         // Check if locations list is not empty
-        double lat = 0;
-        double lon = 0;
-
         if (!locations.isEmpty()) {
             Location location = locations.get(0); // get the first location
-            lat = location.getLatitude();
-            lon = location.getLongitude();
-            getWeatherData(lat, lon);
-            getAirPollutionData(lat, lon);
+            if (location != null) {
+                lat = location.getLatitude();
+                lon = location.getLongitude();
+            } else {
+                // Handle the situation when location is null, by prompting user to turn on location services
+                Toast.makeText(getContext(), "Please turn on location services", Toast.LENGTH_SHORT).show();
+            }
         }
-
+        // Initialize homeViewModel here
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         SharedPreferences sharedPreferences = Objects.requireNonNull(requireActivity()).getSharedPreferences("sharedPrefs", Context.MODE_PRIVATE);
         cityName = sharedPreferences.getString("cityName", null);
@@ -130,171 +130,19 @@ public class Home extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("Temperature"));
         tabLayout.addTab(tabLayout.newTab().setText("Humidity"));
         tabLayout.addTab(tabLayout.newTab().setText("AQI"));
-
-
-
-
-        double finalLat = lat;
-        double finalLon = lon;
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0: // Temperature tab
-                        getHourlyForecast(finalLat, finalLon);
-                        break;
-                    case 1: // Humidity tab
-                        // Update chart with humidity data
-                        getHumidityForecast(finalLat, finalLon);
-                        break;
-                    case 2: // AQI tab
-                        // Update chart with AQI data
-                        getAirPollutionForecast(finalLat, finalLon);
-                        break;
-
-                }
-            }
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
+        initializeAndFetchData(view);
 
         return view;
     }
-    private void getWeatherData(double lat, double lon) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(TEMP_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        OpenWeatherMapService service = retrofit.create(OpenWeatherMapService.class);
-        Call<WeatherResponse> call = service.getCurrentWeatherData(lat,lon, API_KEY);
-        call.enqueue(new Callback<WeatherResponse>() {
-            @Override
-            public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                if(isAdded()){
-                    if (response.code() == 200) {
-                        WeatherResponse weatherResponse = response.body();
-                        assert weatherResponse != null;
-
-                        double temperatureInKelvin = weatherResponse.getCurrent().getTemp();
-                        double temperatureInCelsius = temperatureInKelvin - 273.15;
-                        int humidity = weatherResponse.getCurrent().getHumidity();
-                        double windSpeed = weatherResponse.getCurrent().getWindSpeed();
-                        int windDirection = weatherResponse.getCurrent().getWindDeg();
-
-                        temperatureTextView.setText(String.format("%.2f°C", temperatureInCelsius));
-                        humidityTextView.setText(humidity + "%");
-                        windSpeedTextView.setText(windSpeed + " m/s");
-                        windDirectionTextView.setText(windDirection + "°");
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<WeatherResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void getHourlyForecast(double lat, double lon) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(TEMP_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        OpenWeatherMapService service = retrofit.create(OpenWeatherMapService.class);
-        Call<HourlyForecastResponse> call = service.getHourlyForecast(lat,lon, API_KEY);
-
-        call.enqueue(new Callback<HourlyForecastResponse>() {
-
-            @Override
-            public void onResponse(Call<HourlyForecastResponse> call, Response<HourlyForecastResponse> response) {
-                if (response.code() == 200) {
-                    HourlyForecastResponse hourlyForecastResponse = response.body();
-                    if (hourlyForecastResponse != null && hourlyForecastResponse.getHourly() != null && !hourlyForecastResponse.getHourly().isEmpty()) {
-                        List<Entry> entries = new ArrayList<>();
-                        // Limit the loop to the first 24 entries
-                        for (int i = 0; i < 24 && i < hourlyForecastResponse.getHourly().size(); i++) {
-                            float temperatureInKelvin = (float) hourlyForecastResponse.getHourly().get(i).getTemp();
-                            float temperatureInCelsius = temperatureInKelvin - 273.15f;
-                            entries.add(new Entry(i, temperatureInCelsius));
-                        }
-
-                        LineDataSet dataSet = new LineDataSet(entries, "Temperature");
-                        dataSet.setColor(getResources().getColor(R.color.dark_green));
-                        dataSet.setLineWidth(2.5f);
-                        dataSet.setCircleRadius(4.5f);
-
-                        LineData lineData = new LineData(dataSet);
-                        setupChart(chart, lineData, getResources().getColor(R.color.dark_green));
-                    } else {
-                        Toast.makeText(getContext(), "No forecast data available", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-                else {
-                    cityNameTextView.setText(response.toString());
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<HourlyForecastResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initializeAndFetchData(view);
 
     }
-    private void getHumidityForecast(double lat, double lon) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(TEMP_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        OpenWeatherMapService service = retrofit.create(OpenWeatherMapService.class);
-        Call<HourlyForecastResponse> call = service.getHourlyForecast(lat, lon, API_KEY);
 
-        call.enqueue(new Callback<HourlyForecastResponse>() {
-            @Override
-            public void onResponse(Call<HourlyForecastResponse> call, Response<HourlyForecastResponse> response) {
-                if (response.code() == 200) {
-                    HourlyForecastResponse hourlyForecastResponse = response.body();
-                    if (hourlyForecastResponse != null && hourlyForecastResponse.getHourly() != null && !hourlyForecastResponse.getHourly().isEmpty()) {
-                        List<Entry> humidityEntries = new ArrayList<>();
-                        // Limit the loop to the first 24 entries
-                        for (int i = 0; i < 24 && i < hourlyForecastResponse.getHourly().size(); i++) {
-                            float humidity = (float) hourlyForecastResponse.getHourly().get(i).getHumidity();
-                            humidityEntries.add(new Entry(i, humidity));
-                        }
-
-                        LineDataSet humidityDataSet = new LineDataSet(humidityEntries, "Humidity");
-                        humidityDataSet.setColor(Color.BLUE);
-                        humidityDataSet.setLineWidth(2.5f);
-                        humidityDataSet.setCircleRadius(4.5f);
-
-                        LineData lineData = new LineData(humidityDataSet);
-                        setupChart(chart, lineData, getResources().getColor(R.color.dark_green));
-                        chart.getAxisLeft().setAxisMaximum(100f); // Set the maximum value
-                        chart.getAxisLeft().setAxisMinimum(0f); // Set the minimum value
-                    } else {
-                        Toast.makeText(getContext(), "No forecast data available", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    cityNameTextView.setText(response.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<HourlyForecastResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
     private void setupChart(LineChart chart, LineData data, int color) {
         chart.setViewPortOffsets(0, 0, 0, 0);
         chart.setBackgroundColor(getResources().getColor(R.color.white));
@@ -350,27 +198,78 @@ public class Home extends Fragment {
         // Refresh the chart
         chart.invalidate();
     }
-    private void getAirPollutionData(double lat, double lon) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(POLL_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        OpenWeatherMapService service = retrofit.create(OpenWeatherMapService.class);
-        Call<AirPollutionResponse> call = service.getAirPollutionData(lat, lon, API_KEY);
-        call.enqueue(new Callback<AirPollutionResponse>() {
+    @Override
+    public void onStart() {
+        super.onStart();
+        initializeAndFetchData(getView());
+
+    }
+    public void initializeAndFetchData(View view) {
+        // Get a reference to the ProgressBar
+        ProgressBar loadingSpinner = view.findViewById(R.id.loading_spinner);
+
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
+        // Fetch the data here, after the observers are set up
+        MyApplication myApplication = MyApplication.getInstance();
+        List<Location> locations = myApplication.getLocations();
+        TabLayout tabLayout = view.findViewById(R.id.tabLayout);
+
+        // Check if locations list is not empty
+        double lat = 0;
+        double lon = 0;
+        if (!locations.isEmpty()) {
+            Location location = locations.get(0); // get the first location
+            if (location != null) {
+                lat = location.getLatitude();
+                lon = location.getLongitude();
+                // Show the loading spinner
+                loadingSpinner.setVisibility(View.VISIBLE);
+                homeViewModel.fetchWeatherData(lat, lon);
+                homeViewModel.fetchPollutionData(lat, lon);
+            } else {
+                   // Handle the situation when location is null, by prompting user to turn on location services
+                    Toast.makeText(getContext(), "Please turn on location services", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel.getWeatherData().observe(getViewLifecycleOwner(), new Observer<WeatherResponse>() {
             @Override
-            public void onResponse(Call<AirPollutionResponse> call, Response<AirPollutionResponse> response) {
-                if (response.isSuccessful()) {
-                    AirPollutionResponse airPollutionResponse = response.body();
-                    // Process the response
-                    assert airPollutionResponse != null;
+            public void onChanged(WeatherResponse weatherResponse) {
+                // Hide the loading spinner
+                loadingSpinner.setVisibility(View.GONE);
+
+                if (weatherResponse != null) {
+                    double temperatureInKelvin = weatherResponse.getCurrent().getTemp();
+                    double temperatureInCelsius = temperatureInKelvin - 273.15;
+                    int humidity = weatherResponse.getCurrent().getHumidity();
+                    double windSpeed = weatherResponse.getCurrent().getWindSpeed();
+                    int windDirection = weatherResponse.getCurrent().getWindDeg();
+
+                    temperatureTextView.setText(String.format("%.2f°C", temperatureInCelsius));
+                    humidityTextView.setText(humidity + "%");
+                    String windSpeedText = windSpeed + " <i>ms<sup>-1</sup></i>";
+                    windSpeedTextView.setText(Html.fromHtml(windSpeedText));
+                    windDirectionTextView.setText(windDirection + "°");
+                }
+            }
+        });
+
+        homeViewModel.getPollutionData().observe(getViewLifecycleOwner(), new Observer<AirPollutionResponse>() {
+            @Override
+            public void onChanged(AirPollutionResponse airPollutionResponse) {
+                // Hide the loading spinner
+                loadingSpinner.setVisibility(View.GONE);
+
+                if (airPollutionResponse != null) {
                     AirPollutionResponse.AirPollution.Components components = airPollutionResponse.getList().get(0).getComponents();
 
                     // Now you can call the methods on the Components object
                     int aqi = airPollutionResponse.getList().get(0).getMain().getAqi();
                     tvAqi.setText("AQI: " + aqi);
-                    tvCo.setText(components.getCo()+"μg/m³");
+                    tvCo.setText(components.getCo() + "μg/m³");
                     tvNo.setText(components.getNo() + "μg/m³");
                     tvNo2.setText(components.getNo2() + "μg/m³");
                     tvO3.setText(components.getO3() + "μg/m³");
@@ -378,29 +277,43 @@ public class Home extends Fragment {
                     tvPm2_5.setText(components.getPm2_5() + "μg/m³");
                     tvPm10.setText(components.getPm10() + "μg/m³");
                     tvNh3.setText(components.getNh3() + "μg/m³");
-                } else {
-                    Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
+        });
+
+        homeViewModel.getHourlyForecastData().observe(getViewLifecycleOwner(), new Observer<HourlyForecastResponse>() {
             @Override
-            public void onFailure(Call<AirPollutionResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onChanged(HourlyForecastResponse hourlyForecastResponse) {
+                // Hide the loading spinner
+                loadingSpinner.setVisibility(View.GONE);
+
+                if (hourlyForecastResponse != null) {
+                    // Process the response
+                    List<Entry> entries = new ArrayList<>();
+                    int size = Math.min(24, hourlyForecastResponse.getHourly().size());
+                    for (int i = 0; i < size; i++) {
+                        float temperature = (float) (hourlyForecastResponse.getHourly().get(i).getTemp() - 273.15);
+                        entries.add(new Entry(i, temperature));
+                    }
+
+                    LineDataSet dataSet = new LineDataSet(entries, "Temperature");
+                    dataSet.setColor(getResources().getColor(R.color.dark_green));
+                    dataSet.setLineWidth(2.5f);
+                    dataSet.setCircleRadius(4.5f);
+
+                    LineData lineData = new LineData(dataSet);
+                    setupChart(chart, lineData, getResources().getColor(R.color.dark_green));
+                }
             }
         });
-    }
-    private void getAirPollutionForecast(double lat, double lon) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(POLL_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        OpenWeatherMapService service = retrofit.create(OpenWeatherMapService.class);
-        Call<AirPollutionForecastResponse> call = service.getAirPollutionForecast(lat, lon, API_KEY);
-        call.enqueue(new Callback<AirPollutionForecastResponse>() {
+        homeViewModel.getPollutionForecastData().observe(getViewLifecycleOwner(), new Observer<AirPollutionForecastResponse>() {
             @Override
-            public void onResponse(Call<AirPollutionForecastResponse> call, Response<AirPollutionForecastResponse> response) {
-                if (response.isSuccessful()) {
-                    AirPollutionForecastResponse forecastResponse = response.body();
+            public void onChanged(AirPollutionForecastResponse forecastResponse) {
+                // Hide the loading spinner
+                loadingSpinner.setVisibility(View.GONE);
+
+                if (forecastResponse != null) {
                     // Process the response
                     List<Entry> aqiEntries = new ArrayList<>();
                     List<Entry> pm25Entries = new ArrayList<>();
@@ -437,26 +350,77 @@ public class Home extends Fragment {
                     no2DataSet.setDrawValues(false);
                     no2DataSet.setDrawIcons(false);
 
-
                     LineData lineData = new LineData(aqiDataSet, pm25DataSet, pm10DataSet, no2DataSet);
-                    setupChart(chart, lineData,getResources().getColor(R.color.dark_green));
+                    setupChart(chart, lineData, getResources().getColor(R.color.dark_green));
 
                     // Set the Y-axis limit for the air quality forecast
                     chart.getAxisLeft().setAxisMaximum(300f); // Set the maximum value
                     chart.getAxisLeft().setAxisMinimum(0f); // Set the minimum value
-
                 } else {
-                    Toast.makeText(getContext(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                    // The data is null. You might want to show an error message or a placeholder.
+                    Toast.makeText(getContext(), "No air pollution forecast available.", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        homeViewModel.getHumidityForecastData().observe(getViewLifecycleOwner(), new Observer<HourlyForecastResponse>() {
+            @Override
+            public void onChanged(HourlyForecastResponse hourlyForecastResponse) {
+                // Hide the loading spinner
+                loadingSpinner.setVisibility(View.GONE);
+
+                if (hourlyForecastResponse != null && hourlyForecastResponse.getHourly() != null && !hourlyForecastResponse.getHourly().isEmpty()) {
+                    List<Entry> humidityEntries = new ArrayList<>();
+                    // Limit the loop to the first 24 entries
+                    for (int i = 0; i < 24 && i < hourlyForecastResponse.getHourly().size(); i++) {
+                        float humidity = (float) hourlyForecastResponse.getHourly().get(i).getHumidity();
+                        humidityEntries.add(new Entry(i, humidity));
+                    }
+
+                    LineDataSet humidityDataSet = new LineDataSet(humidityEntries, "Humidity");
+                    humidityDataSet.setColor(Color.BLUE);
+                    humidityDataSet.setLineWidth(2.5f);
+                    humidityDataSet.setCircleRadius(4.5f);
+
+                    LineData lineData = new LineData(humidityDataSet);
+                    setupChart(chart, lineData, getResources().getColor(R.color.dark_green));
+                    chart.getAxisLeft().setAxisMaximum(100f); // Set the maximum value
+                    chart.getAxisLeft().setAxisMinimum(0f); // Set the minimum value
+                } else {
+                    Toast.makeText(getContext(), "No forecast data available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        final double finalLat = lat;
+        final double finalLon = lon;
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0: // Temperature tab
+                        homeViewModel.fetchHourlyForecast(finalLat, finalLon);
+                        break;
+                    case 1: // Humidity tab
+                        homeViewModel.fetchHumidityForecast(finalLat, finalLon);
+                        break;
+                    case 2: // AQI tab
+                        // Update chart with AQI data
+                        homeViewModel.fetchPollutionForecast(finalLat, finalLon);
+                        break;
+                }
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
             }
 
             @Override
-            public void onFailure(Call<AirPollutionForecastResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        homeViewModel.fetchHourlyForecast(finalLat, finalLon);
     }
 }
+
 class HourAxisValueFormatter extends ValueFormatter {
     private DateFormatSymbols symbols = new DateFormatSymbols(Locale.getDefault());
     private SimpleDateFormat sdf;
@@ -469,7 +433,6 @@ class HourAxisValueFormatter extends ValueFormatter {
         // Set the DateFormatSymbols of the SimpleDateFormat object
         sdf.setDateFormatSymbols(symbols);
     }
-
     @Override
     public String getFormattedValue(float value) {
         // Convert the value (which is the hour in 24-hour format) to 12-hour format

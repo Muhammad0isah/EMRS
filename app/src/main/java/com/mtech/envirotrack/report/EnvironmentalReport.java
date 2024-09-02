@@ -403,10 +403,8 @@ public class EnvironmentalReport extends AppCompatActivity {
         // Traverse the view hierarchy and collect data from all EditText fields
         HashMap<String, String> data = new HashMap<>();
         collectDataFromEditTexts(rootLayout, data);
-
         // Create a new UserReport object
         userReport = new UserReport(reportNumber, userName, userEmail, impactType, data,"Pending");
-
         // Submit the userReport to Firebase
         if (userReport != null) {
             mDatabase.child("users").child(userId).child("reports").child(reportNumber).setValue(userReport).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -432,7 +430,12 @@ public class EnvironmentalReport extends AppCompatActivity {
             });
 
             // Pass the reportKey to the uploadFileToFirebaseStorage methods
-            uploadFileToFirebaseStorage(fileUri, mediaType, reportNumber);
+            if (fileUri != null) {
+                uploadFileToFirebaseStorage(fileUri, mediaType, reportNumber);
+            } else {
+                // Toast add attachment media
+                Toast.makeText(getApplicationContext(),"Please add attachment before submit",Toast.LENGTH_LONG).show();
+            }
         }
     }
     private void collectDataFromEditTexts(View view, HashMap<String, String> data) {

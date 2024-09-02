@@ -169,11 +169,11 @@ Profile extends AppCompatActivity {
             }
             TextView nameTextView = findViewById(R.id.nameTextView);
             TextView emailTextView = findViewById(R.id.emailTextView);
-//            TextView phoneTextView = findViewById(R.id.phoneTextView);
+//          TextView phoneTextView = findViewById(R.id.phoneTextView);
 
             nameTextView.setText(name);
             emailTextView.setText(email);
-//            phoneTextView.setText("Phone "+ phone);
+//          phoneTextView.setText("Phone "+ phone);
         }
 
         uploadButton.setOnClickListener(new View.OnClickListener() {

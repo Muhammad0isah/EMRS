@@ -16,12 +16,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.mtech.envirotrack.R;
 
 public class Signup extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-
     private TextInputEditText fullNameEditText, emailEditText, addressEditText, passwordEditText, confirmPasswordEditText;
     private Button btnRegister;
     private TextView tv_login;
@@ -29,22 +29,20 @@ public class Signup extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
         mAuth = FirebaseAuth.getInstance();
-
         emailEditText = findViewById(R.id.etRegisterEmail);
+        fullNameEditText = findViewById(R.id.etRegisterFullName);
         passwordEditText = findViewById(R.id.etRegisterPassword);
         confirmPasswordEditText = findViewById(R.id.etConfirmPassword);
         btnRegister = findViewById(R.id.btnRegister);
         tv_login = findViewById(R.id.tvAlreadyHaveAccount);
-
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email = emailEditText.getText().toString().trim();
+                String userName = fullNameEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
                 String confirmPassword = confirmPasswordEditText.getText().toString().trim();
-
                 if (email.isEmpty()) {
                     emailEditText.setError("Email is required");
                     emailEditText.requestFocus();
@@ -69,7 +67,7 @@ public class Signup extends AppCompatActivity {
                     return;
                 }
 
-                createUser(email, password);
+                createUser(userName,email, password);
             }
         });
         tv_login.setOnClickListener(new View.OnClickListener() {
@@ -78,9 +76,9 @@ public class Signup extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),Login.class));
             }
         });
-
     }
-    private void createUser(String email, String password) {
+
+    private void createUser(String userName, String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -88,6 +86,10 @@ public class Signup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign up success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(userName)
+                                    .build();
+                            user.updateProfile(profileUpdates);
                             sendEmailVerification(user);
                         } else {
                             // If sign up fails, display a message to the user.
@@ -97,7 +99,6 @@ public class Signup extends AppCompatActivity {
                     }
                 });
     }
-
     private void sendEmailVerification(FirebaseUser user) {
         user.sendEmailVerification()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {

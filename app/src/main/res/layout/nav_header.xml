@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="190dp"
-    android:background="@drawable/home_bg"
-    android:padding="25dp"
+    android:background="@drawable/s2"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:textSize="40sp"
-        android:fontFamily="cursive"
-        android:text="EnviroTrack"
+        android:textSize="30sp"
+        android:layout_alignParentBottom="true"
+        android:fontFamily="@font/rouge_script"
+        android:text="EMRS"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
         android:textColor="@color/white"
         android:textStyle="bold"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enviromental Monitoring and Reporting System"
-        android:textColor="@color/white"
-        android:fontFamily="cursive"
-        android:layout_marginTop="15dp"
-        android:textSize="18sp"
-        android:layout_marginBottom="16dp"/>
 
-</LinearLayout>
+</RelativeLayout>

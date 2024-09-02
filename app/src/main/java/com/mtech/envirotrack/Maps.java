@@ -49,7 +49,12 @@ public class Maps extends Fragment {
                         mMap.addMarker(markerOptions);
                     }
                 }
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(saved_location.get(0).getLatitude(),saved_location.get(0).getLongitude()), 12.0f));
+                Location location = saved_location.get(0);
+                if (location != null) {
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12.0f));
+                }
+
             }
         }
     };

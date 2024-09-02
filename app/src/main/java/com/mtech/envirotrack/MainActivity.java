@@ -3,6 +3,7 @@ package com.mtech.envirotrack;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,11 +13,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -37,12 +41,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
@@ -69,6 +79,7 @@ import com.mtech.envirotrack.report.NotificationDetailFragment;
 import com.mtech.envirotrack.report.NotificationModel;
 import com.mtech.envirotrack.report.Report;
 import com.mtech.envirotrack.weather.Home;
+import com.mtech.envirotrack.weather.HomeViewModel;
 import com.mtech.envirotrack.weather.Search;
 import com.mtech.envirotrack.user.Login;
 import com.mtech.envirotrack.user.Profile;
@@ -84,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements Notification.OnNe
     ImageButton btn_add_report;
     DrawerLayout drawerLayout;
     BottomNavigationView bottomNavigationView;
+    Fragment fragment = null;
     View divider;
     BottomAppBar bottonAppBar;
     private MenuItem notificationItem;
@@ -107,6 +119,11 @@ public class MainActivity extends AppCompatActivity implements Notification.OnNe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame_layout, new Home())
+                    .commitNow();
+        }
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -155,14 +172,15 @@ public class MainActivity extends AppCompatActivity implements Notification.OnNe
                         Log.d(TAG, msg);
                     }
                 });
-        if(savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Home()).commit();
-        }
+
+//        // start home fragement as default
+//        fragment = new Home();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                Fragment fragment = null;
                 int itemId = item.getItemId();
                 if (itemId == R.id.nav_home) {
                     fragment = new Home();
@@ -207,7 +225,9 @@ public class MainActivity extends AppCompatActivity implements Notification.OnNe
                 return true;
             }
         });
-       btn_add_report.setOnClickListener(new View.OnClickListener() {
+        navigationView.setCheckedItem(R.id.nav_home);
+
+        btn_add_report.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                startActivity(new Intent(MainActivity.this, EnvironmentalReport.class));
@@ -287,7 +307,6 @@ public class MainActivity extends AppCompatActivity implements Notification.OnNe
             }
         };
         updateGPS();
-
     }
 
     private  void replaceFragment(Fragment fragment) {
@@ -346,12 +365,12 @@ public class MainActivity extends AppCompatActivity implements Notification.OnNe
 
             return true;
         }
-        else if (id == R.id.action_search) {
-            // Handle the click event for the search icon
-            // You can show a search dialog or perform any other action here
-            replaceFragment(new Search());
-            return true;
-        }
+//        else if (id == R.id.action_search) {
+//            // Handle the click event for the search icon
+//            // You can show a search dialog or perform any other action here
+//            replaceFragment(new Search());
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -420,10 +439,60 @@ public class MainActivity extends AppCompatActivity implements Notification.OnNe
 
                 editor.apply();
             }
-        }catch (Exception e){
-            tv_address.setText("Unable to get Location");
         }
+        catch (Exception e) {
+            promptTurnOnLocation();
 
+        }
+    }
+    private static final int REQUEST_CHECK_SETTINGS = 0x1;
+
+    private void promptTurnOnLocation() {
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+
+        SettingsClient client = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+
+        task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                // All location settings are satisfied. The client can initialize
+                // location requests here.
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    fusedLocationProviderClient.getLastLocation().addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Update the UI with the location details
+                            updateUIValues(location);
+                        }
+                    });
+                }
+                updateGPS();
+            }
+        });
+
+        task.addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ResolvableApiException) {
+                    // Location settings are not satisfied, but this can be fixed
+                    // by showing the user a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        resolvable.startResolutionForResult(MainActivity.this,
+                                REQUEST_CHECK_SETTINGS);
+                    } catch (IntentSender.SendIntentException sendEx) {
+                        // Ignore the error.
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -522,6 +591,39 @@ public class MainActivity extends AppCompatActivity implements Notification.OnNe
                 .addToBackStack(null)
                 .commit();
     }
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final LocationSettingsStates states = LocationSettingsStates.fromIntent(data);
+        switch (requestCode) {
+            case REQUEST_CHECK_SETTINGS:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        // All required changes were successfully made
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                                @Override
+                                public void onSuccess(Location location) {
+                                    updateUIValues(location);
+                                }
+                            });
+                        }
+                        if (states != null && states.isGpsUsable()) {
+                            // GPS is turned on
+                            Toast.makeText(this, "GPS is turned on", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // GPS is turned off
+                            Toast.makeText(this, "GPS is turned off", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        // The user was asked to change settings, but chose not to
+                        Toast.makeText(this, "Location services are required for this app to work properly", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+                break;
+        }
+    }
 }

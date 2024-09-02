@@ -4,14 +4,14 @@
     <item>
         <shape android:shape="oval">
             <solid android:color="#00000000"/> <!-- transparent color -->
-            <stroke android:width="3dp" android:color="@color/dark_green"/> <!-- border color and width -->
+            <stroke android:width="2dp" android:color="@color/dark_green"/> <!-- border color and width -->
         </shape>
     </item>
     <!-- Define the image -->
     <item
         android:drawable="@mipmap/ic_launcher_foreground"
-        android:width="120dp"
-        android:height="120dp">
+        android:width="110dp"
+        android:height="110dp">
         <shape android:shape="oval">
             <solid android:color="#00000000"/> <!-- transparent color -->
         </shape>

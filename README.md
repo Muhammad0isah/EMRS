@@ -17,29 +17,31 @@ Environmental Monitoring and Reporting System (EMRS).</p>
 ### Home Screens
 | Home Screen 1 |   →   | Home Screen 2 |
 |:-------------:|:-----:|:-------------:|
-| ![Home Screen 1](path_to_home_screen_1.png) | | ![Home Screen 2](path_to_home_screen_2.png) |
-
-### Login Screen
-![Login](path_to_login_screen.png)
-
-### Hero Screens
-| Hero Screen 1 |   →   | Hero Screen 2 |
-|:-------------:|:-----:|:-------------:|
-| ![Hero Screen 1](path_to_hero_screen_1.png) | | ![Hero Screen 2](path_to_hero_screen_2.png) |
-
-### Report History
-![Report History](path_to_report_history.png)
+| ![Home Screen 1](screens/home1.png) | | ![Home Screen 2](screens/home2.png) |
 
 ### Report Templates
 | Report Template 1 |   →   | Report Template 2 |
 |:-----------------:|:-----:|:-----------------:|
-| ![Report Template 1](path_to_report_template_1.png) | | ![Report Template 2](path_to_report_template_2.png) |
+| ![Report Template 1](screens/report1.png) | | ![Report Template 2](screens/report2.png) |
+
+### Login Screen
+![Login](screens/login.png)
+
+### Hero Screens
+| Hero Screen 1 |   →   | Hero Screen 2 |
+|:-------------:|:-----:|:-------------:|
+| ![Hero Screen 1](screens/hero2.png) | | ![Hero Screen 2](screens/hero1.png) |
+
+### Report History
+![Report History](screens/history.png)
+
+
 
 ### Profile Screen
-![Profile](path_to_profile_screen.png)
+![Profile](screens/profile.png)
 
 ### Admin Screen
-![Admin](path_to_admin_screen.png)
+![Admin](screens/admin.png)
 
 ## Features
 - Monitor environmental parameters like temperature, humidity, air quality, wind speed, etc.

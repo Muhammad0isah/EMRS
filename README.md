@@ -17,7 +17,7 @@ Environmental Monitoring and Reporting System (EMRS).</p>
 ### Home Screens
 | Home Screen 1 |   →   | Home Screen 2 |
 |:-------------:|:-----:|:-------------:|
-| ![Home Screen 1](screens/home1.png) | | ![Home Screen 2](screens/home2.png) |
+| ![Home Screen 1](https://i.ibb.co/N1pY57d/home1.png) | | ![Home Screen 2](screens/home2.png) |
 
 ### Report Templates
 | Report Template 1 |   →   | Report Template 2 |
@@ -34,7 +34,6 @@ Environmental Monitoring and Reporting System (EMRS).</p>
 
 ### Report History
 ![Report History](screens/history.png)
-<img scr="./screens/history.png"/>
 
 
 

@@ -14,14 +14,32 @@ Environmental Monitoring and Reporting System (EMRS).</p>
 
 ## Screenshots
 
-### Dashboard
-![Dashboard](path_to_dashboard_screenshot.png)
+### Home Screens
+| Home Screen 1 |   →   | Home Screen 2 |
+|:-------------:|:-----:|:-------------:|
+| ![Home Screen 1](path_to_home_screen_1.png) | | ![Home Screen 2](path_to_home_screen_2.png) |
 
-### Login
-![Login](path_to_login_screenshot.png)
+### Login Screen
+![Login](path_to_login_screen.png)
 
-### Reporting Screen
-![Reporting](path_to_reporting_screenshot.png)
+### Hero Screens
+| Hero Screen 1 |   →   | Hero Screen 2 |
+|:-------------:|:-----:|:-------------:|
+| ![Hero Screen 1](path_to_hero_screen_1.png) | | ![Hero Screen 2](path_to_hero_screen_2.png) |
+
+### Report History
+![Report History](path_to_report_history.png)
+
+### Report Templates
+| Report Template 1 |   →   | Report Template 2 |
+|:-----------------:|:-----:|:-----------------:|
+| ![Report Template 1](path_to_report_template_1.png) | | ![Report Template 2](path_to_report_template_2.png) |
+
+### Profile Screen
+![Profile](path_to_profile_screen.png)
+
+### Admin Screen
+![Admin](path_to_admin_screen.png)
 
 ## Features
 - Monitor environmental parameters like temperature, humidity, air quality, wind speed, etc.
@@ -35,10 +53,13 @@ Environmental Monitoring and Reporting System (EMRS).</p>
 - **Java:** Primary programming language
 - **XML:** UI design
 - **Firebase:** Real-time database functionalities
+- **Google Cloud:** Scalable cloud services
 - **NoSQL (Firebase Realtime Database):** Efficient data storage and retrieval
 
 ## How to Use
 1. Clone the repository.
    ```bash
+   git clone https://github.com/yourusername/your-repository-name.git
+
    git clone https://github.com/Muhammad0isah/EMRS.git
 

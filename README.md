@@ -1,4 +1,4 @@
-# Environmental Monitoring and Reporting System
+<h1 style='text-align:center'> Environmental Monitoring and Reporting System </h1>
 <p style="text-align: justify">EMRS is an Android-based Environmental Monitoring and Reporting System 
 focused on transforming environmental data access, reporting, and awareness. The 
 system will empower users to monitor a wide range of environmental parameters such as 
@@ -30,7 +30,7 @@ Environmental Monitoring and Reporting System (EMRS).</p>
 ### Hero Screens
 | Hero Screen 1 |   →   | Hero Screen 2 |
 |:-------------:|:-----:|:-------------:|
-| ![Hero Screen 1](screens/hero2.png) | | ![Hero Screen 2](screens/hero1.png) |
+| ![Hero Screen 1](./screens/hero2.png) | | ![Hero Screen 2](screens/hero1.png) |
 
 ### Report History
 ![Report History](screens/history.png)

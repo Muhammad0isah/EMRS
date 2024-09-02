@@ -46,16 +46,17 @@ Environmental Monitoring and Reporting System (EMRS).</p>
 ## Features
 - Monitor environmental parameters like temperature, humidity, air quality, wind speed, etc.
 - Real-time data reporting and storage using Firebase.
-- Scalable cloud services powered by Google Cloud.
 - User-friendly interface designed with XML.
 - Incident reporting for various environmental issues.
+- Authentication with Google, Facebook, email, and password.
+- Google Maps integration for location-based environmental monitoring and reporting.
+
 
 ## Technology Stack
 - **Android Studio:** Development environment
 - **Java:** Primary programming language
 - **XML:** UI design
 - **Firebase:** Real-time database functionalities
-- **Google Cloud:** Scalable cloud services
 - **NoSQL (Firebase Realtime Database):** Efficient data storage and retrieval
 
 ## How to Use

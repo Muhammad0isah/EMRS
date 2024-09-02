@@ -9,11 +9,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">MapsActivity</string>
-    <string name="default_web_client_id">AIzaSyBVLhCkSU9WypR7EpPGpzlxgI7G2KbVJic</string>
+    <string name="default_web_client_id"></string>
 
-    <string name="facebook_application_id" translatable="false">273081322225882</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">fb273081322225882</string>
-    <string name="facebook_client_token">15f9bd987f95019905dc324f71df3571</string>
+    <string name="facebook_application_id" translatable="false"></string>
+    <string name="facebook_login_protocol_scheme" translatable="false"></string>
+    <string name="facebook_client_token"></string>
     <string name="msg_token_fmt">\n</string>
     <string name="pm2_5">PM <sub>2.5</sub></string>
     <string name="pm10">PM <sub>10</sub></string>

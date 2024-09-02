@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HomeViewModel extends ViewModel {
     private static final String WEATHER_URL = "https://api.openweathermap.org/data/3.0/";
     private static final String POLLUTION_URL = "https://api.openweathermap.org/data/2.5/";
-    private static final String API_KEY = "77177938ba21d3ea86b95ed63afd71fc";
+    private static final String API_KEY = "";
 
     private final MutableLiveData<WeatherResponse> weatherData = new MutableLiveData<>();
     private final MutableLiveData<HourlyForecastResponse> hourlyForecastData = new MutableLiveData<>();

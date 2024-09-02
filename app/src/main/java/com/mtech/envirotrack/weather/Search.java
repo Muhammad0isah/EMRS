@@ -29,7 +29,7 @@ import java.util.List;
 
 public class Search extends Fragment implements SearchAdapter.OnItemClickListener {
 
-    private static final String API_KEY = "adc385b6cf6f4eb8a0db1cecdbc9363d";
+    private static final String API_KEY = "YOUR_API_KEY";
 
     private RecyclerView searchRV;
     private SearchAdapter searchAdapter;
